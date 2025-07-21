@@ -1,0 +1,31 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "15173:5173"
+    volumes:
+      # Mount source code for hot reloading
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+      - ./frontend/index.html:/app/index.html
+      - ./frontend/vite.config.ts:/app/vite.config.ts
+      - ./frontend/tailwind.config.js:/app/tailwind.config.js
+      - ./frontend/postcss.config.js:/app/postcss.config.js
+      - ./frontend/tsconfig.json:/app/tsconfig.json
+      - ./frontend/tsconfig.node.json:/app/tsconfig.node.json
+      # Exclude node_modules to prevent conflicts
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - VITE_HOST=0.0.0.0
+      - CHOKIDAR_USEPOLLING=true # Enable hot reloading in Docker
+    container_name: rfc-tutorial-frontend
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+
+networks:
+  default:
+    name: rfc-tutorial-network

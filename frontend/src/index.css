@@ -3,26 +3,53 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    @apply transition-colors duration-300;
+  }
+
   body {
-    @apply font-sans antialiased text-gray-900 bg-gray-50;
+    @apply font-sans antialiased text-gray-900 bg-gray-50 dark:text-gray-100 dark:bg-gray-900;
   }
 
   h1 {
-    @apply text-3xl font-bold text-gray-900;
+    @apply text-3xl font-bold text-gray-900 dark:text-white;
   }
 
   h2 {
-    @apply text-2xl font-semibold text-gray-800;
+    @apply text-2xl font-semibold text-gray-800 dark:text-gray-200;
   }
 
   h3 {
-    @apply text-xl font-medium text-gray-700;
+    @apply text-xl font-medium text-gray-700 dark:text-gray-300;
+  }
+
+  /* Prose styles for RFC content */
+
+  .prose p {
+    @apply text-gray-700 dark:text-gray-300;
+  }
+
+  .prose ul li {
+    @apply text-gray-700 dark:text-gray-300;
+  }
+
+  .prose ol li {
+    @apply text-gray-700 dark:text-gray-300;
+  }
+
+  .prose strong {
+    @apply text-gray-900 dark:text-white;
+  }
+
+  .prose code {
+    @apply bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-1 py-0.5 rounded text-sm;
   }
 }
 
 @layer components {
   .rfc-card {
-    @apply bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow;
+    @apply bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700
+           p-6 shadow-sm hover:shadow-md dark:shadow-gray-900/25 transition-all;
   }
 
   .rfc-era-badge {
@@ -30,14 +57,14 @@
   }
 
   .rfc-priority-high {
-    @apply bg-red-100 text-red-800;
+    @apply bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300;
   }
 
   .rfc-priority-medium {
-    @apply bg-amber-100 text-amber-800;
+    @apply bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300;
   }
 
   .rfc-priority-low {
-    @apply bg-green-100 text-green-800;
+    @apply bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300;
   }
 }

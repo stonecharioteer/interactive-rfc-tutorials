@@ -10,10 +10,13 @@
     "test:ui": "playwright test --ui"
   },
   "dependencies": {
+    "@types/react-syntax-highlighter": "^15.5.13",
     "lucide-react": "^0.263.1",
+    "mermaid": "^10.9.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.26.0"
+    "react-router-dom": "^6.26.0",
+    "react-syntax-highlighter": "^15.6.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.31.0",
