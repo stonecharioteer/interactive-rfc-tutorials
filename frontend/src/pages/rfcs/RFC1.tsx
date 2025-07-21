@@ -1,3 +1,5 @@
+import GlossaryTerm from '../../components/GlossaryTerm';
+
 export default function RFC1() {
   return (
     <article className="prose prose-lg max-w-none">
@@ -8,7 +10,7 @@ export default function RFC1() {
           Historical Significance
         </h3>
         <p className="text-blue-800">
-          This is the very first RFC (Request for Comments) document, authored
+          This is the very first <GlossaryTerm>RFC</GlossaryTerm> (Request for Comments) document, authored
           by Steve Crocker. It established the collaborative, informal tone that
           would define internet development for decades.
         </p>
@@ -18,7 +20,7 @@ export default function RFC1() {
 
       <p>
         On April 7, 1969, Steve Crocker, a graduate student at UCLA, wrote the
-        first RFC. What makes this document revolutionary isn't its technical
+        first <GlossaryTerm>RFC</GlossaryTerm>. What makes this document revolutionary isn't its technical
         content, but its tone and approach. Crocker deliberately chose an
         informal, collaborative style that invited discussion rather than
         dictating solutions.

@@ -1,3 +1,5 @@
+import GlossaryTerm from '../../components/GlossaryTerm';
+
 export default function RFC793() {
   return (
     <article className="prose prose-lg max-w-none">
@@ -8,8 +10,8 @@ export default function RFC793() {
           Historical Significance
         </h3>
         <p className="text-blue-800">
-          TCP provides reliable, ordered data delivery over unreliable networks.
-          This RFC established the protocol that powers most internet
+          <GlossaryTerm>TCP</GlossaryTerm> provides reliable, ordered data delivery over unreliable networks.
+          This <GlossaryTerm>RFC</GlossaryTerm> established the protocol that powers most internet
           applications today, from web browsing to email.
         </p>
       </div>
@@ -17,13 +19,13 @@ export default function RFC793() {
       <h2>Reliable Communication Over Unreliable Networks</h2>
 
       <p>
-        TCP solves a fundamental problem: how to provide reliable, ordered
+        <GlossaryTerm>TCP</GlossaryTerm> solves a fundamental problem: how to provide reliable, ordered
         communication over a network that might drop, duplicate, or reorder
-        packets. It transforms the unreliable IP layer into a dependable
+        <GlossaryTerm>packet</GlossaryTerm>s. It transforms the unreliable <GlossaryTerm>IP</GlossaryTerm> layer into a dependable
         communication service.
       </p>
 
-      <h3>Core TCP Features</h3>
+      <h3>Core <GlossaryTerm>TCP</GlossaryTerm> Features</h3>
 
       <ul>
         <li>
@@ -46,7 +48,7 @@ export default function RFC793() {
         </li>
       </ul>
 
-      <h3>The Famous Three-Way Handshake</h3>
+      <h3>The Famous <GlossaryTerm>Three-way Handshake</GlossaryTerm></h3>
 
       <div className="bg-gray-100 p-4 rounded-lg my-6">
         <h4 className="font-semibold mb-3">Connection Establishment</h4>

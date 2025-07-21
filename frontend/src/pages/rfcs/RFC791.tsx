@@ -1,3 +1,5 @@
+import GlossaryTerm from '../../components/GlossaryTerm';
+
 export default function RFC791() {
   return (
     <article className="prose prose-lg max-w-none">
@@ -8,8 +10,8 @@ export default function RFC791() {
           Historical Significance
         </h3>
         <p className="text-blue-800">
-          This RFC defined IPv4, the network layer protocol that still carries
-          most internet traffic today. Despite being over 40 years old, IPv4
+          This <GlossaryTerm>RFC</GlossaryTerm> defined <GlossaryTerm>IPv4</GlossaryTerm>, the network layer protocol that still carries
+          most internet traffic today. Despite being over 40 years old, <GlossaryTerm>IPv4</GlossaryTerm>
           remains the foundation of internet communication.
         </p>
       </div>
@@ -17,12 +19,12 @@ export default function RFC791() {
       <h2>The Internet Protocol Foundation</h2>
 
       <p>
-        RFC 791 established IPv4 as the universal addressing and routing
+        <GlossaryTerm>RFC</GlossaryTerm> 791 established <GlossaryTerm>IPv4</GlossaryTerm> as the universal addressing and <GlossaryTerm>routing</GlossaryTerm>
         protocol for the internet. It solved the fundamental problem of how to
-        deliver data packets across a network of networks.
+        deliver data <GlossaryTerm>packet</GlossaryTerm>s across a network of networks.
       </p>
 
-      <h3>Core IPv4 Concepts</h3>
+      <h3>Core <GlossaryTerm>IPv4</GlossaryTerm> Concepts</h3>
 
       <ul>
         <li>
@@ -30,15 +32,15 @@ export default function RFC791() {
           addresses
         </li>
         <li>
-          <strong>Packet Header:</strong> Contains routing and control
+          <strong><GlossaryTerm>Packet</GlossaryTerm> <GlossaryTerm>Header</GlossaryTerm>:</strong> Contains <GlossaryTerm>routing</GlossaryTerm> and control
           information
         </li>
         <li>
-          <strong>Fragmentation:</strong> Breaking large packets into smaller
+          <strong>Fragmentation:</strong> Breaking large <GlossaryTerm>packet</GlossaryTerm>s into smaller
           pieces
         </li>
         <li>
-          <strong>Time to Live (TTL):</strong> Prevents packets from looping
+          <strong>Time to Live (TTL):</strong> Prevents <GlossaryTerm>packet</GlossaryTerm>s from looping
           forever
         </li>
       </ul>

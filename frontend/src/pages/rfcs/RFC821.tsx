@@ -1,3 +1,5 @@
+import GlossaryTerm from '../../components/GlossaryTerm';
+
 export default function RFC821() {
   return (
     <article className="prose prose-lg max-w-none">
@@ -8,7 +10,7 @@ export default function RFC821() {
           Historical Significance
         </h3>
         <p className="text-blue-800">
-          SMTP established the foundation for internet email that still works
+          <GlossaryTerm>SMTP</GlossaryTerm> established the foundation for internet email that still works
           today. Despite being over 40 years old, the core SMTP protocol remains
           largely unchanged in modern email systems.
         </p>
@@ -17,7 +19,7 @@ export default function RFC821() {
       <h2>The Foundation of Internet Email</h2>
 
       <p>
-        RFC 821 defined SMTP (Simple Mail Transfer Protocol), the standard way
+        <GlossaryTerm>RFC</GlossaryTerm> 821 defined <GlossaryTerm>SMTP</GlossaryTerm> (Simple Mail Transfer Protocol), the standard way
         to transfer email messages between servers. It solved the problem of how
         to reliably deliver messages across different systems and organizations.
       </p>
@@ -34,7 +36,7 @@ export default function RFC821() {
           responses
         </li>
         <li>
-          <strong>Connection-Oriented:</strong> Uses reliable TCP connections
+          <strong>Connection-Oriented:</strong> Uses reliable <GlossaryTerm>TCP</GlossaryTerm> connections
         </li>
         <li>
           <strong>Server-to-Server:</strong> Designed for mail server
@@ -188,10 +190,10 @@ export default function RFC821() {
         </p>
       </div>
 
-      <h3>Mail Routing and MX Records</h3>
+      <h3>Mail Routing and <GlossaryTerm>MX Record</GlossaryTerm>s</h3>
 
       <p>
-        SMTP servers use DNS MX (Mail Exchange) records to find destination mail
+        <GlossaryTerm>SMTP</GlossaryTerm> servers use <GlossaryTerm>DNS</GlossaryTerm> <GlossaryTerm>MX Record</GlossaryTerm>s (Mail Exchange) to find destination mail
         servers:
       </p>
 
@@ -199,9 +201,9 @@ export default function RFC821() {
         <h4 className="font-semibold mb-2">MX Record Lookup Example:</h4>
         <div className="text-sm space-y-1 font-mono">
           <p>Email to: user@example.com</p>
-          <p>DNS query: MX records for example.com</p>
+          <p><GlossaryTerm>DNS</GlossaryTerm> query: <GlossaryTerm>MX Record</GlossaryTerm>s for example.com</p>
           <p>Response: mail.example.com (priority 10)</p>
-          <p>Connect to: mail.example.com port 25</p>
+          <p>Connect to: mail.example.com <GlossaryTerm>port</GlossaryTerm> 25</p>
         </div>
       </div>
 

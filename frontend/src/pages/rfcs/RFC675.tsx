@@ -1,3 +1,5 @@
+import GlossaryTerm from '../../components/GlossaryTerm';
+
 export default function RFC675() {
   return (
     <article className="prose prose-lg max-w-none">
@@ -8,8 +10,8 @@ export default function RFC675() {
           Historical Significance
         </h3>
         <p className="text-blue-800">
-          This RFC introduced the concept of internetworking and laid the
-          foundation for what would become TCP/IP. Authored by Vint Cerf, Bob
+          This <GlossaryTerm>RFC</GlossaryTerm> introduced the concept of internetworking and laid the
+          foundation for what would become <GlossaryTerm>TCP</GlossaryTerm>/<GlossaryTerm>IP</GlossaryTerm>. Authored by Vint Cerf, Bob
           Kahn, and others, it described how different networks could be
           connected together.
         </p>
@@ -18,10 +20,10 @@ export default function RFC675() {
       <h2>The Birth of Internetworking</h2>
 
       <p>
-        RFC 675 represents a revolutionary shift from thinking about individual
+        <GlossaryTerm>RFC</GlossaryTerm> 675 represents a revolutionary shift from thinking about individual
         networks to connecting multiple networks together. This was the first
-        detailed specification for what would eventually become the Transmission
-        Control Protocol (TCP).
+        detailed specification for what would eventually become the <GlossaryTerm>TCP</GlossaryTerm>
+        (Transmission Control Protocol).
       </p>
 
       <h3>Key Concepts Introduced</h3>
@@ -36,7 +38,7 @@ export default function RFC675() {
           (now called routers)
         </li>
         <li>
-          <strong>Packet Switching:</strong> Breaking data into packets for
+          <strong><GlossaryTerm>Packet</GlossaryTerm> Switching:</strong> Breaking data into <GlossaryTerm>packet</GlossaryTerm>s for
           transmission
         </li>
         <li>
