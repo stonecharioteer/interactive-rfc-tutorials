@@ -1,0 +1,125 @@
+[default]
+extend-ignore-re = [
+    # Ignore common technical abbreviations and acronyms
+    "(?i)tcp",
+    "(?i)udp",
+    "(?i)http",
+    "(?i)https",
+    "(?i)ipv4",
+    "(?i)ipv6",
+    "(?i)smtp",
+    "(?i)dns",
+    "(?i)ftp",
+    "(?i)vpn",
+    "(?i)ssl",
+    "(?i)tls",
+    "(?i)api",
+    "(?i)url",
+    "(?i)uri",
+    "(?i)json",
+    "(?i)xml",
+    "(?i)yaml",
+    "(?i)yml",
+    "(?i)sql",
+    "(?i)cors",
+    "(?i)jwt",
+    "(?i)uuid",
+    "(?i)ascii",
+    "(?i)utf",
+    "(?i)rfc",
+    "(?i)ietf",
+    "(?i)arpanet",
+    "(?i)ieee",
+    "(?i)iso",
+    "(?i)osi",
+    "(?i)tcp/ip",
+    "(?i)bgp",
+    "(?i)mpls",
+    "(?i)ipsec",
+    "(?i)esp",
+    "(?i)ah",
+    "(?i)l2tp",
+    "(?i)pptp",
+    "(?i)vrf",
+    "(?i)stp",
+    "(?i)rstp",
+    "(?i)mstp",
+    "(?i)fddi",
+    "(?i)atm",
+    "(?i)aal5",
+    "(?i)llc",
+    # Ignore programming terms
+    "(?i)const",
+    "(?i)var",
+    "(?i)func",
+    "(?i)struct",
+    "(?i)enum",
+    "(?i)typedef",
+    "(?i)sudo",
+    "(?i)chmod",
+    "(?i)mkdir",
+    "(?i)npm",
+    "(?i)npx",
+    "(?i)nodejs",
+    "(?i)postgresql",
+    "(?i)postgres",
+    "(?i)redis",
+    "(?i)nginx",
+    "(?i)dockerfile",
+    "(?i)docker",
+    "(?i)kubernetes",
+    "(?i)kubectl",
+    "(?i)localhost",
+    # Ignore file extensions
+    "(?i)\\.js",
+    "(?i)\\.ts",
+    "(?i)\\.tsx",
+    "(?i)\\.jsx",
+    "(?i)\\.json",
+    "(?i)\\.yml",
+    "(?i)\\.yaml",
+    "(?i)\\.md",
+    "(?i)\\.sql",
+    "(?i)\\.py",
+    "(?i)\\.sh",
+    "(?i)\\.env",
+    # Common abbreviations in our project
+    "(?i)repo",
+    "(?i)config",
+    "(?i)configs",
+    "(?i)db",
+    "(?i)cli",
+    "(?i)ui",
+    "(?i)os",
+    "(?i)fs",
+    "(?i)auth",
+    "(?i)admin",
+    "(?i)dev",
+    "(?i)prod",
+    "(?i)dist",
+    "(?i)src",
+    "(?i)deps",
+    "(?i)deps",
+    "(?i)util",
+    "(?i)utils",
+    "(?i)lib",
+    "(?i)libs",
+]
+
+[default.extend-words]
+# Add any project-specific words that should be ignored
+Vint = "Vint"  # Vint Cerf's name
+Cerf = "Cerf"
+ARPANET = "ARPANET"
+Postel = "Postel"  # Jon Postel
+Mockapetris = "Mockapetris"  # Paul Mockapetris
+Crocker = "Crocker"  # Steve Crocker
+justfile = "justfile"
+Justfile = "Justfile"
+Dockerfile = "Dockerfile"
+Dockerfiles = "Dockerfiles"
+hadolint = "hadolint"
+markdownlint = "markdownlint"
+yamllint = "yamllint"
+sqlfluff = "sqlfluff"
+precommit = "precommit"

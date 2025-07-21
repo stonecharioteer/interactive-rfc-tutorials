@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-sans antialiased text-gray-900 bg-gray-50;
+  }
+
+  h1 {
+    @apply text-3xl font-bold text-gray-900;
+  }
+
+  h2 {
+    @apply text-2xl font-semibold text-gray-800;
+  }
+
+  h3 {
+    @apply text-xl font-medium text-gray-700;
+  }
+}
+
+@layer components {
+  .rfc-card {
+    @apply bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow;
+  }
+
+  .rfc-era-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .rfc-priority-high {
+    @apply bg-red-100 text-red-800;
+  }
+
+  .rfc-priority-medium {
+    @apply bg-amber-100 text-amber-800;
+  }
+
+  .rfc-priority-low {
+    @apply bg-green-100 text-green-800;
+  }
+}
