@@ -1,0 +1,16 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install required packages
+RUN apt-get update && apt-get install -y \
+    bind9-utils \
+    net-tools \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy client application
+COPY client.py /app/
+COPY shared_smtp_utils.py /app/
+
+# Run the SMTP client
+CMD ["python", "/app/client.py"]

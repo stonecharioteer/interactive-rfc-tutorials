@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { rfcs, rfcEras } from "../data/rfcs";
 import { CheckCircle2, FileText, Clock, Award } from "lucide-react";
+import RfcBadge from "../components/RfcBadge";
 
 export default function Home() {
   const completedRfcs = JSON.parse(
@@ -85,9 +86,11 @@ export default function Home() {
                         ) : (
                           <FileText className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                         )}
-                        <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                          RFC {rfc.number}
-                        </span>
+                        <RfcBadge
+                          number={rfc.number}
+                          size="sm"
+                          variant="minimal"
+                        />
                       </div>
                       <span className="text-xs text-gray-400 dark:text-gray-500">
                         {rfc.year}

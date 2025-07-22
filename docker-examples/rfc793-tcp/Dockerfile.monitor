@@ -1,0 +1,17 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install required packages for network monitoring
+RUN apt-get update && apt-get install -y \
+    tcpdump \
+    net-tools \
+    iptables \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy monitoring application
+COPY monitor.py /app/
+COPY shared_utils.py /app/
+
+# Run the network monitor
+CMD ["python", "/app/monitor.py"]

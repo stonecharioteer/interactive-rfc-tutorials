@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+  tcp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    container_name: rfc793-tcp-server
+    ports:
+      - "8080:8080"
+    networks:
+      - rfc793-network
+    environment:
+      - SERVER_PORT=8080
+      - LOG_LEVEL=INFO
+
+  tcp-client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    container_name: rfc793-tcp-client
+    depends_on:
+      - tcp-server
+    networks:
+      - rfc793-network
+    environment:
+      - SERVER_HOST=tcp-server
+      - SERVER_PORT=8080
+      - MESSAGE_COUNT=5
+      - DELAY_SECONDS=2
+    command: ["python", "/app/client.py"]
+
+  tcp-monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile.monitor
+    container_name: rfc793-tcp-monitor
+    depends_on:
+      - tcp-server
+      - tcp-client
+    networks:
+      - rfc793-network
+    cap_add:
+      - NET_ADMIN
+    command: ["python", "/app/monitor.py"]
+
+networks:
+  rfc793-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

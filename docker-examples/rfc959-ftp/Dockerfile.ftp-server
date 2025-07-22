@@ -1,0 +1,36 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install FTP server and utilities
+RUN apt-get update && apt-get install -y \
+    vsftpd \
+    net-tools \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python FTP server library
+RUN pip install pyftpdlib
+
+# Create FTP directory and user
+RUN mkdir -p /srv/ftp
+RUN useradd -d /srv/ftp -s /bin/bash testuser
+RUN echo 'testuser:testpass' | chpasswd
+
+# Copy FTP server implementation
+COPY ftp_server.py /app/
+COPY shared_ftp_utils.py /app/
+
+# Create some demo files
+RUN mkdir -p /srv/ftp/uploads /srv/ftp/downloads
+RUN echo "Welcome to RFC 959 FTP Server!" > /srv/ftp/welcome.txt
+RUN echo "This file demonstrates ASCII mode transfer." > /srv/ftp/readme.txt
+RUN dd if=/dev/urandom of=/srv/ftp/binary_test.dat bs=1024 count=10
+
+# Fix permissions
+RUN chown -R testuser:testuser /srv/ftp
+
+# Expose FTP ports
+EXPOSE 21 20000-20010
+
+# Start FTP server
+CMD ["python", "/app/ftp_server.py"]

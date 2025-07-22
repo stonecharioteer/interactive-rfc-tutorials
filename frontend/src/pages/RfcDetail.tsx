@@ -7,6 +7,7 @@ import {
   Calendar,
   ExternalLink,
 } from "lucide-react";
+import RfcBadge from "../components/RfcBadge";
 import RFC1 from "./rfcs/RFC1";
 import RFC675 from "./rfcs/RFC675";
 import RFC791 from "./rfcs/RFC791";
@@ -82,9 +83,7 @@ export default function RfcDetail() {
         <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
             <div className="flex items-center space-x-3 mb-2 sm:mb-0">
-              <span className="bg-rfc-blue text-white px-3 py-1 rounded-full text-sm font-medium">
-                RFC {rfc.number}
-              </span>
+              <RfcBadge number={rfc.number} size="md" variant="badge" />
               <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
                 {rfc.title}
               </h1>

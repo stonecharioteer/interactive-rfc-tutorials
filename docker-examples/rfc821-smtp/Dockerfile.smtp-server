@@ -1,0 +1,30 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install required packages
+RUN apt-get update && apt-get install -y \
+    bind9-utils \
+    net-tools \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python packages
+RUN pip install aiosmtpd flask
+
+# Create mail directory
+RUN mkdir -p /var/mail
+
+# Copy server applications
+COPY smtp_server.py /app/
+COPY web_interface.py /app/
+COPY shared_smtp_utils.py /app/
+COPY start_server.sh /app/
+
+# Make start script executable
+RUN chmod +x /app/start_server.sh
+
+# Expose ports
+EXPOSE 25 8080
+
+# Start both SMTP server and web interface
+CMD ["/app/start_server.sh"]

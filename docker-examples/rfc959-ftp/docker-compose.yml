@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  ftp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.ftp-server
+    container_name: rfc959-ftp-server
+    ports:
+      - "2121:21" # FTP control port
+      - "20000-20010:20000-20010" # Passive data ports
+    networks:
+      - rfc959-network
+    environment:
+      - FTP_PORT=21
+      - PASV_MIN_PORT=20000
+      - PASV_MAX_PORT=20010
+      - FTP_USER=testuser
+      - FTP_PASS=testpass
+    volumes:
+      - ftp_data:/srv/ftp
+
+  ftp-client:
+    build:
+      context: .
+      dockerfile: Dockerfile.ftp-client
+    container_name: rfc959-ftp-client
+    depends_on:
+      - ftp-server
+    networks:
+      - rfc959-network
+    environment:
+      - FTP_HOST=ftp-server
+      - FTP_PORT=21
+      - FTP_USER=testuser
+      - FTP_PASS=testpass
+      - DEMO_FILES=5
+    volumes:
+      - ftp_client_data:/app/files
+    command: ["python", "/app/client.py"]
+
+networks:
+  rfc959-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.22.0.0/16
+
+volumes:
+  ftp_data:
+  ftp_client_data:
