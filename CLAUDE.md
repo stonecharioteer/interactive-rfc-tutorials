@@ -10,6 +10,41 @@
   merging them. IMPORTANT
 - For each RFC, you must link to the RFC PDF so that people can choose to read the entire thing.
 
-### Technical Architecture Decisions
+### Recent Implementation Progress
 
-[... rest of the existing content remains unchanged ...]
+**Docker Examples Implementation** (Completed - July 22, 2025)
+- **Branch**: `feat/other-rfcs`
+- **Commits**: 68775da, 815b82d
+- **Status**: Ready for PR to main
+
+**Implemented RFCs with Docker Examples:**
+1. **RFC 793 (TCP)**: Complete interactive demonstration
+   - TCP client/server with three-way handshake
+   - Network traffic monitoring with tcpdump
+   - Connection state tracking and statistics
+   - Files: `docker-examples/rfc793-tcp/`
+
+2. **RFC 821 (SMTP)**: Full email server implementation
+   - SMTP server with DNS simulation
+   - Web interface for email management
+   - Educational logging and message tracking
+   - Files: `docker-examples/rfc821-smtp/`
+
+3. **RFC 959 (FTP)**: Educational FTP server
+   - Interactive FTP commands demonstration
+   - File transfer examples and logging
+   - Educational command explanations
+   - Files: `docker-examples/rfc959-ftp/`
+
+**Frontend Enhancements:**
+- RFC badges component with status indicators
+- Enhanced navigation and layout improvements
+- Playwright tests for RFC verification
+- Updated glossary with networking terms
+
+**Next Steps:**
+- Create PR for Docker examples implementation
+- Continue with remaining Protocol Expansion Era RFCs (1034, 1035, 1390)
+- Add enhanced visual elements and diagrams
+
+### Technical Architecture Decisions

@@ -13,6 +13,7 @@ import RFC675 from "./rfcs/RFC675";
 import RFC791 from "./rfcs/RFC791";
 import RFC793 from "./rfcs/RFC793";
 import RFC821 from "./rfcs/RFC821";
+import RFC1034 from "./rfcs/RFC1034";
 
 // Map RFC numbers to their components
 const rfcComponents: Record<number, React.ComponentType> = {
@@ -21,6 +22,7 @@ const rfcComponents: Record<number, React.ComponentType> = {
   791: RFC791,
   793: RFC793,
   821: RFC821,
+  1034: RFC1034,
 };
 
 export default function RfcDetail() {

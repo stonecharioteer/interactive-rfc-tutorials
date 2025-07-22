@@ -1,0 +1,115 @@
+version: '3.8'
+
+services:
+  # Root DNS Server (simplified simulation)
+  root-dns:
+    build:
+      context: .
+      dockerfile: Dockerfile.root-dns
+    container_name: rfc1034-root-dns
+    ports:
+      - "5300:53/udp"
+    networks:
+      rfc1034-network:
+        ipv4_address: 172.25.0.10
+    environment:
+      - DNS_ROLE=root
+      - LOG_LEVEL=INFO
+
+  # TLD DNS Server (.com simulator)
+  tld-dns:
+    build:
+      context: .
+      dockerfile: Dockerfile.tld-dns
+    container_name: rfc1034-tld-dns
+    ports:
+      - "5301:53/udp"
+    networks:
+      rfc1034-network:
+        ipv4_address: 172.25.0.11
+    depends_on:
+      - root-dns
+    environment:
+      - DNS_ROLE=tld
+      - TLD_ZONE=com
+      - ROOT_SERVER=172.25.0.10
+
+  # Authoritative DNS Server (example.com)
+  authoritative-dns:
+    build:
+      context: .
+      dockerfile: Dockerfile.auth-dns
+    container_name: rfc1034-auth-dns
+    ports:
+      - "5302:53/udp"
+    networks:
+      rfc1034-network:
+        ipv4_address: 172.25.0.12
+    depends_on:
+      - tld-dns
+    environment:
+      - DNS_ROLE=authoritative
+      - ZONE=example.com
+      - TLD_SERVER=172.25.0.11
+
+  # Recursive DNS Resolver
+  recursive-resolver:
+    build:
+      context: .
+      dockerfile: Dockerfile.resolver
+    container_name: rfc1034-resolver
+    ports:
+      - "5303:53/udp"
+    networks:
+      rfc1034-network:
+        ipv4_address: 172.25.0.13
+    depends_on:
+      - root-dns
+      - tld-dns
+      - authoritative-dns
+    environment:
+      - DNS_ROLE=resolver
+      - ROOT_SERVER=172.25.0.10
+
+  # DNS Client (interactive queries)
+  dns-client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    container_name: rfc1034-dns-client
+    networks:
+      rfc1034-network:
+        ipv4_address: 172.25.0.20
+    depends_on:
+      - recursive-resolver
+    environment:
+      - RESOLVER_IP=172.25.0.13
+      - ROOT_IP=172.25.0.10
+      - TLD_IP=172.25.0.11
+      - AUTH_IP=172.25.0.12
+    command: ["python", "/app/dns_client.py"]
+
+  # DNS Monitor (traffic analysis)
+  dns-monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile.monitor
+    container_name: rfc1034-dns-monitor
+    networks:
+      rfc1034-network:
+        ipv4_address: 172.25.0.30
+    depends_on:
+      - root-dns
+      - tld-dns
+      - authoritative-dns
+      - recursive-resolver
+    cap_add:
+      - NET_ADMIN
+    command: ["python", "/app/dns_monitor.py"]
+
+networks:
+  rfc1034-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16

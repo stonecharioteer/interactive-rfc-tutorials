@@ -114,4 +114,34 @@ export const rfcs: RfcMetadata[] = [
     ],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc821.html",
   },
+  {
+    number: 959,
+    title: "File Transfer Protocol (FTP)",
+    description:
+      "The classic file transfer protocol that established client-server file sharing models.",
+    era: "protocol-expansion",
+    year: 1985,
+    learningObjectives: [
+      "Understand FTP's client-server architecture",
+      "Learn about active and passive connection modes",
+      "Explore file transfer and directory operations",
+      "Connect to modern file sharing concepts",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc959.html",
+  },
+  {
+    number: 1034,
+    title: "Domain Names - Concepts and Facilities",
+    description:
+      "The foundational DNS specification that created the hierarchical naming system powering the modern internet.",
+    era: "protocol-expansion",
+    year: 1987,
+    learningObjectives: [
+      "Understand the hierarchical domain name space",
+      "Learn about distributed DNS authority and delegation",
+      "Explore DNS caching and performance optimization",
+      "Master the concepts behind internet naming",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc1034.html",
+  },
 ];

@@ -1,0 +1,19 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install required packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    dnsutils \
+    net-tools \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy client application
+COPY dns_client.py /app/
+COPY shared_dns_utils.py /app/
+
+# Make scripts executable
+RUN chmod +x /app/dns_client.py
+
+# Run the DNS client
+CMD ["python", "/app/dns_client.py"]
