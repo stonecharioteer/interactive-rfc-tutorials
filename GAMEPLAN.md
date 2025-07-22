@@ -52,16 +52,18 @@ Create an engaging, educational platform that makes complex networking concepts 
 
 #### Theme: Building Internet Infrastructure
 
-1. **RFC 959 (1985)**: File Transfer Protocol (FTP) ✅
+1. **RFC 959 (1985)**: File Transfer Protocol (FTP)
 
    - Client-server file sharing model
    - Active/passive connection modes
-   - Educational Docker implementation with command demonstrations
+   - Docker implementation in progress
 
-2. **RFC 1034 (1987)**: Domain Names - Concepts and Facilities
+2. **RFC 1034 (1987)**: Domain Names - Concepts and Facilities ✅
 
    - Hierarchical naming system
    - Distributed database architecture
+   - Interactive Docker demonstration with DNS hierarchy (Root → TLD → Authoritative)
+   - Educational client showing step-by-step resolution process
 
 3. **RFC 1035 (1987)**: Domain Names - Implementation
 
@@ -200,13 +202,18 @@ Create an engaging, educational platform that makes complex networking concepts 
 
 ### Phase 2: Content Expansion (Current - In Progress)
 
-- [x] **Docker Examples Implementation** (Recently Completed)
-  - RFC 793 (TCP): Interactive client/server with network monitoring
-  - RFC 821 (SMTP): Full email server with DNS simulation and web interface
-  - RFC 959 (FTP): Educational FTP server with command demonstrations
+- [x] **Docker Examples Implementation** (Partially Completed)
+  - RFC 793 (TCP): Interactive client/server with network monitoring ✅
+  - RFC 821 (SMTP): Full email server with DNS simulation and web interface ✅
+  - RFC 959 (FTP): Basic Docker setup created, needs completion
   - Enhanced frontend with RFC badges and improved navigation
   - Playwright tests for RFC verification
-- [ ] Protocol Expansion Era tutorials (RFC 1034, 1035, 1390)
+- [x] **RFC 1034 DNS Implementation** (Recently Completed)
+  - Comprehensive hierarchical DNS demonstration
+  - Root, TLD, authoritative, and recursive resolver servers
+  - Educational Python client with step-by-step resolution
+  - Interactive frontend component with DNS concepts
+- [ ] Protocol Expansion Era tutorials remaining (RFC 959 completion, RFC 1035, 1390)
 - [ ] Enhanced visual elements and diagrams
 - [ ] Interactive code examples
 - [ ] Search and filtering capabilities
