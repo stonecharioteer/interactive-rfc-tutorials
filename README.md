@@ -201,11 +201,13 @@ This project includes automatic deployment to GitHub Pages via GitHub Actions:
 4. **Custom Domain**: Configure in repository settings if needed
 
 The deployment workflow will:
+
 - Install dependencies with `npm ci`
 - Build the production bundle with `npm run build`
 - Deploy to GitHub Pages automatically
 
 **Setup Requirements:**
+
 1. Enable GitHub Pages in repository Settings > Pages
 2. Set Source to "GitHub Actions"
 3. The workflow will handle the rest automatically

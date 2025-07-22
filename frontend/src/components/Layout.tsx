@@ -70,8 +70,16 @@ export default function Layout({ children }: LayoutProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center text-gray-600">
             <p>
-              &copy; 2025 RFC Tutorial. Learn the standards that built the
-              internet.
+              &copy; 2025{" "}
+              <a
+                href="https://stonecharioteer.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-rfc-blue hover:text-blue-700"
+              >
+                Vinay Keerthi
+              </a>
+              . Learn the standards that built the internet.
             </p>
             <p className="mt-2 text-sm">
               Progress is saved locally in your browser. No account required.
