@@ -24,23 +24,23 @@ def get_tcp_info(sock: socket.socket) -> Dict[str, Any]:
 
     try:
         info["peer_addr"] = sock.getpeername()
-    except:
+    except Exception:
         pass
 
     try:
         info["tcp_nodelay"] = sock.getsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY)
-    except:
+    except Exception:
         pass
 
     try:
         info["keepalive"] = sock.getsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE)
-    except:
+    except Exception:
         pass
 
     try:
         info["recv_buffer"] = sock.getsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF)
         info["send_buffer"] = sock.getsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF)
-    except:
+    except Exception:
         pass
 
     return info

@@ -1,6 +1,7 @@
 # RFC 793 TCP Demonstration
 
-This Docker Compose setup demonstrates the key concepts from RFC 793 (Transmission Control Protocol) through interactive Python services.
+This Docker Compose setup demonstrates the key concepts from RFC 793 (Transmission Control Protocol)
+through interactive Python services.
 
 ## What This Demonstrates
 

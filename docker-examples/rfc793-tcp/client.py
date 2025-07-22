@@ -73,7 +73,7 @@ class TCPClient:
             )
             self.stats["connection_failures"] += 1
             return False
-        except ConnectionRefused:
+        except ConnectionRefusedError:
             log_message(
                 "TCP-CLIENT", "❌ Connection refused - server not listening", "ERROR"
             )
@@ -217,7 +217,7 @@ class TCPClient:
                 log_message("TCP-CLIENT", f"❌ Error during disconnect: {e}", "WARN")
                 try:
                     self.client_socket.close()
-                except:
+                except Exception:
                     pass
             finally:
                 self.client_socket = None

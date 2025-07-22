@@ -1,6 +1,7 @@
 # RFC 821 SMTP Demonstration
 
-This Docker Compose setup demonstrates the key concepts from RFC 821 (Simple Mail Transfer Protocol) through interactive Python services and a web interface.
+This Docker Compose setup demonstrates the key concepts from RFC 821 (Simple Mail Transfer Protocol)
+through interactive Python services and a web interface.
 
 ## What This Demonstrates
 

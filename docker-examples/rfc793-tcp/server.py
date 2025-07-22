@@ -200,7 +200,7 @@ class TCPServer:
                     "TCP-SERVER",
                     f"🔌 Connection to {client_id} closed (four-way handshake)",
                 )
-            except:
+            except Exception:
                 pass
 
     def _stats_reporter(self):
@@ -225,7 +225,7 @@ class TCPServer:
             try:
                 client_socket.close()
                 log_message("TCP-SERVER", f"🔌 Closed connection to {client_address}")
-            except:
+            except Exception:
                 pass
 
         # Close server socket
@@ -233,7 +233,7 @@ class TCPServer:
             try:
                 self.server_socket.close()
                 log_message("TCP-SERVER", "🔌 Server socket closed")
-            except:
+            except Exception:
                 pass
 
 

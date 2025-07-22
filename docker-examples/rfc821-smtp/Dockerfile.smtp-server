@@ -3,13 +3,13 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Install required packages
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     bind9-utils \
     net-tools \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python packages
-RUN pip install aiosmtpd flask
+RUN pip install --no-cache-dir aiosmtpd flask
 
 # Create mail directory
 RUN mkdir -p /var/mail

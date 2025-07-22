@@ -230,7 +230,7 @@ class DNSSimulator:
             try:
                 self.sock.close()
                 log_message("DNS-SIMULATOR", "🔌 DNS socket closed")
-            except:
+            except Exception:
                 pass
 
 

@@ -1,10 +1,13 @@
 # Interactive RFC Learning Tutorial
 
-A mobile-friendly web application for learning important RFCs that shaped the evolution of the internet. Journey through internet history from the first RFC in 1969 to modern HTTP standards, with interactive content and visual learning aids.
+A mobile-friendly web application for learning important RFCs that shaped the evolution of the internet.
+Journey through internet history from the first RFC in 1969 to modern HTTP standards, with interactive
+content and visual learning aids.
 
 ## 🎯 Project Overview
 
-This project provides an interactive timeline-based learning experience covering 21 critical RFCs across 5 historical eras:
+This project provides an interactive timeline-based learning experience covering 21 critical RFCs across
+5 historical eras:
 
 - **Foundation Era (1969-1982)**: Birth of the Internet
 - **Protocol Expansion (1983-1990)**: Building Infrastructure
@@ -120,7 +123,8 @@ Each RFC tutorial includes:
 
 ### Currently Implemented RFCs
 
-See [GitHub Issues](https://github.com/learnwithcarter-ai/interactive-tutorials/issues) for implementation status of all 21 RFCs.
+See [GitHub Issues](https://github.com/learnwithcarter-ai/interactive-tutorials/issues) for
+implementation status of all 21 RFCs.
 
 The tutorial covers essential protocols like:
 
@@ -132,7 +136,8 @@ The tutorial covers essential protocols like:
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [GAMEPLAN.md](./GAMEPLAN.md) for detailed project roadmap and [CLAUDE.md](./CLAUDE.md) for technical decisions.
+We welcome contributions! Please see our [GAMEPLAN.md](./GAMEPLAN.md) for detailed project roadmap
+and [CLAUDE.md](./CLAUDE.md) for technical decisions.
 
 ### Development Process
 
