@@ -1,4 +1,7 @@
 import GlossaryTerm from '../../components/GlossaryTerm';
+import CodeBlock from '../../components/CodeBlock';
+import ExpandableSection from '../../components/ExpandableSection';
+import MermaidDiagram from '../../components/MermaidDiagram';
 
 export default function RFC675() {
   return (
@@ -49,17 +52,167 @@ export default function RFC675() {
 
       <h3>Technical Innovations</h3>
 
-      <div className="bg-gray-100 p-4 rounded-lg my-6">
-        <h4 className="font-semibold mb-2">Network Layer Architecture:</h4>
-        <div className="space-y-2 text-sm">
-          <div className="bg-blue-200 p-2 rounded">Application Layer</div>
-          <div className="bg-green-200 p-2 rounded">
-            Host-to-Host Protocol (TCP)
-          </div>
-          <div className="bg-yellow-200 p-2 rounded">Internet Protocol</div>
-          <div className="bg-red-200 p-2 rounded">Network Interface</div>
-        </div>
-      </div>
+      <MermaidDiagram
+        chart={`
+graph TB
+    A[Application Layer<br/>HTTP, FTP, SMTP] --> B[Transport Layer<br/>TCP - Reliable Delivery]
+    B --> C[Internet Layer<br/>IP - Routing & Addressing]
+    C --> D[Network Interface<br/>Ethernet, WiFi, etc.]
+    
+    E[Network A<br/>ARPANET] --> F[Gateway<br/>Router]
+    F --> G[Network B<br/>Ethernet LAN]
+    F --> H[Network C<br/>Radio Network]
+    
+    style F fill:#f9f,stroke:#333,stroke-width:3px
+    style B fill:#bbf
+    style C fill:#bfb
+        `}
+        className="my-6"
+      />
+
+      <ExpandableSection title="🐍 ELI-Pythonista: Understanding Network Layers">
+        <p>
+          RFC 675's layered architecture is the foundation of modern networking. 
+          Here's how you can explore these layers with Python:
+        </p>
+
+        <CodeBlock
+          language="python"
+          code={`import socket
+import struct
+
+def demonstrate_network_layers():
+    """Show how Python abstracts the network layer stack."""
+    
+    # Application Layer - Your Python code
+    message = "Hello from the application layer!"
+    
+    # Transport Layer - TCP socket (Python handles this)
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        
+        # Internet Layer - IP addressing (Python abstracts this)
+        host = 'httpbin.org'  # DNS resolves to IP address
+        port = 80
+        
+        print(f"Application Layer: Sending '{message}'")
+        
+        # Network Interface Layer is handled by the OS
+        print(f"Transport Layer: TCP socket created")
+        print(f"Internet Layer: Connecting to {host}:{port}")
+        
+        sock.connect((host, port))
+        
+        # Send HTTP request (Application Layer protocol)
+        http_request = f"""GET /get HTTP/1.1\\r
+Host: {host}\\r
+Connection: close\\r
+\\r
+"""
+        
+        sock.send(http_request.encode())
+        print("Network Interface: Packet transmitted over physical network")
+        
+        # Receive response
+        response = sock.recv(1024)
+        print(f"\\nResponse received: {len(response)} bytes")
+        print("All network layers worked together successfully!")
+
+demonstrate_network_layers()`}
+        />
+
+        <p>
+          <strong>Exploring the gateway concept</strong> (modern routers):
+        </p>
+
+        <CodeBlock
+          language="python"
+          code={`import socket
+import struct
+import subprocess
+import platform
+
+def find_default_gateway():
+    """Find the default gateway (router) on different platforms."""
+    
+    system = platform.system().lower()
+    
+    if system == "linux":
+        try:
+            # Parse /proc/net/route to find default gateway
+            with open('/proc/net/route', 'r') as f:
+                lines = f.readlines()[1:]  # Skip header
+                
+            for line in lines:
+                fields = line.strip().split()
+                if fields[1] == '00000000':  # Default route (0.0.0.0)
+                    gateway_hex = fields[2]
+                    # Convert hex to IP (little endian)
+                    gateway_ip = socket.inet_ntoa(
+                        struct.pack('<L', int(gateway_hex, 16))
+                    )
+                    return gateway_ip
+        except:
+            pass
+    
+    elif system == "darwin" or system == "windows":
+        try:
+            # Use netstat to find default gateway
+            if system == "windows":
+                cmd = ["netstat", "-rn"]
+            else:
+                cmd = ["netstat", "-rn", "-f", "inet"]
+                
+            result = subprocess.run(cmd, capture_output=True, text=True)
+            lines = result.stdout.split('\\n')
+            
+            for line in lines:
+                if '0.0.0.0' in line or 'default' in line:
+                    parts = line.split()
+                    for part in parts:
+                        if '.' in part and part != '0.0.0.0':
+                            try:
+                                socket.inet_aton(part)  # Validate IP
+                                return part
+                            except:
+                                continue
+        except:
+            pass
+    
+    return "Unable to determine"
+
+def trace_to_gateway():
+    """Show how packets travel through the gateway."""
+    
+    gateway = find_default_gateway()
+    print(f"Default Gateway (Router): {gateway}")
+    
+    if gateway != "Unable to determine":
+        print(f"\\nYour computer sends packets to {gateway} first")
+        print("The gateway/router then forwards them to the internet")
+        print("This is exactly what RFC 675 described in 1974!")
+        
+        # Test connectivity to gateway
+        try:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(2)
+            result = sock.connect_ex((gateway, 80))  # Try HTTP port
+            
+            if result == 0:
+                print(f"✅ Gateway {gateway} is reachable")
+            else:
+                print(f"Gateway {gateway} found but HTTP port not open")
+            sock.close()
+        except Exception as e:
+            print(f"Gateway check failed: {e}")
+
+trace_to_gateway()`}
+        />
+
+        <p>
+          This shows how RFC 675's vision of internetworking through gateways 
+          became the foundation of today's internet architecture!
+        </p>
+      </ExpandableSection>
 
       <h3>From NCP to TCP</h3>
 

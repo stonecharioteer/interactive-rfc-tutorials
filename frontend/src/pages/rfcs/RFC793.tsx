@@ -1,4 +1,7 @@
 import GlossaryTerm from "../../components/GlossaryTerm";
+import MermaidDiagram from "../../components/MermaidDiagram";
+import CodeBlock from "../../components/CodeBlock";
+import ExpandableSection from "../../components/ExpandableSection";
 
 export default function RFC793() {
   return (
@@ -57,59 +60,100 @@ export default function RFC793() {
         The Famous <GlossaryTerm>Three-way Handshake</GlossaryTerm>
       </h3>
 
-      <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg my-6">
-        <h4 className="font-semibold mb-3">Connection Establishment</h4>
-        <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <div className="bg-blue-100 p-2 rounded w-20 text-center text-sm">
-              Client
-            </div>
-            <div className="flex-1 text-center">
-              <div className="bg-red-200 p-1 rounded text-sm">
-                SYN (seq=100)
-              </div>
-              <div className="text-xs text-gray-600">→</div>
-            </div>
-            <div className="bg-green-100 p-2 rounded w-20 text-center text-sm">
-              Server
-            </div>
-          </div>
+      <p>
+        Every <GlossaryTerm>TCP</GlossaryTerm> connection begins with a three-way handshake 
+        to synchronize sequence numbers and establish communication parameters.
+      </p>
 
-          <div className="flex items-center justify-between">
-            <div className="bg-blue-100 p-2 rounded w-20 text-center text-sm">
-              Client
-            </div>
-            <div className="flex-1 text-center">
-              <div className="text-xs text-gray-600">←</div>
-              <div className="bg-yellow-200 p-1 rounded text-sm">
-                SYN-ACK (seq=300, ack=101)
-              </div>
-            </div>
-            <div className="bg-green-100 p-2 rounded w-20 text-center text-sm">
-              Server
-            </div>
-          </div>
+      <MermaidDiagram
+        chart={`
+sequenceDiagram
+    participant C as Client
+    participant S as Server
+    
+    Note over C,S: TCP Three-Way Handshake
+    C->>S: SYN (seq=1000, window=8192)
+    Note right of S: Server allocates resources
+    S->>C: SYN-ACK (seq=2000, ack=1001, window=4096)
+    Note left of C: Client confirms connection
+    C->>S: ACK (ack=2001, window=8192)
+    Note over C,S: Connection Established!
+    
+    Note over C,S: Data can now flow bidirectionally
+        `}
+        className="my-6"
+      />
 
-          <div className="flex items-center justify-between">
-            <div className="bg-blue-100 p-2 rounded w-20 text-center text-sm">
-              Client
-            </div>
-            <div className="flex-1 text-center">
-              <div className="bg-green-200 p-1 rounded text-sm">
-                ACK (ack=301)
-              </div>
-              <div className="text-xs text-gray-600">→</div>
-            </div>
-            <div className="bg-green-100 p-2 rounded w-20 text-center text-sm">
-              Server
-            </div>
-          </div>
+      <ExpandableSection title="🐍 ELI-Pythonista: TCP Socket Programming">
+        <p>
+          Here's how the three-way handshake looks in Python using the socket library:
+        </p>
 
-          <div className="text-center text-sm text-green-600 font-semibold">
-            Connection Established!
-          </div>
-        </div>
-      </div>
+        <h4>TCP Server</h4>
+        <CodeBlock
+          language="python"
+          code={`import socket
+
+# Create a TCP socket
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Allow socket reuse
+server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+# Bind to address and port
+server_socket.bind(('localhost', 8080))
+
+# Listen for connections (three-way handshake happens here)
+server_socket.listen(5)
+print("Server listening on port 8080...")
+
+while True:
+    # Accept connection (completes handshake)
+    client_socket, client_address = server_socket.accept()
+    print(f"Connection from {client_address}")
+    
+    # Send data
+    client_socket.send(b"Hello from TCP server!")
+    
+    # Close connection (four-way handshake)
+    client_socket.close()`}
+        />
+
+        <h4>TCP Client</h4>
+        <CodeBlock
+          language="python"
+          code={`import socket
+
+# Create a TCP socket
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+try:
+    # Connect to server (initiates three-way handshake)
+    print("Initiating TCP handshake...")
+    client_socket.connect(('localhost', 8080))
+    print("✅ Connection established!")
+    
+    # Receive data
+    response = client_socket.recv(1024)
+    print(f"Received: {response.decode()}")
+    
+finally:
+    # Close connection
+    client_socket.close()
+    print("Connection closed")`}
+        />
+
+        <p>
+          <strong>What happens behind the scenes:</strong>
+        </p>
+        <ol>
+          <li><code>listen()</code> puts server in SYN_LISTEN state</li>
+          <li><code>connect()</code> sends SYN packet</li>
+          <li>Server responds with SYN-ACK</li>
+          <li>Client sends ACK, <code>connect()</code> returns</li>
+          <li><code>accept()</code> returns the established connection</li>
+        </ol>
+      </ExpandableSection>
 
       <h3>TCP Header Structure</h3>
 
@@ -213,6 +257,76 @@ export default function RFC793() {
         <li>Zero window stops transmission temporarily</li>
       </ul>
 
+      <ExpandableSection title="🐍 ELI-Pythonista: Socket Buffer Management">
+        <p>
+          Python sockets automatically handle TCP flow control, but you can configure buffer sizes:
+        </p>
+
+        <CodeBlock
+          language="python"
+          code={`import socket
+
+# Create socket
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Check current buffer sizes
+recv_buffer = sock.getsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF)
+send_buffer = sock.getsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF)
+
+print(f"Default receive buffer: {recv_buffer} bytes")
+print(f"Default send buffer: {send_buffer} bytes")
+
+# Set larger buffers for high-throughput applications
+sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 65536)  # 64KB
+sock.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 65536)  # 64KB
+
+print("Buffer sizes increased for better performance")`}
+        />
+
+        <p>
+          <strong>Real-world example:</strong> Handling large file transfers
+        </p>
+
+        <CodeBlock
+          language="python"
+          code={`import socket
+import os
+
+def send_file(filename, host, port):
+    """Send a file using TCP with proper buffer management."""
+    file_size = os.path.getsize(filename)
+    
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        # Optimize for large transfers
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 65536)
+        sock.connect((host, port))
+        
+        # Send file size first
+        sock.send(file_size.to_bytes(8, 'big'))
+        
+        # Send file in chunks (TCP handles flow control)
+        with open(filename, 'rb') as f:
+            sent = 0
+            while sent < file_size:
+                chunk = f.read(8192)  # 8KB chunks
+                if not chunk:
+                    break
+                
+                # send() may not send all data at once due to flow control
+                bytes_sent = sock.send(chunk)
+                sent += bytes_sent
+                
+                print(f"Sent {sent}/{file_size} bytes ({sent/file_size*100:.1f}%)")
+        
+        print("✅ File sent successfully!")`}
+        />
+
+        <p>
+          Notice how <code>send()</code> might not send all data at once - that's TCP flow control working! 
+          The receiver's window size determines how much data can be sent.
+        </p>
+      </ExpandableSection>
+
       <h3>Congestion Control</h3>
 
       <p>TCP adapts to network conditions to prevent congestion:</p>
@@ -258,6 +372,111 @@ export default function RFC793() {
           <strong>Timestamps:</strong> Better round-trip time measurement
         </li>
       </ul>
+
+      <ExpandableSection title="🐍 ELI-Pythonista: TCP Socket Options and Diagnostics">
+        <p>
+          Python allows you to access many TCP features and get diagnostic information:
+        </p>
+
+        <CodeBlock
+          language="python"
+          code={`import socket
+import struct
+
+def analyze_tcp_connection(host, port):
+    """Demonstrate TCP socket options and connection analysis."""
+    
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        # Enable keep-alive to detect broken connections
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
+        
+        # Disable Nagle's algorithm for low-latency applications
+        sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+        
+        print(f"Connecting to {host}:{port}...")
+        sock.connect((host, port))
+        
+        # Get connection information
+        local_addr = sock.getsockname()
+        remote_addr = sock.getpeername()
+        
+        print(f"Local address: {local_addr}")
+        print(f"Remote address: {remote_addr}")
+        
+        # Check if Nagle's algorithm is disabled
+        nodelay = sock.getsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY)
+        print(f"TCP_NODELAY: {'Enabled' if nodelay else 'Disabled'}")
+        
+        # Check keep-alive settings
+        keepalive = sock.getsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE)
+        print(f"Keep-alive: {'Enabled' if keepalive else 'Disabled'}")
+        
+        # On Linux, you can get more detailed TCP info
+        try:
+            tcp_info = sock.getsockopt(socket.IPPROTO_TCP, socket.TCP_INFO, 192)
+            # Parse first few fields (this is Linux-specific)
+            state, retransmits, probes = struct.unpack('BBB', tcp_info[:3])
+            print(f"TCP State: {state}")
+            print(f"Retransmits: {retransmits}")
+        except:
+            print("TCP_INFO not available on this platform")
+
+# Example usage
+analyze_tcp_connection('httpbin.org', 80)`}
+        />
+
+        <p>
+          <strong>Practical TCP tuning for different applications:</strong>
+        </p>
+
+        <CodeBlock
+          language="python"
+          code={`import socket
+
+def create_web_client_socket():
+    """Optimized for HTTP requests - low latency."""
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    
+    # Disable Nagle's algorithm for immediate sending
+    sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+    
+    # Shorter keep-alive for web connections
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
+    
+    return sock
+
+def create_file_transfer_socket():
+    """Optimized for bulk data transfer - high throughput."""
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    
+    # Large buffers for bulk transfer
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 65536)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 65536)
+    
+    # Keep Nagle's algorithm for better batching
+    sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 0)
+    
+    return sock
+
+def create_realtime_socket():
+    """Optimized for gaming/streaming - minimal latency."""
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    
+    # Immediate transmission
+    sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+    
+    # Smaller buffers to reduce buffering delays
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 8192)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 8192)
+    
+    return sock`}
+        />
+
+        <p>
+          These optimizations demonstrate how TCP's flexibility allows tuning for different application needs - 
+          from web browsing to file transfers to real-time gaming!
+        </p>
+      </ExpandableSection>
 
       <h3>TCP vs UDP</h3>
 

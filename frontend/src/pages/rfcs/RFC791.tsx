@@ -1,4 +1,7 @@
 import GlossaryTerm from '../../components/GlossaryTerm';
+import MermaidDiagram from '../../components/MermaidDiagram';
+import CodeBlock from '../../components/CodeBlock';
+import ExpandableSection from '../../components/ExpandableSection';
 
 export default function RFC791() {
   return (
@@ -120,6 +123,99 @@ export default function RFC791() {
         </div>
       </div>
 
+      <ExpandableSection title="🐍 ELI-Pythonista: Working with IP Addresses">
+        <p>
+          Python's <code>ipaddress</code> module makes working with IPv4 addresses easy:
+        </p>
+
+        <CodeBlock
+          language="python"
+          code={`import ipaddress
+import socket
+import struct
+
+# Create IPv4 address objects
+ip1 = ipaddress.IPv4Address('192.168.1.1')
+ip2 = ipaddress.IPv4Address('10.0.0.1')
+
+print(f"IP Address: {ip1}")
+print(f"Binary representation: {bin(int(ip1))}")
+print(f"32-bit integer: {int(ip1)}")
+
+# Convert between formats
+ip_int = int(ip1)  # 3232235777
+ip_bytes = ip1.packed  # b'\\xc0\\xa8\\x01\\x01'
+
+# Check address properties
+print(f"Is private: {ip1.is_private}")
+print(f"Is multicast: {ip1.is_multicast}")
+print(f"Is loopback: {ip1.is_loopback}")
+
+# Network calculations
+network = ipaddress.IPv4Network('192.168.1.0/24', strict=False)
+print(f"Network: {network}")
+print(f"Network address: {network.network_address}")
+print(f"Broadcast address: {network.broadcast_address}")
+print(f"Netmask: {network.netmask}")
+print(f"Number of hosts: {network.num_addresses}")`}
+        />
+
+        <p>
+          <strong>Practical example:</strong> Building a simple IP scanner
+        </p>
+
+        <CodeBlock
+          language="python"
+          code={`import ipaddress
+import socket
+import threading
+from concurrent.futures import ThreadPoolExecutor
+
+def ping_ip(ip_str):
+    """Check if an IP address responds to a basic connection attempt."""
+    try:
+        ip = ipaddress.IPv4Address(ip_str)
+        
+        # Try to connect to a common port (like HTTP)
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+            sock.settimeout(1)  # 1 second timeout
+            result = sock.connect_ex((str(ip), 80))
+            if result == 0:
+                return f"{ip}: Port 80 OPEN"
+            else:
+                return f"{ip}: Port 80 closed/filtered"
+    except Exception as e:
+        return f"{ip}: Error - {e}"
+
+def scan_network(network_str):
+    """Scan a network range for active hosts."""
+    try:
+        network = ipaddress.IPv4Network(network_str, strict=False)
+        print(f"Scanning network: {network}")
+        print(f"Total addresses to scan: {network.num_addresses}")
+        
+        # Use threading for faster scanning
+        with ThreadPoolExecutor(max_workers=50) as executor:
+            # Scan first 20 addresses to avoid overwhelming
+            hosts_to_scan = list(network.hosts())[:20]
+            results = executor.map(ping_ip, [str(ip) for ip in hosts_to_scan])
+            
+            for result in results:
+                print(result)
+    
+    except ValueError as e:
+        print(f"Invalid network: {e}")
+
+# Example usage
+scan_network("192.168.1.0/24")`}
+        />
+
+        <p>
+          This demonstrates how IPv4 addressing works at the application level - 
+          the 32-bit addresses are abstracted into human-readable dotted decimal notation!
+        </p>
+      </ExpandableSection>
+
       <h3>Packet Fragmentation</h3>
 
       <p>
@@ -136,26 +232,148 @@ export default function RFC791() {
 
       <h3>Time to Live (TTL)</h3>
 
-      <div className="border-2 border-dashed border-gray-300 p-4 my-6">
-        <h4 className="font-semibold mb-2">TTL in Action:</h4>
-        <div className="space-y-2 text-sm">
-          <div className="flex items-center justify-between">
-            <span>Packet starts: TTL = 64</span>
-            <div className="bg-blue-100 px-2 py-1 rounded">Router 1</div>
-          </div>
-          <div className="flex items-center justify-between">
-            <span>After Router 1: TTL = 63</span>
-            <div className="bg-blue-100 px-2 py-1 rounded">Router 2</div>
-          </div>
-          <div className="flex items-center justify-between">
-            <span>After Router 2: TTL = 62</span>
-            <div className="bg-green-100 px-2 py-1 rounded">Destination</div>
-          </div>
-        </div>
-        <p className="text-xs text-gray-600 mt-2">
-          Each router decrements TTL by 1
+      <p>
+        TTL prevents packets from circulating forever by limiting the number of <GlossaryTerm>router</GlossaryTerm> hops.
+        Each router decrements the TTL value, and when it reaches zero, the packet is discarded.
+      </p>
+
+      <MermaidDiagram
+        chart={`
+graph LR
+    A[Source<br/>TTL=64] --> B[Router 1<br/>TTL=63]
+    B --> C[Router 2<br/>TTL=62]
+    C --> D[Router 3<br/>TTL=61]
+    D --> E[Destination<br/>TTL=60]
+    
+    F[Loop Prevention<br/>TTL=1] --> G[Router X<br/>TTL=0]
+    G --> H[Packet Discarded<br/>ICMP Error Sent]
+    
+    style A fill:#e1f5fe
+    style E fill:#e8f5e8
+    style H fill:#ffebee
+        `}
+        className="my-6"
+      />
+
+      <ExpandableSection title="🐍 ELI-Pythonista: Tracing Network Routes">
+        <p>
+          You can observe TTL in action by implementing a simple traceroute in Python:
         </p>
-      </div>
+
+        <CodeBlock
+          language="python"
+          code={`import socket
+import struct
+import time
+import sys
+
+def traceroute(target_host, max_hops=30):
+    """Simple traceroute implementation using raw sockets."""
+    
+    try:
+        # Resolve target hostname to IP
+        target_ip = socket.gethostbyname(target_host)
+        print(f"Tracing route to {target_host} ({target_ip})")
+        print(f"Maximum hops: {max_hops}")
+        print()
+        
+        for ttl in range(1, max_hops + 1):
+            # Create raw socket for ICMP
+            sock = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_ICMP)
+            
+            # Set TTL for this packet
+            sock.setsockopt(socket.IPPROTO_IP, socket.IP_TTL, ttl)
+            sock.settimeout(3)  # 3 second timeout
+            
+            start_time = time.time()
+            
+            try:
+                # Send ICMP Echo Request
+                sock.sendto(b'\\x08\\x00\\x00\\x00\\x00\\x00\\x00\\x00', (target_ip, 0))
+                
+                # Receive response
+                response, addr = sock.recvfrom(512)
+                end_time = time.time()
+                
+                rtt = (end_time - start_time) * 1000  # Round-trip time in ms
+                
+                # Try to get hostname
+                try:
+                    hostname = socket.gethostbyaddr(addr[0])[0]
+                except:
+                    hostname = addr[0]
+                
+                print(f"{ttl:2d}  {rtt:6.1f} ms  {hostname} ({addr[0]})")
+                
+                # Check if we reached the destination
+                if addr[0] == target_ip:
+                    print(f"\\nTrace complete! Reached {target_host}")
+                    break
+                    
+            except socket.timeout:
+                print(f"{ttl:2d}  *  *  *  Request timed out")
+            except PermissionError:
+                print("Error: Need root privileges for raw sockets")
+                return
+            finally:
+                sock.close()
+    
+    except socket.gaierror:
+        print(f"Error: Could not resolve hostname '{target_host}'")
+
+# Note: This requires root privileges on most systems
+# traceroute('google.com')`}
+        />
+
+        <p>
+          <strong>Alternative approach</strong> using regular sockets (no root required):
+        </p>
+
+        <CodeBlock
+          language="python"
+          code={`import socket
+import time
+
+def simple_hop_check(host, port=80, max_ttl=10):
+    """Check connectivity with different TTL values."""
+    
+    target_ip = socket.gethostbyname(host)
+    print(f"Testing connectivity to {host} ({target_ip})")
+    
+    for ttl in range(1, max_ttl + 1):
+        try:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            
+            # Set IP_TTL socket option
+            sock.setsockopt(socket.IPPROTO_IP, socket.IP_TTL, ttl)
+            sock.settimeout(2)
+            
+            start_time = time.time()
+            result = sock.connect_ex((target_ip, port))
+            end_time = time.time()
+            
+            if result == 0:
+                rtt = (end_time - start_time) * 1000
+                print(f"TTL {ttl:2d}: SUCCESS - Connected in {rtt:.1f}ms")
+                sock.close()
+                break
+            else:
+                print(f"TTL {ttl:2d}: Connection failed (may have been dropped by router)")
+            
+            sock.close()
+            
+        except Exception as e:
+            print(f"TTL {ttl:2d}: Error - {e}")
+
+# This works without root privileges
+simple_hop_check('httpbin.org', 80)`}
+        />
+
+        <p>
+          This demonstrates how TTL works in practice - packets with low TTL values 
+          get dropped by intermediate routers, preventing infinite loops!
+        </p>
+      </ExpandableSection>
 
       <h3>Modern Challenges</h3>
 
