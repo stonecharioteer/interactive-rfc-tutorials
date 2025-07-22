@@ -208,3 +208,9 @@ docs/_build/
 *.pem
 *.key
 *.crt
+
+# Frontend specific
+frontend/dist/
+frontend/test-results/
+frontend/playwright-report/
+frontend/playwright/.cache/

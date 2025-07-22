@@ -1,31 +1,36 @@
-import GlossaryTerm from '../../components/GlossaryTerm';
+import GlossaryTerm from "../../components/GlossaryTerm";
 
 export default function RFC793() {
   return (
     <article className="prose prose-lg max-w-none">
       <h1>RFC 793: Transmission Control Protocol (September 1981)</h1>
 
-      <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
-        <h3 className="text-lg font-semibold text-blue-900 mb-2">
+      <div className="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-400 dark:border-blue-500 p-4 mb-6">
+        <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-100 mb-2">
           Historical Significance
         </h3>
-        <p className="text-blue-800">
-          <GlossaryTerm>TCP</GlossaryTerm> provides reliable, ordered data delivery over unreliable networks.
-          This <GlossaryTerm>RFC</GlossaryTerm> established the protocol that powers most internet
-          applications today, from web browsing to email.
+        <p className="text-blue-800 dark:text-blue-200">
+          <GlossaryTerm>TCP</GlossaryTerm> provides reliable, ordered data
+          delivery over unreliable networks. This{" "}
+          <GlossaryTerm>RFC</GlossaryTerm> established the protocol that powers
+          most internet applications today, from web browsing to email.
         </p>
       </div>
 
       <h2>Reliable Communication Over Unreliable Networks</h2>
 
       <p>
-        <GlossaryTerm>TCP</GlossaryTerm> solves a fundamental problem: how to provide reliable, ordered
-        communication over a network that might drop, duplicate, or reorder
-        <GlossaryTerm>packet</GlossaryTerm>s. It transforms the unreliable <GlossaryTerm>IP</GlossaryTerm> layer into a dependable
-        communication service.
+        <GlossaryTerm>TCP</GlossaryTerm> solves a fundamental problem: how to
+        provide reliable, ordered communication over a network that might drop,
+        duplicate, or reorder
+        <GlossaryTerm>packet</GlossaryTerm>s. It transforms the unreliable{" "}
+        <GlossaryTerm>IP</GlossaryTerm> layer into a dependable communication
+        service.
       </p>
 
-      <h3>Core <GlossaryTerm>TCP</GlossaryTerm> Features</h3>
+      <h3>
+        Core <GlossaryTerm>TCP</GlossaryTerm> Features
+      </h3>
 
       <ul>
         <li>
@@ -48,9 +53,11 @@ export default function RFC793() {
         </li>
       </ul>
 
-      <h3>The Famous <GlossaryTerm>Three-way Handshake</GlossaryTerm></h3>
+      <h3>
+        The Famous <GlossaryTerm>Three-way Handshake</GlossaryTerm>
+      </h3>
 
-      <div className="bg-gray-100 p-4 rounded-lg my-6">
+      <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg my-6">
         <h4 className="font-semibold mb-3">Connection Establishment</h4>
         <div className="space-y-3">
           <div className="flex items-center justify-between">
@@ -185,7 +192,7 @@ export default function RFC793() {
         </li>
       </ul>
 
-      <div className="bg-gray-50 p-4 rounded-lg my-6">
+      <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg my-6">
         <h4 className="font-semibold mb-2">Example Data Transfer:</h4>
         <div className="text-sm space-y-1">
           <p>Client sends: seq=1000, len=100 (bytes 1000-1099)</p>
@@ -292,9 +299,11 @@ export default function RFC793() {
         </li>
       </ul>
 
-      <div className="bg-green-50 border-l-4 border-green-400 p-4 mt-6">
-        <h4 className="text-green-900 font-semibold">Key Takeaway</h4>
-        <p className="text-green-800">
+      <div className="bg-green-50 dark:bg-green-900/20 border-l-4 border-green-400 dark:border-green-500 p-4 mt-6">
+        <h4 className="text-green-900 dark:text-green-100 font-semibold">
+          Key Takeaway
+        </h4>
+        <p className="text-green-800 dark:text-green-200">
           TCP shows how complex problems can be solved through careful protocol
           design. By handling reliability at the transport layer, TCP enables
           simple application development.

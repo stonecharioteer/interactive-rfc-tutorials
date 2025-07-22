@@ -9,14 +9,14 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+      <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link to="/" className="flex items-center space-x-2">
               <BookOpen className="h-8 w-8 text-rfc-blue" />
-              <span className="text-xl font-bold text-gray-900 dark:text-white">
+              <span className="text-xl font-bold text-gray-900">
                 RFC Tutorial
               </span>
             </Link>
@@ -24,22 +24,21 @@ export default function Layout({ children }: LayoutProps) {
             <nav className="hidden md:flex items-center space-x-8">
               <Link
                 to="/"
-                className="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+                className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
               >
                 <Home className="h-4 w-4" />
                 <span>Home</span>
               </Link>
-              <div className="flex items-center space-x-2 text-gray-600 dark:text-gray-300">
+              <div className="flex items-center space-x-2 text-gray-600">
                 <Clock className="h-4 w-4" />
                 <span className="text-sm">Progress: {getProgress()}%</span>
               </div>
-              <ThemeToggle />
+              {/* Theme toggle hidden for now */}
+              {/* <ThemeToggle /> */}
             </nav>
 
-            {/* Mobile theme toggle */}
-            <div className="md:hidden">
-              <ThemeToggle />
-            </div>
+            {/* Mobile navigation - theme toggle hidden */}
+            <div className="md:hidden">{/* <ThemeToggle /> */}</div>
 
             {/* Mobile menu button */}
             <button className="hidden p-2 rounded-md text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -67,9 +66,9 @@ export default function Layout({ children }: LayoutProps) {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-16">
+      <footer className="bg-white border-t border-gray-200 mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-center text-gray-600 dark:text-gray-300">
+          <div className="text-center text-gray-600">
             <p>
               &copy; 2025 RFC Tutorial. Learn the standards that built the
               internet.

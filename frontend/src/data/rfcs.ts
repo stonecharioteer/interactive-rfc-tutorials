@@ -4,9 +4,8 @@ export interface RfcMetadata {
   description: string;
   era: "foundation" | "protocol-expansion" | "web-era" | "modern" | "current";
   year: number;
-  priority: "critical" | "high" | "medium" | "low";
-  estimatedTime: string;
   learningObjectives: string[];
+  rfcUrl?: string;
 }
 
 export const rfcEras = {
@@ -50,13 +49,12 @@ export const rfcs: RfcMetadata[] = [
       "The very first RFC that established the RFC series and collaborative spirit of internet development.",
     era: "foundation",
     year: 1969,
-    priority: "high",
-    estimatedTime: "30 minutes",
     learningObjectives: [
       "Understand the historical significance of the first RFC",
       "Learn about the informal collaborative nature of early internet development",
       "Explore the origins of the RFC system",
     ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc1.html",
   },
   {
     number: 675,
@@ -65,13 +63,12 @@ export const rfcs: RfcMetadata[] = [
       "The foundational document for what would become TCP/IP, establishing internetworking concepts.",
     era: "foundation",
     year: 1974,
-    priority: "high",
-    estimatedTime: "45 minutes",
     learningObjectives: [
       "Understand the evolution from NCP to TCP/IP",
       "Learn about Vint Cerf's early internetworking concepts",
       "Explore the foundation of modern internet protocols",
     ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc675.html",
   },
   {
     number: 791,
@@ -80,13 +77,12 @@ export const rfcs: RfcMetadata[] = [
       "The foundational IPv4 specification that powers most of today's internet.",
     era: "foundation",
     year: 1981,
-    priority: "critical",
-    estimatedTime: "90 minutes",
     learningObjectives: [
       "Understand IPv4 packet structure and addressing",
       "Learn about routing and fragmentation",
       "Explore the protocol that powers most of today's internet",
     ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc791.html",
   },
   {
     number: 793,
@@ -95,14 +91,13 @@ export const rfcs: RfcMetadata[] = [
       "The TCP specification that enables reliable internet communication.",
     era: "foundation",
     year: 1981,
-    priority: "critical",
-    estimatedTime: "90 minutes",
     learningObjectives: [
       "Understand TCP's reliable delivery mechanisms",
       "Learn about connection establishment and teardown",
       "Explore flow control and congestion management",
       "Master the three-way handshake",
     ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc793.html",
   },
   {
     number: 821,
@@ -111,13 +106,12 @@ export const rfcs: RfcMetadata[] = [
       "The foundational email protocol that still powers internet email today.",
     era: "foundation",
     year: 1982,
-    priority: "high",
-    estimatedTime: "60 minutes",
     learningObjectives: [
       "Understand SMTP's role in email delivery",
       "Learn about mail routing and relay concepts",
       "Explore the protocol commands and responses",
       "Connect to modern email infrastructure",
     ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc821.html",
   },
 ];

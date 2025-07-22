@@ -21,18 +21,10 @@ interface ThemeProviderProps {
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  // Initialize theme from localStorage or default to 'system'
-  const [theme, setThemeState] = useState<Theme>(() => {
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("rfc-tutorial-theme") as Theme;
-      return stored && ["light", "dark", "system"].includes(stored)
-        ? stored
-        : "system";
-    }
-    return "system";
-  });
+  // Initialize theme to light mode by default, ignore system/localStorage
+  const [theme, setThemeState] = useState<Theme>("light");
 
-  // Get the actual theme (resolved from system preference if needed)
+  // Always use light theme for now
   const [actualTheme, setActualTheme] = useState<"light" | "dark">("light");
 
   // Function to get system preference
@@ -45,56 +37,21 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     return "light";
   };
 
-  // Update actual theme based on theme setting
+  // Force light mode and ensure DOM is updated
   useEffect(() => {
-    let resolvedTheme: "light" | "dark";
+    setActualTheme("light");
 
-    if (theme === "system") {
-      resolvedTheme = getSystemTheme();
-    } else {
-      resolvedTheme = theme;
-    }
-
-    setActualTheme(resolvedTheme);
-
-    // Update document class and data attributes
+    // Always set light mode in DOM
     if (typeof document !== "undefined") {
-      document.documentElement.classList.toggle(
-        "dark",
-        resolvedTheme === "dark",
-      );
-      document.documentElement.setAttribute("data-theme", resolvedTheme);
+      document.documentElement.classList.remove("dark");
+      document.documentElement.setAttribute("data-theme", "light");
     }
-  }, [theme]);
+  }, []);
 
-  // Listen for system theme changes
-  useEffect(() => {
-    if (typeof window === "undefined" || !window.matchMedia) return;
-
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-
-    const handleChange = () => {
-      if (theme === "system") {
-        const systemTheme = getSystemTheme();
-        setActualTheme(systemTheme);
-        document.documentElement.classList.toggle(
-          "dark",
-          systemTheme === "dark",
-        );
-        document.documentElement.setAttribute("data-theme", systemTheme);
-      }
-    };
-
-    mediaQuery.addEventListener("change", handleChange);
-    return () => mediaQuery.removeEventListener("change", handleChange);
-  }, [theme]);
-
-  // Set theme and persist to localStorage
+  // Set theme function (kept for compatibility, but forces light mode)
   const setTheme = (newTheme: Theme) => {
-    setThemeState(newTheme);
-    if (typeof window !== "undefined") {
-      localStorage.setItem("rfc-tutorial-theme", newTheme);
-    }
+    // For now, ignore the theme change and stay on light mode
+    setThemeState("light");
   };
 
   const value: ThemeContextType = {

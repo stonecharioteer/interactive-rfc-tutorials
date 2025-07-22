@@ -253,21 +253,35 @@ dig MX example.com
       <h3>Essential SMTP Commands</h3>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
-        <div className="border p-3 rounded">
-          <h5 className="font-semibold text-blue-600">HELO/EHLO</h5>
-          <p className="text-sm">Identify the sending server</p>
+        <div className="border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/30 p-3 rounded">
+          <h5 className="font-semibold text-blue-600 dark:text-blue-400">
+            HELO/EHLO
+          </h5>
+          <p className="text-sm text-gray-700 dark:text-gray-300">
+            Identify the sending server
+          </p>
         </div>
-        <div className="border p-3 rounded">
-          <h5 className="font-semibold text-green-600">MAIL FROM</h5>
-          <p className="text-sm">Specify the sender's address</p>
+        <div className="border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/30 p-3 rounded">
+          <h5 className="font-semibold text-green-600 dark:text-green-400">
+            MAIL FROM
+          </h5>
+          <p className="text-sm text-gray-700 dark:text-gray-300">
+            Specify the sender's address
+          </p>
         </div>
-        <div className="border p-3 rounded">
-          <h5 className="font-semibold text-yellow-600">RCPT TO</h5>
-          <p className="text-sm">Specify the recipient's address</p>
+        <div className="border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/30 p-3 rounded">
+          <h5 className="font-semibold text-yellow-600 dark:text-yellow-400">
+            RCPT TO
+          </h5>
+          <p className="text-sm text-gray-700 dark:text-gray-300">
+            Specify the recipient's address
+          </p>
         </div>
-        <div className="border p-3 rounded">
-          <h5 className="font-semibold text-red-600">DATA</h5>
-          <p className="text-sm">Begin message content transmission</p>
+        <div className="border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/30 p-3 rounded">
+          <h5 className="font-semibold text-red-600 dark:text-red-400">DATA</h5>
+          <p className="text-sm text-gray-700 dark:text-gray-300">
+            Begin message content transmission
+          </p>
         </div>
       </div>
 
@@ -485,20 +499,22 @@ dig MX example.com
       <h3>SMTP Today</h3>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
-        <div className="border border-green-300 p-4 rounded">
-          <h4 className="font-semibold text-green-600 mb-2">
+        <div className="border border-green-300 dark:border-green-600 bg-green-50 dark:bg-green-900/20 p-4 rounded">
+          <h4 className="font-semibold text-green-600 dark:text-green-400 mb-2">
             What Still Works
           </h4>
-          <ul className="text-sm space-y-1">
+          <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1">
             <li>✓ Basic protocol commands</li>
             <li>✓ Store and forward architecture</li>
             <li>✓ MX record routing</li>
             <li>✓ Text-based simplicity</li>
           </ul>
         </div>
-        <div className="border border-blue-300 p-4 rounded">
-          <h4 className="font-semibold text-blue-600 mb-2">Modern Additions</h4>
-          <ul className="text-sm space-y-1">
+        <div className="border border-blue-300 dark:border-blue-600 bg-blue-50 dark:bg-blue-900/20 p-4 rounded">
+          <h4 className="font-semibold text-blue-600 dark:text-blue-400 mb-2">
+            Modern Additions
+          </h4>
+          <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1">
             <li>+ Authentication (AUTH)</li>
             <li>
               + <GlossaryTerm>Encryption</GlossaryTerm> (STARTTLS)

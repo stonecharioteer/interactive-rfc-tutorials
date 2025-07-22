@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from "react";
+import { useTheme } from "./ThemeProvider";
 
 interface MermaidDiagramProps {
   chart: string;
@@ -15,6 +16,7 @@ export default function MermaidDiagram({
   const [svgContent, setSvgContent] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { actualTheme } = useTheme();
 
   const renderDiagram = useCallback(async () => {
     if (!chart || typeof window === "undefined") {
@@ -29,10 +31,10 @@ export default function MermaidDiagram({
       // Dynamically import mermaid
       const { default: mermaid } = await import("mermaid");
 
-      // Initialize mermaid
-      mermaid.initialize({
+      // Initialize mermaid with theme-aware configuration
+      const mermaidConfig = {
         startOnLoad: false,
-        theme: "default",
+        theme: actualTheme === "dark" ? "base" : "default", // Use 'base' theme for custom variables
         securityLevel: "loose",
         fontFamily: "ui-sans-serif, system-ui, sans-serif",
         fontSize: 14,
@@ -54,7 +56,66 @@ export default function MermaidDiagram({
           leftPadding: 75,
           rightPadding: 20,
         },
-      });
+      };
+
+      // Add custom theme variables for dark mode with better contrast
+      if (actualTheme === "dark") {
+        mermaidConfig.themeVariables = {
+          darkMode: true,
+          background: "#1f2937",
+
+          // Primary elements
+          primaryColor: "#374151",
+          primaryTextColor: "#ffffff",
+          primaryBorderColor: "#6b7280",
+
+          // Secondary elements
+          secondaryColor: "#4b5563",
+          secondaryTextColor: "#ffffff",
+          secondaryBorderColor: "#6b7280",
+
+          // Tertiary elements
+          tertiaryColor: "#1f2937",
+          tertiaryTextColor: "#ffffff",
+          tertiaryBorderColor: "#6b7280",
+
+          // Lines and arrows
+          lineColor: "#9ca3af",
+          textColor: "#ffffff",
+
+          // Node fills - using colorblind-compatible, high contrast colors
+          // Using Viridis-inspired palette for accessibility
+          cScale0: "#2563eb", // blue-600 - good contrast
+          cScale1: "#059669", // emerald-600 - good contrast
+          cScale2: "#dc2626", // red-600 - good contrast
+          cScale3: "#7c3aed", // violet-600 - good contrast
+          cScale4: "#ea580c", // orange-600 - good contrast
+          cScale5: "#0891b2", // cyan-600 - good contrast
+          cScale6: "#4b5563", // gray-600 - good contrast
+          cScale7: "#9333ea", // purple-600 - good contrast
+          cScale8: "#2563eb", // blue-600 (repeat for consistency)
+          cScale9: "#059669", // emerald-600 (repeat)
+          cScale10: "#dc2626", // red-600 (repeat)
+          cScale11: "#7c3aed", // violet-600 (repeat)
+
+          // Additional overrides using same colorblind-safe palette
+          fillType0: "#4b5563", // gray-600
+          fillType1: "#2563eb", // blue-600
+          fillType2: "#059669", // emerald-600
+          fillType3: "#dc2626", // red-600
+          fillType4: "#7c3aed", // violet-600
+          fillType5: "#ea580c", // orange-600
+
+          // Flowchart specific
+          nodeBkg: "#374151",
+          nodeTextColor: "#ffffff",
+          mainBkg: "#374151",
+          secondBkg: "#4b5563",
+          tertiaryBkg: "#1f2937",
+        };
+      }
+
+      mermaid.initialize(mermaidConfig);
 
       // Create a unique ID for this diagram
       const uniqueId =
@@ -71,7 +132,7 @@ export default function MermaidDiagram({
       setError(err instanceof Error ? err.message : "Failed to render diagram");
       setIsLoading(false);
     }
-  }, [chart, id]);
+  }, [chart, id, actualTheme]);
 
   useEffect(() => {
     renderDiagram();

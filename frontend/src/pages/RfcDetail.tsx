@@ -5,8 +5,7 @@ import {
   CheckCircle2,
   Circle,
   Calendar,
-  Clock,
-  Target,
+  ExternalLink,
 } from "lucide-react";
 import RFC1 from "./rfcs/RFC1";
 import RFC675 from "./rfcs/RFC675";
@@ -32,8 +31,10 @@ export default function RfcDetail() {
   if (!rfc || !RfcComponent) {
     return (
       <div className="text-center py-12">
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">RFC Not Found</h1>
-        <p className="text-gray-600 mb-8">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+          RFC Not Found
+        </h1>
+        <p className="text-gray-600 dark:text-gray-300 mb-8">
           The RFC you're looking for doesn't exist or hasn't been implemented
           yet.
         </p>
@@ -78,56 +79,62 @@ export default function RfcDetail() {
           Back to Timeline
         </Link>
 
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
             <div className="flex items-center space-x-3 mb-2 sm:mb-0">
               <span className="bg-rfc-blue text-white px-3 py-1 rounded-full text-sm font-medium">
                 RFC {rfc.number}
               </span>
-              <h1 className="text-2xl font-bold text-gray-900">{rfc.title}</h1>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+                {rfc.title}
+              </h1>
             </div>
 
-            <button
-              onClick={toggleComplete}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
-                isCompleted
-                  ? "bg-green-100 text-green-800 hover:bg-green-200"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-              }`}
-            >
-              {isCompleted ? (
-                <CheckCircle2 className="h-4 w-4" />
-              ) : (
-                <Circle className="h-4 w-4" />
+            <div className="flex items-center space-x-3">
+              {rfc.rfcUrl && (
+                <a
+                  href={rfc.rfcUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                  <span>Read RFC Text</span>
+                </a>
               )}
-              <span>{isCompleted ? "Completed" : "Mark Complete"}</span>
-            </button>
+
+              <button
+                onClick={toggleComplete}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                  isCompleted
+                    ? "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-900/40"
+                    : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                }`}
+              >
+                {isCompleted ? (
+                  <CheckCircle2 className="h-4 w-4" />
+                ) : (
+                  <Circle className="h-4 w-4" />
+                )}
+                <span>{isCompleted ? "Completed" : "Mark Complete"}</span>
+              </button>
+            </div>
           </div>
 
-          <p className="text-gray-600 mb-6">{rfc.description}</p>
+          <p className="text-gray-600 dark:text-gray-300 mb-6">
+            {rfc.description}
+          </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-            <div className="flex items-center text-gray-600">
-              <Calendar className="h-4 w-4 mr-2" />
-              <span className="text-sm">{rfc.year}</span>
-            </div>
-            <div className="flex items-center text-gray-600">
-              <Clock className="h-4 w-4 mr-2" />
-              <span className="text-sm">{rfc.estimatedTime}</span>
-            </div>
-            <div className="flex items-center text-gray-600">
-              <Target className="h-4 w-4 mr-2" />
-              <span className="text-sm capitalize">
-                {rfc.priority} Priority
-              </span>
-            </div>
+          <div className="flex items-center text-gray-600 dark:text-gray-400 mb-6">
+            <Calendar className="h-4 w-4 mr-2" />
+            <span className="text-sm">Published {rfc.year}</span>
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
               Learning Objectives
             </h3>
-            <ul className="list-disc list-inside text-gray-600 space-y-1">
+            <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-1">
               {rfc.learningObjectives.map((objective, index) => (
                 <li key={index} className="text-sm">
                   {objective}
@@ -139,7 +146,7 @@ export default function RfcDetail() {
       </div>
 
       {/* RFC Content */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
         <RfcComponent />
       </div>
     </div>

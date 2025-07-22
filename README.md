@@ -191,6 +191,25 @@ Deploy the `dist/` folder to any static hosting service:
 - AWS S3, Google Cloud Storage
 - Any web server or CDN
 
+### GitHub Pages Deployment
+
+This project includes automatic deployment to GitHub Pages via GitHub Actions:
+
+1. **Automatic Deployment**: Pushes to `main` branch automatically trigger deployment
+2. **Build Process**: Uses Node.js 18 and runs `npm ci && npm run build`
+3. **Static Hosting**: Serves the built site from `frontend/dist/`
+4. **Custom Domain**: Configure in repository settings if needed
+
+The deployment workflow will:
+- Install dependencies with `npm ci`
+- Build the production bundle with `npm run build`
+- Deploy to GitHub Pages automatically
+
+**Setup Requirements:**
+1. Enable GitHub Pages in repository Settings > Pages
+2. Set Source to "GitHub Actions"
+3. The workflow will handle the rest automatically
+
 ## 📄 License
 
 MIT License - see [LICENSE](./LICENSE) for details.

@@ -106,6 +106,13 @@ export default function CodeBlock({
             background: isDark ? "#1e1e1e" : "#fafafa",
             fontSize: "0.875rem",
           }}
+          wrapLines={true}
+          lineProps={{
+            style: {
+              background: "transparent",
+              display: "block",
+            },
+          }}
           lineNumberStyle={{
             color: isDark ? "#6b7280" : "#9ca3af",
             marginRight: "1rem",
