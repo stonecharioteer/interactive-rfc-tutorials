@@ -27,16 +27,6 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   // Always use light theme for now
   const [actualTheme, setActualTheme] = useState<"light" | "dark">("light");
 
-  // Function to get system preference
-  const getSystemTheme = (): "light" | "dark" => {
-    if (typeof window !== "undefined" && window.matchMedia) {
-      return window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light";
-    }
-    return "light";
-  };
-
   // Force light mode and ensure DOM is updated
   useEffect(() => {
     setActualTheme("light");
@@ -49,7 +39,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   }, []);
 
   // Set theme function (kept for compatibility, but forces light mode)
-  const setTheme = (newTheme: Theme) => {
+  const setTheme = (_newTheme: Theme) => {
     // For now, ignore the theme change and stay on light mode
     setThemeState("light");
   };

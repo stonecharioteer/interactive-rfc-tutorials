@@ -32,7 +32,7 @@ export default function MermaidDiagram({
       const { default: mermaid } = await import("mermaid");
 
       // Initialize mermaid with theme-aware configuration
-      const mermaidConfig = {
+      const mermaidConfig: any = {
         startOnLoad: false,
         theme: actualTheme === "dark" ? "base" : "default", // Use 'base' theme for custom variables
         securityLevel: "loose",
