@@ -1,0 +1,28 @@
+FROM python:3.11-slim
+
+# Install IPv6 networking tools
+RUN apt-get update && apt-get install -y \
+    iputils-ping \
+    iproute2 \
+    net-tools \
+    dnsutils \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+RUN pip install netifaces
+
+WORKDIR /app
+
+# Copy application files
+COPY server.py .
+COPY shared_ipv6_utils.py .
+
+# Expose port for IPv6 server
+EXPOSE 8080
+
+# Enable IPv6 in container
+RUN echo 'net.ipv6.conf.all.disable_ipv6 = 0' >> /etc/sysctl.conf
+RUN echo 'net.ipv6.conf.default.disable_ipv6 = 0' >> /etc/sysctl.conf
+
+CMD ["python", "server.py"]
