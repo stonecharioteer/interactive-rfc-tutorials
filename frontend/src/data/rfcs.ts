@@ -264,4 +264,34 @@ export const rfcs: RfcMetadata[] = [
     ],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc2684.html",
   },
+  {
+    number: 7748,
+    title: "Elliptic Curves for Security",
+    description:
+      "The specification defining Curve25519 and Curve448, with Curve25519 being the high-performance elliptic curve that powers WireGuard's key exchange.",
+    era: "modern",
+    year: 2016,
+    learningObjectives: [
+      "Understand modern elliptic curve cryptography design principles",
+      "Learn about Curve25519's mathematical properties and security",
+      "Explore the X25519 key agreement function implementation",
+      "Master the cryptographic foundation of WireGuard's performance",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc7748.html",
+  },
+  {
+    number: 8439,
+    title: "ChaCha20 and Poly1305 for IETF Protocols",
+    description:
+      "The specification defining ChaCha20-Poly1305 AEAD, the authenticated encryption algorithm that provides WireGuard's exceptional performance and security.",
+    era: "modern",
+    year: 2018,
+    learningObjectives: [
+      "Understand authenticated encryption with associated data (AEAD)",
+      "Learn ChaCha20 stream cipher and Poly1305 authenticator design",
+      "Explore software-optimized cryptography performance benefits",
+      "Master the encryption technology powering modern VPN protocols",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc8439.html",
+  },
 ];

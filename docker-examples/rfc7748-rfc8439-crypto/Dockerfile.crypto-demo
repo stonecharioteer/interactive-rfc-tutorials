@@ -1,0 +1,43 @@
+# Modern Cryptography Demonstration Environment
+FROM python:3.11-slim
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libffi-dev \
+    libssl-dev \
+    curl \
+    netcat-openbsd \
+    tcpdump \
+    net-tools \
+    htop \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python cryptographic libraries for comparison
+RUN pip install --no-cache-dir \
+    cryptography \
+    pynacl \
+    pycryptodome \
+    flask \
+    requests \
+    websockets \
+    numpy \
+    matplotlib \
+    seaborn
+
+# Create application directories
+RUN mkdir -p /scripts /demos /app
+
+# Set working directory
+WORKDIR /app
+
+# Copy educational crypto implementations
+COPY scripts/ /scripts/
+COPY demos/ /demos/
+
+# Make scripts executable
+RUN chmod +x /scripts/*.sh
+
+EXPOSE 8080 8443
+
+CMD ["/scripts/crypto-demo.py"]

@@ -23,6 +23,8 @@ import RFC2401 from "./rfcs/RFC2401";
 import RFC2460 from "./rfcs/RFC2460";
 import RFC2547 from "./rfcs/RFC2547";
 import RFC2684 from "./rfcs/RFC2684";
+import RFC7748 from "./rfcs/RFC7748";
+import RFC8439 from "./rfcs/RFC8439";
 
 // Map RFC numbers to their components
 const rfcComponents: Record<number, React.ComponentType> = {
@@ -41,6 +43,8 @@ const rfcComponents: Record<number, React.ComponentType> = {
   2460: RFC2460,
   2547: RFC2547,
   2684: RFC2684,
+  7748: RFC7748,
+  8439: RFC8439,
 };
 
 export default function RfcDetail() {
