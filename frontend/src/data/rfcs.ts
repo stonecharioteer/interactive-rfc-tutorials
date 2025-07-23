@@ -174,4 +174,34 @@ export const rfcs: RfcMetadata[] = [
     ],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc1390.html",
   },
+  {
+    number: 1945,
+    title: "Hypertext Transfer Protocol -- HTTP/1.0",
+    description:
+      "The foundational web protocol that established the request/response paradigm powering the World Wide Web.",
+    era: "web-era",
+    year: 1996,
+    learningObjectives: [
+      "Understand HTTP's simple request/response model",
+      "Learn about web server and client communication",
+      "Explore HTTP methods, headers, and status codes",
+      "Master the protocol that launched the web revolution",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc1945.html",
+  },
+  {
+    number: 2068,
+    title: "Hypertext Transfer Protocol -- HTTP/1.1",
+    description:
+      "The first version of HTTP/1.1 that introduced persistent connections and significant performance improvements over HTTP/1.0.",
+    era: "web-era",
+    year: 1997,
+    learningObjectives: [
+      "Understand persistent connections and their benefits",
+      "Learn about chunked transfer encoding",
+      "Explore the Host header requirement",
+      "Master HTTP/1.1's performance improvements over HTTP/1.0",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc2068.html",
+  },
 ];
