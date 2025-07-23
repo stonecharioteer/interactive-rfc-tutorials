@@ -1004,6 +1004,248 @@ export const glossaryTerms: GlossaryTerm[] = [
     category: "security",
     relatedTerms: ["constant-time", "side-channel", "timing-attack-resistance"],
   },
+  
+  // NAT Traversal Terms (RFC 5389 & RFC 8445)
+  {
+    id: "nat",
+    term: "NAT (Network Address Translation)",
+    definition:
+      "A networking technique that allows multiple devices on a private network to share a single public IP address by translating private addresses to public ones.",
+    category: "network",
+    relatedTerms: ["stun", "ice", "nat-traversal", "private-ip", "public-ip"],
+  },
+  {
+    id: "stun",
+    term: "STUN",
+    definition:
+      "Session Traversal Utilities for NAT (RFC 5389) - A protocol that allows applications to discover their public IP address and the type of NAT they are behind.",
+    category: "protocol",
+    relatedTerms: ["nat", "ice", "turn", "nat-traversal", "binding-request"],
+  },
+  {
+    id: "ice",
+    term: "ICE",
+    definition:
+      "Interactive Connectivity Establishment (RFC 8445) - A comprehensive framework for NAT traversal that combines STUN, TURN, and host discovery to establish peer-to-peer connections.",
+    category: "protocol",
+    relatedTerms: ["stun", "turn", "nat-traversal", "candidate", "connectivity-check"],
+  },
+  {
+    id: "turn",
+    term: "TURN",
+    definition:
+      "Traversal Using Relays around NAT - A protocol that provides relay functionality when direct peer-to-peer connections cannot be established due to restrictive NATs or firewalls.",
+    category: "protocol",
+    relatedTerms: ["stun", "ice", "nat-traversal", "relay", "symmetric-nat"],
+  },
+  {
+    id: "nat-traversal",
+    term: "NAT Traversal",
+    definition:
+      "Techniques and protocols that enable applications to establish connections through Network Address Translation devices, essential for peer-to-peer communications.",
+    category: "network",
+    relatedTerms: ["nat", "stun", "ice", "turn", "udp-hole-punching"],
+  },
+  {
+    id: "udp-hole-punching",
+    term: "UDP Hole Punching",
+    definition:
+      "A NAT traversal technique where both peers simultaneously send packets to each other's public addresses, creating temporary openings (holes) in NAT devices.",
+    category: "network",
+    relatedTerms: ["nat-traversal", "stun", "ice", "peer-to-peer", "nat-binding"],
+  },
+  {
+    id: "ice-candidate",
+    term: "ICE Candidate",
+    definition:
+      "A transport address (IP and port combination) that an ICE agent can use to communicate, including host, server reflexive, peer reflexive, and relay candidates.",
+    category: "network",
+    relatedTerms: ["ice", "host-candidate", "srflx-candidate", "relay-candidate", "candidate-pair"],
+  },
+  {
+    id: "host-candidate",
+    term: "Host Candidate",
+    definition:
+      "An ICE candidate obtained directly from a local network interface, representing the device's actual IP address on its local network.",
+    category: "network",
+    relatedTerms: ["ice-candidate", "local-interface", "private-ip", "direct-connection"],
+  },
+  {
+    id: "srflx-candidate",
+    term: "Server Reflexive Candidate",
+    definition:
+      "An ICE candidate discovered through STUN that represents the public IP address and port as seen by a STUN server, used for NAT traversal.",
+    category: "network",
+    relatedTerms: ["ice-candidate", "stun", "public-ip", "nat-binding", "reflexive-address"],
+  },
+  {
+    id: "relay-candidate",
+    term: "Relay Candidate",
+    definition:
+      "An ICE candidate obtained through a TURN server that provides a relay address for cases where direct connectivity cannot be established.",
+    category: "network",
+    relatedTerms: ["ice-candidate", "turn", "relay", "fallback", "symmetric-nat"],
+  },
+  {
+    id: "candidate-pair",
+    term: "Candidate Pair",
+    definition:
+      "A combination of local and remote ICE candidates that represents a potential communication path between two peers in the ICE connectivity establishment process.",
+    category: "network",
+    relatedTerms: ["ice-candidate", "connectivity-check", "ice", "pair-priority", "nominated-pair"],
+  },
+  {
+    id: "connectivity-check",
+    term: "Connectivity Check",
+    definition:
+      "ICE procedure that tests whether a candidate pair can be used for communication by sending STUN Binding Requests between the paired addresses.",
+    category: "network",
+    relatedTerms: ["candidate-pair", "ice", "stun", "binding-request", "reachability"],
+  },
+  {
+    id: "binding-request",
+    term: "STUN Binding Request",
+    definition:
+      "A STUN message sent to discover the reflexive transport address (public IP and port) as seen by the STUN server, fundamental to NAT discovery.",
+    category: "protocol",
+    relatedTerms: ["stun", "binding-response", "reflexive-address", "nat-discovery", "transaction-id"],
+  },
+  {
+    id: "binding-response",
+    term: "STUN Binding Response",
+    definition:
+      "A STUN message containing the XOR-MAPPED-ADDRESS attribute that reveals the sender's public IP address and port as observed by the STUN server.",
+    category: "protocol",
+    relatedTerms: ["binding-request", "stun", "xor-mapped-address", "reflexive-address"],
+  },
+  {
+    id: "xor-mapped-address",
+    term: "XOR-MAPPED-ADDRESS",
+    definition:
+      "A STUN attribute that contains the reflexive transport address with values XORed with the STUN magic cookie to provide some protection against tampering.",
+    category: "protocol",
+    relatedTerms: ["binding-response", "stun", "reflexive-address", "magic-cookie"],
+  },
+  {
+    id: "reflexive-address",
+    term: "Reflexive Address",
+    definition:
+      "The public IP address and port of a host as observed by a STUN server, representing how the host appears to external networks through its NAT.",
+    category: "network",
+    relatedTerms: ["stun", "nat", "public-ip", "xor-mapped-address", "nat-binding"],
+  },
+  {
+    id: "nat-binding",
+    term: "NAT Binding",
+    definition:
+      "A mapping created by a NAT device that associates an internal private address with an external public address and port for communication.",
+    category: "network",
+    relatedTerms: ["nat", "port-mapping", "public-ip", "private-ip", "nat-type"],
+  },
+  {
+    id: "nat-type",
+    term: "NAT Type",
+    definition:
+      "Classification of NAT behavior affecting traversal difficulty, including full cone, restricted cone, port restricted cone, and symmetric NAT types.",
+    category: "network",
+    relatedTerms: ["nat", "full-cone", "restricted-cone", "symmetric-nat", "nat-traversal"],
+  },
+  {
+    id: "full-cone",
+    term: "Full Cone NAT",
+    definition:
+      "The most permissive NAT type that allows any external host to send packets to the mapped public port, making P2P connections easiest to establish.",
+    category: "network",
+    relatedTerms: ["nat-type", "cone-nat", "nat-traversal", "port-mapping"],
+  },
+  {
+    id: "restricted-cone",
+    term: "Restricted Cone NAT",
+    definition:
+      "A NAT type that only allows packets from external hosts that the internal host has previously contacted, requiring coordinated connection attempts.",
+    category: "network",
+    relatedTerms: ["nat-type", "cone-nat", "udp-hole-punching", "nat-filtering"],
+  },
+  {
+    id: "symmetric-nat",
+    term: "Symmetric NAT",
+    definition:
+      "The most restrictive NAT type that creates different external port mappings for each destination, making direct P2P connections very difficult or impossible.",
+    category: "network",
+    relatedTerms: ["nat-type", "turn", "relay-candidate", "nat-traversal", "port-mapping"],
+  },
+  {
+    id: "peer-to-peer",
+    term: "Peer-to-Peer (P2P)",
+    definition:
+      "Direct communication between two devices without intermediate servers, enabled by NAT traversal techniques for applications like video calling and file sharing.",
+    category: "network",
+    relatedTerms: ["direct-connection", "nat-traversal", "ice", "webrtc", "tailscale"],
+  },
+  {
+    id: "webrtc",
+    term: "WebRTC",
+    definition:
+      "Web Real-Time Communication - A browser standard that uses ICE, STUN, and TURN for peer-to-peer audio, video, and data communication without plugins.",
+    category: "protocol",
+    relatedTerms: ["ice", "stun", "turn", "peer-to-peer", "browser", "rtc"],
+  },
+  {
+    id: "tailscale",
+    term: "Tailscale",
+    definition:
+      "A mesh VPN service that uses ICE and STUN for peer-to-peer connectivity, allowing devices to connect directly when possible while falling back to relays.",
+    category: "protocol",
+    relatedTerms: ["mesh-vpn", "ice", "stun", "peer-to-peer", "wireguard", "derp"],
+  },
+  {
+    id: "derp",
+    term: "DERP",
+    definition:
+      "Designated Encrypted Relay for Packets - Tailscale's relay system that provides fallback connectivity when direct peer-to-peer connections fail.",
+    category: "protocol",
+    relatedTerms: ["tailscale", "relay", "turn", "fallback", "mesh-vpn"],
+  },
+  {
+    id: "signaling-server",
+    term: "Signaling Server",
+    definition:
+      "A server that facilitates the exchange of ICE candidates and session descriptions between peers during the connection establishment process.",
+    category: "network",
+    relatedTerms: ["ice", "candidate-exchange", "sdp", "webrtc", "peer-coordination"],
+  },
+  {
+    id: "candidate-exchange",
+    term: "Candidate Exchange",
+    definition:
+      "The ICE process where peers share their discovered candidates through a signaling channel to enable connectivity testing between all possible paths.",
+    category: "network",
+    relatedTerms: ["ice-candidate", "signaling-server", "ice", "connectivity-check"],
+  },
+  {
+    id: "nominated-pair",
+    term: "Nominated Pair",
+    definition:
+      "The ICE candidate pair selected as the optimal communication path after connectivity checks, representing the best available connection between peers.",
+    category: "network",
+    relatedTerms: ["candidate-pair", "connectivity-check", "ice", "optimal-path", "pair-selection"],
+  },
+  {
+    id: "trickle-ice",
+    term: "Trickle ICE",
+    definition:
+      "An ICE optimization that allows candidates to be sent incrementally as they are discovered, rather than waiting for complete gathering before exchange.",
+    category: "network",
+    relatedTerms: ["ice", "candidate-exchange", "optimization", "webrtc", "incremental-discovery"],
+  },
+  {
+    id: "ice-lite",
+    term: "ICE Lite",
+    definition:
+      "A simplified ICE implementation for servers that only generate host candidates and respond to connectivity checks, reducing complexity for server deployments.",
+    category: "protocol",
+    relatedTerms: ["ice", "simplified-ice", "server-implementation", "host-candidate"],
+  },
 ];
 
 // Create a lookup map for faster access

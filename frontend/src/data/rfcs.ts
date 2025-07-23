@@ -294,4 +294,34 @@ export const rfcs: RfcMetadata[] = [
     ],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc8439.html",
   },
+  {
+    number: 5389,
+    title: "Session Traversal Utilities for NAT (STUN)",
+    description:
+      "The foundational NAT traversal protocol that enables applications to discover their public IP address and NAT type, essential for peer-to-peer connectivity.",
+    era: "modern",
+    year: 2008,
+    learningObjectives: [
+      "Understand STUN's role in NAT discovery and traversal",
+      "Learn about different NAT types and their impact on connectivity",
+      "Explore UDP hole punching techniques for P2P connections",
+      "Master the protocol that enables modern peer-to-peer applications",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc5389.html",
+  },
+  {
+    number: 8445,
+    title: "Interactive Connectivity Establishment (ICE)",
+    description:
+      "The comprehensive NAT traversal framework that combines STUN, TURN, and host discovery to establish optimal peer-to-peer connections in modern applications.",
+    era: "modern",
+    year: 2018,
+    learningObjectives: [
+      "Understand ICE's comprehensive connectivity establishment framework",
+      "Learn about candidate gathering, prioritization, and selection",
+      "Explore connectivity checking and optimal path selection",
+      "Master the protocol powering WebRTC, Tailscale, and modern P2P applications",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc8445.html",
+  },
 ];

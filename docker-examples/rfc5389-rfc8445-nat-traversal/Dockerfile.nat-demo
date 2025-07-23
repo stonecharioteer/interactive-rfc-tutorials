@@ -1,0 +1,35 @@
+FROM python:3.11-slim
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    tcpdump \
+    iptables \
+    iproute2 \
+    netcat-openbsd \
+    curl \
+    dnsutils \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python packages
+RUN pip install --no-cache-dir \
+    asyncio \
+    websockets \
+    aiohttp \
+    python-stun \
+    aiodns
+
+# Create directories
+RUN mkdir -p /scripts /logs /web
+
+# Set working directory
+WORKDIR /scripts
+
+# Copy scripts (will be mounted as volume in docker-compose)
+COPY scripts/ /scripts/
+COPY web/ /web/
+
+# Make scripts executable
+RUN chmod +x /scripts/*.py
+
+# Default command
+CMD ["python3", "/scripts/nat-demo.py"]
