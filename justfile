@@ -5,8 +5,12 @@ install:
     cd frontend && npm install
 
 # Build Docker images
-build:
+docker-build:
     docker compose build
+
+# Build frontend for production
+build:
+    cd frontend && npm run build
 
 # Start development server with Docker
 dev:
@@ -37,10 +41,6 @@ logs:
 # Restart the development server
 restart: stop dev
 
-# Build for production
-build-prod:
-    cd frontend && npm run build
-
 # Preview production build
 preview:
     cd frontend && npm run preview
@@ -64,7 +64,7 @@ clean:
     @echo "✅ Cleanup complete"
 
 # Full setup: install deps, build images, and show status
-setup: install build
+setup: install docker-build
     @echo ""
     @echo "✅ RFC Tutorial setup complete!"
     @echo ""

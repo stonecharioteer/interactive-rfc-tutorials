@@ -9,6 +9,15 @@
   Update the gameplan and claude.md before and after implementing changes and before submitting PRs and after
   merging them. IMPORTANT
 - For each RFC, you must link to the RFC PDF so that people can choose to read the entire thing.
+- Always include python examples for each RFC tutorial to demonstrate implementation and learning
+- You must add docker-based examples for each RFC where relevant to show how it works locally.
+- You must link to the RFC in every tutorial so people can read the original
+
+### RFC Influence and Historical Context
+
+- Each RFC must include a dedicated section explaining its influence on the broader Internet ecosystem
+- Highlight how specific RFCs fundamentally transformed network communication, protocols, and technological infrastructure
+- Provide historical context on how each RFC contributed to the evolution of internet standards and technologies
 
 ### Recent Implementation Progress
 
@@ -56,3 +65,8 @@
 ### Technical Architecture Decisions
 
 - You must run npm run build before pushing to remote.
+- You must add every abbreviation to the glossary and link to it in each file.
+
+### Glossary Expansion Requirements
+
+- You must add terms related to the internet, networking and specific to RFCs to the glossary and add popup links for them.
