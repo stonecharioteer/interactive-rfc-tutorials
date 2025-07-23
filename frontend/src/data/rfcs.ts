@@ -144,4 +144,34 @@ export const rfcs: RfcMetadata[] = [
     ],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc1034.html",
   },
+  {
+    number: 1035,
+    title: "Domain Names - Implementation and Specification",
+    description:
+      "The technical implementation blueprint for DNS, defining message formats, resource records, and practical server guidelines.",
+    era: "protocol-expansion",
+    year: 1987,
+    learningObjectives: [
+      "Master DNS message format and binary protocols",
+      "Understand resource record types and encoding",
+      "Learn message compression techniques",
+      "Explore practical DNS server implementation",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc1035.html",
+  },
+  {
+    number: 1390,
+    title: "Transmission of IP and ARP over FDDI Networks",
+    description:
+      "Specification for running IP and ARP over FDDI networks, demonstrating internet protocol adaptability to new technologies.",
+    era: "protocol-expansion",
+    year: 1993,
+    learningObjectives: [
+      "Understand network protocol encapsulation principles",
+      "Learn about technology evolution and interoperability",
+      "Explore MTU handling and fragmentation concepts",
+      "Master address resolution across different network types",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc1390.html",
+  },
 ];

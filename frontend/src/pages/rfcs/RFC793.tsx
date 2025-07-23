@@ -261,9 +261,105 @@ finally:
         </ol>
       </ExpandableSection>
 
+      <h3>TCP Connection States</h3>
+
+      <p>
+        TCP connections progress through a well-defined state machine. Understanding
+        these states helps debug network issues and optimize application performance:
+      </p>
+
+      <MermaidDiagram
+        chart={`
+stateDiagram-v2
+    [*] --> CLOSED
+    CLOSED --> LISTEN : passive open
+    CLOSED --> SYN_SENT : active open
+    
+    LISTEN --> SYN_RCVD : receive SYN
+    SYN_SENT --> SYN_RCVD : receive SYN
+    SYN_SENT --> ESTABLISHED : receive SYN-ACK
+    SYN_RCVD --> ESTABLISHED : receive ACK
+    
+    ESTABLISHED --> FIN_WAIT_1 : close (send FIN)
+    ESTABLISHED --> CLOSE_WAIT : receive FIN
+    
+    FIN_WAIT_1 --> FIN_WAIT_2 : receive ACK
+    FIN_WAIT_1 --> CLOSING : receive FIN
+    FIN_WAIT_2 --> TIME_WAIT : receive FIN
+    
+    CLOSE_WAIT --> LAST_ACK : close (send FIN)
+    CLOSING --> TIME_WAIT : receive ACK
+    LAST_ACK --> CLOSED : receive ACK
+    
+    TIME_WAIT --> CLOSED : timeout (2MSL)
+    
+    note right of ESTABLISHED : Data transfer state
+    note right of TIME_WAIT : Ensures all packets are processed
+        `}
+        className="my-6"
+      />
+
+      <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg my-6">
+        <h4 className="font-semibold text-blue-800 mb-3">Key TCP States Explained</h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div>
+            <div className="space-y-2">
+              <div><strong className="text-green-600">ESTABLISHED:</strong> Connection ready for data transfer</div>
+              <div><strong className="text-blue-600">SYN_SENT:</strong> Waiting for SYN-ACK response</div>
+              <div><strong className="text-purple-600">LISTEN:</strong> Server waiting for connection requests</div>
+              <div><strong className="text-orange-600">CLOSE_WAIT:</strong> Remote side initiated close</div>
+            </div>
+          </div>
+          <div>
+            <div className="space-y-2">
+              <div><strong className="text-red-600">TIME_WAIT:</strong> Ensures all packets are processed</div>
+              <div><strong className="text-yellow-600">FIN_WAIT_1:</strong> Local side initiated close</div>
+              <div><strong className="text-pink-600">LAST_ACK:</strong> Waiting for final ACK</div>
+              <div><strong className="text-gray-600">CLOSED:</strong> No connection exists</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>TCP Segment Flow Visualization</h3>
+
+      <p>
+        Here's how TCP segments flow during a typical connection lifecycle,
+        including data transfer and connection termination:
+      </p>
+
+      <MermaidDiagram
+        chart={`
+sequenceDiagram
+    participant C as Client
+    participant S as Server
+    
+    Note over C,S: Connection Establishment
+    C->>+S: SYN (seq=100)
+    S->>+C: SYN-ACK (seq=200, ack=101)
+    C->>S: ACK (ack=201)
+    
+    Note over C,S: Data Transfer Phase
+    C->>S: PSH-ACK (seq=101, data="Hello", ack=201)
+    S->>C: ACK (ack=106)
+    S->>C: PSH-ACK (seq=201, data="World", ack=106) 
+    C->>S: ACK (ack=206)
+    
+    Note over C,S: Connection Termination (4-way handshake)
+    C->>S: FIN-ACK (seq=106, ack=206)
+    S->>C: ACK (ack=107)
+    S->>C: FIN-ACK (seq=206, ack=107)
+    C->>-S: ACK (ack=207)
+    
+    Note over C: TIME_WAIT (2MSL)
+    Note over C,S: Connection Closed
+        `}
+        className="my-6"
+      />
+
       <h3>TCP Header Structure</h3>
 
-      <div className="bg-gray-100 p-4 rounded-lg my-6 overflow-x-auto">
+      <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg my-6 overflow-x-auto">
         <h4 className="font-semibold mb-3">TCP Header (20+ bytes)</h4>
         <div className="grid grid-cols-8 gap-1 text-xs">
           <div className="bg-blue-200 p-2 text-center col-span-4">

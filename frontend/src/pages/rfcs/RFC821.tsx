@@ -111,6 +111,120 @@ export default function RFC821() {
         className="my-8 bg-gray-50 dark:bg-gray-800 p-4 rounded-lg"
       />
 
+      <h3>SMTP Commands and Response Codes</h3>
+
+      <p>
+        SMTP is a text-based protocol with specific commands and standardized
+        response codes. Understanding these helps debug email delivery issues:
+      </p>
+
+      <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg my-6">
+        <h4 className="font-semibold mb-3">Essential SMTP Commands</h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div className="space-y-2">
+            <div className="bg-blue-100 dark:bg-blue-900/30 p-2 rounded">
+              <strong className="text-blue-800 dark:text-blue-200">HELO/EHLO:</strong>
+              <span className="text-blue-600 dark:text-blue-300"> Identify client to server</span>
+            </div>
+            <div className="bg-green-100 dark:bg-green-900/30 p-2 rounded">
+              <strong className="text-green-800 dark:text-green-200">MAIL FROM:</strong>
+              <span className="text-green-600 dark:text-green-300"> Specify sender address</span>
+            </div>
+            <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded">
+              <strong className="text-purple-800 dark:text-purple-200">RCPT TO:</strong>
+              <span className="text-purple-600 dark:text-purple-300"> Specify recipient address</span>
+            </div>
+            <div className="bg-orange-100 dark:bg-orange-900/30 p-2 rounded">
+              <strong className="text-orange-800 dark:text-orange-200">DATA:</strong>
+              <span className="text-orange-600 dark:text-orange-300"> Begin message content</span>
+            </div>
+          </div>
+          <div className="space-y-2">
+            <div className="bg-yellow-100 dark:bg-yellow-900/30 p-2 rounded">
+              <strong className="text-yellow-800 dark:text-yellow-200">QUIT:</strong>
+              <span className="text-yellow-600 dark:text-yellow-300"> Close connection</span>
+            </div>
+            <div className="bg-red-100 dark:bg-red-900/30 p-2 rounded">
+              <strong className="text-red-800 dark:text-red-200">RSET:</strong>
+              <span className="text-red-600 dark:text-red-300"> Reset current transaction</span>
+            </div>
+            <div className="bg-pink-100 dark:bg-pink-900/30 p-2 rounded">
+              <strong className="text-pink-800 dark:text-pink-200">VRFY:</strong>
+              <span className="text-pink-600 dark:text-pink-300"> Verify user mailbox</span>
+            </div>
+            <div className="bg-indigo-100 dark:bg-indigo-900/30 p-2 rounded">
+              <strong className="text-indigo-800 dark:text-indigo-200">NOOP:</strong>
+              <span className="text-indigo-600 dark:text-indigo-300"> No operation (keep-alive)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 p-4 rounded-lg my-6">
+        <h4 className="font-semibold text-blue-800 dark:text-blue-200 mb-3">SMTP Response Code Categories</h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div className="space-y-1">
+            <div><strong className="text-green-600">2xx - Success:</strong> Command completed successfully</div>
+            <div className="ml-4 text-green-600 font-mono">220 Service ready, 250 OK, 354 Start mail input</div>
+            <div><strong className="text-yellow-600">3xx - Positive Intermediate:</strong> More input needed</div>
+            <div className="ml-4 text-yellow-600 font-mono">354 Start mail input; end with .</div>
+          </div>
+          <div className="space-y-1">
+            <div><strong className="text-orange-600">4xx - Transient Failure:</strong> Try again later</div>
+            <div className="ml-4 text-orange-600 font-mono">450 Mailbox busy, 451 Local error</div>
+            <div><strong className="text-red-600">5xx - Permanent Failure:</strong> Don't retry</div>
+            <div className="ml-4 text-red-600 font-mono">550 Mailbox not found, 553 Invalid address</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Email Delivery Flow with Error Handling</h3>
+
+      <MermaidDiagram
+        chart={`
+flowchart TD
+    Start([New Email to Send]) --> DNS[DNS MX Lookup]
+    DNS --> MXFound{MX Records Found?}
+    
+    MXFound -->|No| NoMX[5xx Error: No Mail Server]
+    MXFound -->|Yes| Connect[Connect to Primary MX]
+    
+    Connect --> ConnSuccess{Connection OK?}
+    ConnSuccess -->|No| TrySecondary[Try Secondary MX]
+    ConnSuccess -->|Yes| HELO[Send HELO Command]
+    
+    TrySecondary --> SecondaryOK{Secondary OK?}
+    SecondaryOK -->|No| Queue[Queue for Retry Later]
+    SecondaryOK -->|Yes| HELO
+    
+    HELO --> MAIL[Send MAIL FROM]
+    MAIL --> MailOK{250 Response?}
+    MailOK -->|No| ErrorMail[5xx: Sender Rejected]
+    MailOK -->|Yes| RCPT[Send RCPT TO]
+    
+    RCPT --> RcptOK{250 Response?}
+    RcptOK -->|No| ErrorRcpt[5xx: Recipient Rejected]
+    RcptOK -->|Yes| DATA[Send DATA Command]
+    
+    DATA --> DataOK{354 Response?}
+    DataOK -->|No| ErrorData[5xx: Data Rejected]
+    DataOK -->|Yes| Content[Send Message Content]
+    
+    Content --> Delivered[250: Message Accepted]
+    
+    Queue --> RetryLater[Retry in 15 minutes]
+    RetryLater --> DNS
+    
+    style Delivered fill:#e8f5e8
+    style NoMX fill:#ffebee
+    style ErrorMail fill:#ffebee
+    style ErrorRcpt fill:#ffebee
+    style ErrorData fill:#ffebee
+    style Queue fill:#fff3cd
+        `}
+        className="my-6"
+      />
+
       <h3>
         Mail Routing and <GlossaryTerm>MX Record</GlossaryTerm>s
       </h3>
