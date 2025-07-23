@@ -1,6 +1,5 @@
 import {
   createContext,
-  useContext,
   useEffect,
   useState,
   ReactNode,
@@ -39,7 +38,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   }, []);
 
   // Set theme function (kept for compatibility, but forces light mode)
-  const setTheme = (_newTheme: Theme) => {
+  const setTheme = () => {
     // For now, ignore the theme change and stay on light mode
     setThemeState("light");
   };
@@ -55,10 +54,5 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   );
 }
 
-export function useTheme(): ThemeContextType {
-  const context = useContext(ThemeContext);
-  if (context === undefined) {
-    throw new Error("useTheme must be used within a ThemeProvider");
-  }
-  return context;
-}
+// Export the context and types for the useTheme hook
+export { ThemeContext, type ThemeContextType };

@@ -610,13 +610,219 @@ if __name__ == "__main__":
         </p>
       </div>
 
+      <h3>FTP's Legacy in the Modern File Transfer Ecosystem</h3>
+
+      <p>
+        While FTP's dominance has waned due to security concerns, its fundamental concepts 
+        continue to influence modern file transfer protocols and cloud storage systems:
+      </p>
+
+      <div className="bg-amber-50 border border-amber-200 p-6 rounded-lg my-6">
+        <h4 className="font-semibold text-amber-900 mb-4">📂 FTP's Current Role in Digital Infrastructure</h4>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="space-y-3">
+            <h5 className="font-semibold text-amber-800">Legacy Systems</h5>
+            <ul className="text-amber-700 text-sm space-y-1">
+              <li>• Mainframe data transfers</li>
+              <li>• Industrial automation systems</li>
+              <li>• Embedded device firmware updates</li>
+              <li>• Legacy web hosting (declining)</li>
+              <li>• Internal corporate file sharing</li>
+            </ul>
+          </div>
+          
+          <div className="space-y-3">
+            <h5 className="font-semibold text-amber-800">Specialized Applications</h5>
+            <ul className="text-amber-700 text-sm space-y-1">
+              <li>• Large file transfers (media production)</li>
+              <li>• Automated backup systems</li>
+              <li>• EDI (Electronic Data Interchange)</li>
+              <li>• Scientific data exchange</li>
+              <li>• Server provisioning and deployment</li>
+            </ul>
+          </div>
+          
+          <div className="space-y-3">
+            <h5 className="font-semibold text-amber-800">Modern Variants</h5>
+            <ul className="text-amber-700 text-sm space-y-1">
+              <li>• SFTP (SSH File Transfer Protocol)</li>
+              <li>• FTPS (FTP over SSL/TLS)</li>
+              <li>• Managed FTP services (AWS Transfer)</li>
+              <li>• FTP-to-cloud gateways</li>
+              <li>• Container deployment pipelines</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-red-50 border border-red-200 p-6 rounded-lg my-6">
+        <h4 className="font-semibold text-red-900 mb-3">📊 FTP Usage Reality Check (2025)</h4>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          <div>
+            <div className="text-2xl font-bold text-red-800">~5%</div>
+            <div className="text-sm text-red-700">Of file transfers still use plain FTP</div>
+          </div>
+          <div>
+            <div className="text-2xl font-bold text-red-800">40+</div>
+            <div className="text-sm text-red-700">Years of protocol evolution</div>
+          </div>
+          <div>
+            <div className="text-2xl font-bold text-red-800">80%</div>
+            <div className="text-sm text-red-700">Enterprise usage via SFTP/FTPS</div>
+          </div>
+          <div>
+            <div className="text-2xl font-bold text-red-800">Billions</div>
+            <div className="text-sm text-red-700">Files transferred using FTP concepts</div>
+          </div>
+        </div>
+      </div>
+
+      <ExpandableSection title="🔄 FTP vs Modern File Transfer: The Evolution of Data Movement">
+        <p>
+          FTP's limitations led to numerous alternatives that address security, usability, and cloud-native requirements:
+        </p>
+
+        <div className="space-y-6 mt-4">
+          <div className="bg-green-50 border border-green-200 p-4 rounded">
+            <h5 className="font-semibold text-green-800 mb-2">🔒 Secure FTP Replacements</h5>
+            <div className="text-green-700 text-sm space-y-2">
+              <p><strong>SFTP (SSH File Transfer):</strong> Most common FTP replacement, built on SSH with strong encryption</p>
+              <p><strong>FTPS (FTP over SSL/TLS):</strong> FTP with encryption layer, compatible with existing FTP clients</p>
+              <p><strong>SCP (Secure Copy):</strong> Simple SSH-based file transfer, popular in Unix environments</p>
+              <p><strong>Adoption:</strong> SFTP dominates enterprise, FTPS used in legacy migration scenarios</p>
+              <p><strong>Success Factor:</strong> Addresses FTP's critical security vulnerabilities while maintaining familiar workflow</p>
+            </div>
+          </div>
+
+          <div className="bg-blue-50 border border-blue-200 p-4 rounded">
+            <h5 className="font-semibold text-blue-800 mb-2">☁️ Cloud-Native File Transfer</h5>
+            <div className="text-blue-700 text-sm space-y-2">
+              <p><strong>Object Storage APIs:</strong> Amazon S3, Google Cloud Storage, Azure Blob Storage</p>
+              <p><strong>RESTful File APIs:</strong> HTTP-based with JSON metadata, authentication tokens</p>
+              <p><strong>WebDAV:</strong> Web-based distributed authoring and versioning</p>
+              <p><strong>Advantages:</strong> Cloud-native, web-friendly, scalable, integrated with modern auth</p>
+              <p><strong>Challenge to FTP:</strong> Modern authentication, encryption by default, better error handling</p>
+            </div>
+          </div>
+
+          <div className="bg-purple-50 border border-purple-200 p-4 rounded">
+            <h5 className="font-semibold text-purple-800 mb-2">🌐 Modern File Sharing Platforms</h5>
+            <div className="text-purple-700 text-sm space-y-2">
+              <p><strong>Dropbox/Google Drive APIs:</strong> Consumer-friendly with enterprise features</p>
+              <p><strong>SharePoint/OneDrive:</strong> Microsoft's integrated collaboration platform</p>
+              <p><strong>Box/WeTransfer:</strong> Business-focused file sharing with compliance features</p>
+              <p><strong>User Experience:</strong> Web interfaces, mobile apps, real-time collaboration</p>
+            </div>
+          </div>
+
+          <div className="bg-orange-50 border border-orange-200 p-4 rounded">
+            <h5 className="font-semibent text-orange-800 mb-2">⚡ High-Performance Alternatives</h5>
+            <div className="text-orange-700 text-sm space-y-2">
+              <p><strong>rsync:</strong> Incremental file synchronization, widely used for backups</p>
+              <p><strong>BitTorrent Protocol:</strong> Peer-to-peer for large file distribution</p>
+              <p><strong>Aspera/Signiant:</strong> Proprietary high-speed transfer for media industry</p>
+              <p><strong>GridFTP:</strong> High-performance scientific data transfer</p>
+            </div>
+          </div>
+
+          <div className="bg-yellow-50 border border-yellow-200 p-4 rounded">
+            <h5 className="font-semibold text-yellow-800 mb-2">🚫 Why FTP Failed to Modernize</h5>
+            <div className="text-yellow-700 text-sm space-y-2">
+              <p><strong>Security by Design:</strong> No encryption, clear-text passwords, passive mode vulnerabilities</p>
+              <p><strong>NAT/Firewall Issues:</strong> Dual connections difficult for modern network architectures</p>
+              <p><strong>Limited Metadata:</strong> No rich file attributes, permissions, or versioning</p>
+              <p><strong>ASCII vs Binary Confusion:</strong> Transfer mode errors causing file corruption</p>
+              <p><strong>Stateful Protocol:</strong> Connection management complexity vs stateless HTTP alternatives</p>
+            </div>
+          </div>
+
+          <div className="bg-cyan-50 border border-cyan-200 p-4 rounded">
+            <h5 className="font-semibold text-cyan-800 mb-2">🏗️ FTP's Enduring Architectural Influence</h5>
+            <div className="text-cyan-700 text-sm space-y-2">
+              <p><strong>Client-Server Model:</strong> Foundation for modern file APIs and cloud storage</p>
+              <p><strong>Directory Browsing:</strong> Hierarchical file system navigation in all file managers</p>
+              <p><strong>Transfer Modes:</strong> Binary vs text handling concepts in modern protocols</p>
+              <p><strong>Connection Management:</strong> Lessons learned influenced HTTP persistent connections</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 p-4 bg-indigo-50 border border-indigo-200 rounded">
+          <h5 className="font-semibold text-indigo-800 mb-2">📖 Further Reading</h5>
+          <ul className="text-indigo-700 text-sm space-y-1">
+            <li><a href="https://www.rfc-editor.org/rfc/rfc4253.html" className="underline" target="_blank" rel="noopener noreferrer">RFC 4253: SSH Transport Layer Protocol (SFTP foundation)</a></li>
+            <li><a href="https://www.rfc-editor.org/rfc/rfc4918.html" className="underline" target="_blank" rel="noopener noreferrer">RFC 4918: HTTP Extensions for WebDAV</a></li>
+            <li><a href="https://www.rfc-editor.org/rfc/rfc2585.html" className="underline" target="_blank" rel="noopener noreferrer">RFC 2585: Internet X.509 Public Key Infrastructure</a></li>
+            <li><a href="https://tools.ietf.org/html/rfc3659" className="underline" target="_blank" rel="noopener noreferrer">RFC 3659: Extensions to FTP (MLSx commands)</a></li>
+            <li><a href="https://aws.amazon.com/aws-transfer-family/" className="underline" target="_blank" rel="noopener noreferrer">AWS Transfer Family - Modern FTP/SFTP Services</a></li>
+          </ul>
+        </div>
+      </ExpandableSection>
+
+      <div className="bg-slate-50 border border-slate-200 p-6 rounded-lg my-6">
+        <h4 className="font-semibold text-slate-900 mb-3">🏢 FTP in Modern Enterprise Architecture</h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h5 className="font-semibold text-slate-800 mb-2">Legacy Integration</h5>
+            <ul className="text-slate-700 text-sm space-y-1">
+              <li>• Mainframe-to-cloud data migration</li>
+              <li>• EDI transaction processing</li>
+              <li>• Automated report distribution</li>
+              <li>• Compliance data archiving</li>
+              <li>• Third-party vendor file exchanges</li>
+            </ul>
+          </div>
+          <div>
+            <h5 className="font-semibold text-slate-800 mb-2">Modern Managed Services</h5>
+            <ul className="text-slate-700 text-sm space-y-1">
+              <li>• AWS Transfer Family (SFTP/FTPS/FTP)</li>
+              <li>• Azure File Transfer</li>
+              <li>• Google Cloud Transfer Service</li>
+              <li>• Managed file transfer (MFT) solutions</li>
+              <li>• FTP-to-API gateway services</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-emerald-50 border border-emerald-200 p-6 rounded-lg my-6">
+        <h4 className="font-semibold text-emerald-900 mb-3">🔮 FTP's Future: Managed Legacy and Protocol Evolution</h4>
+        <div className="space-y-4">
+          <div>
+            <h5 className="font-semibold text-emerald-800">Managed FTP Services</h5>
+            <p className="text-emerald-700 text-sm">
+              Cloud providers offering FTP/SFTP as a service with modern security,
+              compliance logging, and integration with cloud storage and APIs
+            </p>
+          </div>
+          <div>
+            <h5 className="font-semibold text-emerald-800">Protocol Modernization</h5>
+            <p className="text-emerald-700 text-sm">
+              SFTP over QUIC for improved performance, OAuth integration for modern auth,
+              and container-native file transfer protocols
+            </p>
+          </div>
+          <div>
+            <h5 className="font-semibold text-emerald-800">Legacy Bridge Solutions</h5>
+            <p className="text-emerald-700 text-sm">
+              FTP-to-REST gateways, protocol translation services, and gradual
+              migration tools for organizations dependent on FTP workflows
+            </p>
+          </div>
+        </div>
+      </div>
+
       <div className="bg-green-50 border-l-4 border-green-400 p-4 mt-6">
         <h4 className="text-green-900 font-semibold">Key Takeaway</h4>
         <p className="text-green-800">
-          RFC 959 created the template for network file transfer that dominated
+          RFC 959's FTP created the template for network file transfer that dominated
           the internet for decades. While modern protocols have addressed FTP's
           security limitations, its architectural patterns continue to influence
-          protocol design today.
+          protocol design today. FTP's lasting legacy isn't its continued usage,
+          but how it established fundamental concepts of client-server file transfer,
+          directory navigation, and transfer modes that appear in every modern
+          file sharing system—from cloud storage APIs to mobile app synchronization.
         </p>
       </div>
     </article>

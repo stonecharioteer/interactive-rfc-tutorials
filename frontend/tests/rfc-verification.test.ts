@@ -259,10 +259,7 @@ test.describe("RFC Pages Verification", () => {
       await expect(page.locator("text=Back to Timeline")).toBeVisible();
 
       // 4. Some kind of historical significance or description
-      const hasHistorical =
-        (await page.locator("text=Historical Significance").isVisible()) ||
-        (await page.locator("text=significance").isVisible()) ||
-        (await page.locator("text=important").isVisible());
+      await page.locator("text=Historical Significance").isVisible();
 
       // At least some content should be present
       const contentLength = await page.locator("article").textContent();

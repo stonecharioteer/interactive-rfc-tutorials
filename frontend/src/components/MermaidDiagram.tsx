@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import { useTheme } from "./ThemeProvider";
+import { useTheme } from "../hooks/useTheme";
 
 interface MermaidDiagramProps {
   chart: string;
