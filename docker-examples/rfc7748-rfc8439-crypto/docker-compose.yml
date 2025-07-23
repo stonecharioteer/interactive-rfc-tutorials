@@ -1,0 +1,109 @@
+version: '3.8'
+
+services:
+  # Crypto Demo Server - demonstrates WireGuard-like crypto
+  crypto-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.crypto-demo
+    container_name: wireguard-crypto-server
+    hostname: CryptoServer
+    networks:
+      crypto-network:
+        ipv4_address: 10.2.0.10
+    environment:
+      - ROLE=server
+      - DEMO_PORT=8080
+    volumes:
+      - ./scripts:/scripts
+      - ./demos:/demos
+    ports:
+      - "8080:8080"
+    command: /scripts/start-crypto-server.sh
+
+  # Crypto Client 1 - Alice
+  crypto-client-alice:
+    build:
+      context: .
+      dockerfile: Dockerfile.crypto-demo
+    container_name: wireguard-crypto-alice
+    hostname: Alice
+    networks:
+      crypto-network:
+        ipv4_address: 10.2.0.101
+    environment:
+      - ROLE=client
+      - CLIENT_NAME=Alice
+      - SERVER_HOST=10.2.0.10
+      - SERVER_PORT=8080
+    volumes:
+      - ./scripts:/scripts
+    depends_on:
+      - crypto-server
+    command: /scripts/start-crypto-client.sh
+
+  # Crypto Client 2 - Bob  
+  crypto-client-bob:
+    build:
+      context: .
+      dockerfile: Dockerfile.crypto-demo
+    container_name: wireguard-crypto-bob
+    hostname: Bob
+    networks:
+      crypto-network:
+        ipv4_address: 10.2.0.102
+    environment:
+      - ROLE=client
+      - CLIENT_NAME=Bob
+      - SERVER_HOST=10.2.0.10
+      - SERVER_PORT=8080
+    volumes:
+      - ./scripts:/scripts
+    depends_on:
+      - crypto-server
+    command: /scripts/start-crypto-client.sh
+
+  # Performance Benchmark Container
+  crypto-benchmark:
+    build:
+      context: .
+      dockerfile: Dockerfile.crypto-demo
+    container_name: crypto-benchmark
+    hostname: Benchmark
+    networks:
+      crypto-network:
+        ipv4_address: 10.2.0.200
+    environment:
+      - ROLE=benchmark
+    volumes:
+      - ./scripts:/scripts
+      - ./benchmarks:/benchmarks
+    command: /scripts/start-benchmarks.sh
+
+  # Educational Monitor - shows crypto operations in real-time
+  crypto-monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile.crypto-monitor
+    container_name: crypto-monitor
+    hostname: CryptoMonitor
+    networks:
+      crypto-network:
+        ipv4_address: 10.2.0.250
+    environment:
+      - MONITOR_ROLE=crypto-education
+    volumes:
+      - ./scripts:/scripts
+      - ./monitoring:/monitoring
+    ports:
+      - "3000:3000"
+    depends_on:
+      - crypto-server
+    command: /scripts/start-crypto-monitor.sh
+
+networks:
+  crypto-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.2.0.0/24
