@@ -356,6 +356,192 @@ export const glossaryTerms: GlossaryTerm[] = [
     category: "protocol",
     relatedTerms: ["tcp", "congestion-control"],
   },
+
+  // IPv6 and Security Terms for RFC 2401 and 2460
+  {
+    id: "ipsec",
+    term: "IPsec",
+    definition:
+      "Internet Protocol Security - A framework for securing IP communications through authentication and encryption at the network layer.",
+    category: "security",
+    relatedTerms: ["vpn", "ah", "esp", "ike", "sa"],
+  },
+  {
+    id: "vpn",
+    term: "VPN",
+    definition:
+      "Virtual Private Network - A secure connection that allows private network access over a public network, commonly using IPsec.",
+    category: "security",
+    relatedTerms: ["ipsec", "tunnel", "encryption"],
+  },
+  {
+    id: "ah",
+    term: "AH",
+    definition:
+      "Authentication Header - An IPsec protocol that provides data integrity and authentication without encryption.",
+    category: "security",
+    relatedTerms: ["ipsec", "esp", "authentication"],
+  },
+  {
+    id: "esp",
+    term: "ESP",
+    definition:
+      "Encapsulating Security Payload - An IPsec protocol that provides confidentiality through encryption plus optional authentication.",
+    category: "security", 
+    relatedTerms: ["ipsec", "ah", "encryption"],
+  },
+  {
+    id: "sa",
+    term: "SA",
+    definition:
+      "Security Association - A set of security parameters (algorithms, keys, lifetimes) that define how to protect communication between two parties.",
+    category: "security",
+    relatedTerms: ["ipsec", "spi", "ike"],
+  },
+  {
+    id: "spi",
+    term: "SPI",
+    definition:
+      "Security Parameter Index - A unique identifier used to distinguish different Security Associations in IPsec.",
+    category: "security",
+    relatedTerms: ["sa", "ipsec"],
+  },
+  {
+    id: "ike",
+    term: "IKE",
+    definition:
+      "Internet Key Exchange - A protocol for establishing and managing cryptographic keys for IPsec Security Associations.",
+    category: "security",
+    relatedTerms: ["ipsec", "sa", "key-management"],
+  },
+  {
+    id: "sad",
+    term: "SAD",
+    definition:
+      "Security Association Database - A data structure that stores active Security Associations and their parameters.",
+    category: "security",
+    relatedTerms: ["sa", "ipsec", "spi"],
+  },
+  {
+    id: "nat",
+    term: "NAT",
+    definition:
+      "Network Address Translation - A method for remapping IP addresses by modifying address information in packet headers while in transit.",
+    category: "network",
+    relatedTerms: ["ipv4", "ipv6", "private-ip"],
+  },
+  {
+    id: "slaac",
+    term: "SLAAC",
+    definition:
+      "Stateless Address Autoconfiguration - An IPv6 feature that allows devices to automatically configure their own IP addresses without DHCP.",
+    category: "network",
+    relatedTerms: ["ipv6", "dhcp", "autoconfiguration"],
+  },
+  {
+    id: "dhcp",
+    term: "DHCP",
+    definition:
+      "Dynamic Host Configuration Protocol - Automatically assigns IP addresses and network configuration to devices on a network.",
+    category: "network",
+    relatedTerms: ["ip", "ipv4", "ipv6", "slaac"],
+  },
+  {
+    id: "eui-64",
+    term: "EUI-64",
+    definition:
+      "Extended Unique Identifier - A method for generating IPv6 interface identifiers from MAC addresses using a 64-bit format.",
+    category: "network",
+    relatedTerms: ["ipv6", "mac-address", "interface-id"],
+  },
+  {
+    id: "link-local",
+    term: "Link-Local",
+    definition:
+      "IPv6 addresses (fe80::/10) that are only valid within a single network segment and not routable beyond the local link.",
+    category: "network",
+    relatedTerms: ["ipv6", "fe80", "local-network"],
+  },
+  {
+    id: "multicast",
+    term: "Multicast",
+    definition:
+      "A communication method where data is sent from one sender to multiple receivers simultaneously, using special addresses (IPv6: ff00::/8).",
+    category: "network",
+    relatedTerms: ["ipv6", "anycast", "unicast", "broadcast"],
+  },
+  {
+    id: "anycast",
+    term: "Anycast",
+    definition:
+      "A network addressing method where the same IP address is assigned to multiple nodes, and traffic is routed to the nearest one.",
+    category: "network",
+    relatedTerms: ["ipv6", "multicast", "unicast", "routing"],
+  },
+  {
+    id: "unicast",
+    term: "Unicast",
+    definition:
+      "Traditional one-to-one communication where data is sent from a single sender to a single specific receiver.",
+    category: "network",
+    relatedTerms: ["multicast", "anycast", "ip"],
+  },
+  {
+    id: "tunnel",
+    term: "Tunnel",
+    definition:
+      "A method of encapsulating one protocol within another, commonly used in VPNs to securely transmit data across public networks.",
+    category: "network",
+    relatedTerms: ["vpn", "ipsec", "encapsulation"],
+  },
+  {
+    id: "extension-header",
+    term: "Extension Header",
+    definition:
+      "Optional IPv6 headers that provide additional functionality like routing, fragmentation, or security options without bloating the main header.",
+    category: "protocol",
+    relatedTerms: ["ipv6", "header", "optional"],
+  },
+  {
+    id: "hop-limit",
+    term: "Hop Limit",
+    definition:
+      "IPv6 equivalent of TTL (Time To Live) - limits the number of hops a packet can make to prevent infinite loops.",
+    category: "protocol",
+    relatedTerms: ["ipv6", "ttl", "routing"],
+  },
+  {
+    id: "flow-label",
+    term: "Flow Label",
+    definition:
+      "A 20-bit field in IPv6 headers used to identify and prioritize related packets belonging to the same communication flow.",
+    category: "protocol",
+    relatedTerms: ["ipv6", "qos", "traffic-class"],
+  },
+  {
+    id: "authentication",
+    term: "Authentication",
+    definition:
+      "The process of verifying the identity of a user, device, or system, ensuring that communication is with the intended party.",
+    category: "security",
+    relatedTerms: ["ipsec", "ah", "digital-signature"],
+  },
+  {
+    id: "integrity",
+    term: "Integrity",
+    definition:
+      "Assurance that data has not been altered, corrupted, or tampered with during transmission or storage.",
+    category: "security",
+    relatedTerms: ["authentication", "hash", "checksum"],
+  },
+  {
+    id: "confidentiality",
+    term: "Confidentiality",
+    definition:
+      "Protection of information from unauthorized access or disclosure, typically achieved through encryption.",
+    category: "security",
+    relatedTerms: ["encryption", "esp", "privacy"],
+  },
 ];
 
 // Create a lookup map for faster access

@@ -204,4 +204,34 @@ export const rfcs: RfcMetadata[] = [
     ],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc2068.html",
   },
+  {
+    number: 2401,
+    title: "Security Architecture for the Internet Protocol",
+    description:
+      "The foundational IPsec specification that established network-layer security architecture for VPNs and secure communications.",
+    era: "web-era",
+    year: 1998,
+    learningObjectives: [
+      "Understand IPsec's network-layer security approach",
+      "Learn about Authentication Header (AH) and Encapsulating Security Payload (ESP)",
+      "Explore Security Associations (SA) and key management",
+      "Master the foundation of modern VPN technologies",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc2401.html",
+  },
+  {
+    number: 2460,
+    title: "Internet Protocol, Version 6 (IPv6) Specification",
+    description:
+      "The next-generation internet protocol that addresses IPv4's limitations with vastly expanded address space and improved functionality.",
+    era: "web-era",
+    year: 1998,
+    learningObjectives: [
+      "Understand IPv6's 128-bit addressing and address space expansion",
+      "Learn about IPv6 header simplification and extension headers",
+      "Explore address autoconfiguration and neighbor discovery",
+      "Master the protocol designed for the internet's future",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc2460.html",
+  },
 ];

@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  ipv6-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    container_name: ipv6-server
+    hostname: ipv6-server
+    networks:
+      ipv6_network:
+        ipv6_address: 2001:db8::10
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./shared_ipv6_utils.py:/app/shared_ipv6_utils.py:ro
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: python server.py
+
+  ipv6-client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    container_name: ipv6-client
+    hostname: ipv6-client
+    networks:
+      ipv6_network:
+        ipv6_address: 2001:db8::20
+    volumes:
+      - ./shared_ipv6_utils.py:/app/shared_ipv6_utils.py:ro
+    environment:
+      - PYTHONUNBUFFERED=1
+      - SERVER_HOST=2001:db8::10
+    depends_on:
+      - ipv6-server
+    command: python client.py
+
+  ipv6-tools:
+    build:
+      context: .
+      dockerfile: Dockerfile.tools
+    container_name: ipv6-tools
+    hostname: ipv6-tools
+    networks:
+      ipv6_network:
+        ipv6_address: 2001:db8::30
+    volumes:
+      - ./shared_ipv6_utils.py:/app/shared_ipv6_utils.py:ro
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: python tools.py
+
+networks:
+  ipv6_network:
+    driver: bridge
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: 2001:db8::/64
+          gateway: 2001:db8::1
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1
