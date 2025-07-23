@@ -328,33 +328,67 @@ Each batch will follow the established pattern:
 - **Comprehensive Testing**: Playwright tests and build validation
 - **Individual PRs**: Each batch as separate pull request linking to GitHub issues
 
-### Phase 4: Modern Networking Era Implementation (Future)
+### Phase 4: Modern VPN & Cryptography Era Implementation (Future)
 
-Following Phase 3 completion, implement remaining modern protocols:
+**Focus**: Understanding the foundational RFCs that enable modern VPN technologies like WireGuard and Tailscale.
 
-##### Batch 4: Security Protocol Updates
-**GitHub Issues**: #17, #18
+Following Phase 3 completion, implement the cryptographic and networking protocols that underlie modern VPN solutions:
+
+##### Batch 4: Modern Cryptographic Foundations
+**GitHub Issues**: TBD
+**Theme**: Core cryptographic protocols powering WireGuard and modern secure communication
+
+- **RFC 7748 (2016)**: Elliptic Curves for Security (Curve25519/X25519)
+- **RFC 8439 (2018)**: ChaCha20 and Poly1305 for IETF Protocols
+
+**Educational Focus**: Modern cryptography that replaced older RSA/AES approaches, high-performance algorithms optimized for software implementation, authenticated encryption with associated data (AEAD).
+
+##### Batch 5: Advanced NAT Traversal 
+**GitHub Issues**: TBD
+**Theme**: Network protocols enabling peer-to-peer connectivity behind NATs (Tailscale's foundation)
+
+- **RFC 5389 (2008)**: Session Traversal Utilities for NAT (STUN) 
+- **RFC 8445 (2018)**: Interactive Connectivity Establishment (ICE) - NAT Traversal
+
+**Educational Focus**: Modern NAT traversal techniques, peer-to-peer networking, connectivity establishment algorithms.
+
+##### Batch 6: Modern Security Architecture
+**GitHub Issues**: TBD  
+**Theme**: Updated security protocols and relay mechanisms
 
 - **RFC 4301 (2005)**: IPsec Security Architecture Updated
-- **RFC 4303 (2005)**: ESP - Encapsulating Security Payload
+- **RFC 4303 (2005)**: ESP - Encapsulating Security Payload  
+- **RFC 8656 (2019)**: Traversal Using Relays around NAT (TURN)
 
-##### Batch 5: Service Provider Evolution
+**Educational Focus**: Evolution of IPsec, modern security architectures, relay protocols for difficult NAT scenarios.
+
+##### Batch 7: Network Behavior Standards
+**GitHub Issues**: TBD
+**Theme**: NAT behavior specifications that enable predictable networking
+
+- **RFC 4787 (2007)**: NAT Behavioral Requirements for Unicast UDP
+
+**Educational Focus**: Standardized NAT behaviors that make peer-to-peer protocols possible, UDP hole punching foundations.
+
+### Phase 5: Legacy Modern Protocols (Future)
+
+##### Batch 8: Service Provider Evolution  
 **GitHub Issues**: #19
 
 - **RFC 4364 (2006)**: BGP/MPLS IP VPNs Current Standard
 
-##### Batch 6: Modern Web Standards
+##### Batch 9: Modern Web Standards
 **GitHub Issues**: #20, #21
 
 - **RFC 7540 (2015)**: HTTP/2 (verify completion status)
 - **RFC 9110-9114 (2022)**: HTTP Semantics Internet Standard
 
-### Phase 5: Advanced Features (Future)
+### Phase 6: Advanced Features (Future)
 
 - [ ] Advanced interactive simulations
 - [ ] Progressive Web App (PWA) capabilities
 
-### Phase 6: Polish & Enhancement (Future)
+### Phase 7: Polish & Enhancement (Future)
 
 - [ ] Current Standards Era tutorials
 - [ ] Performance optimization
