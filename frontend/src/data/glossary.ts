@@ -542,6 +542,242 @@ export const glossaryTerms: GlossaryTerm[] = [
     category: "security",
     relatedTerms: ["encryption", "esp", "privacy"],
   },
+
+  // Service Provider and BGP/MPLS VPN Terms
+  {
+    id: "bgp-mpls-vpns",
+    term: "BGP/MPLS VPNs",
+    definition:
+      "A technology that uses BGP to distribute VPN routing information and MPLS to forward traffic, enabling service providers to offer scalable VPN services.",
+    category: "network",
+    relatedTerms: ["bgp", "mpls", "vpn", "vrf", "route-target"],
+  },
+  {
+    id: "bgp",
+    term: "BGP",
+    definition:
+      "Border Gateway Protocol - The routing protocol used to exchange routing information between different autonomous systems on the internet.",
+    category: "protocol",
+    relatedTerms: ["routing", "autonomous-system", "bgp-mpls-vpns"],
+  },
+  {
+    id: "mpls",
+    term: "MPLS",
+    definition:
+      "Multiprotocol Label Switching - A technique that uses labels to forward packets through a network, enabling traffic engineering and VPN services.",
+    category: "network",
+    relatedTerms: ["label-switching", "bgp-mpls-vpns", "traffic-engineering"],
+  },
+  {
+    id: "vrf",
+    term: "VRF",
+    definition:
+      "Virtual Routing and Forwarding - A technology that allows multiple routing tables to coexist on the same router, enabling customer traffic isolation.",
+    category: "network",
+    relatedTerms: ["bgp-mpls-vpns", "route-target", "pe-router"],
+  },
+  {
+    id: "route-target",
+    term: "Route Target",
+    definition:
+      "BGP extended communities that control which VPN routes are imported and exported between different customer sites in BGP/MPLS VPNs.",
+    category: "network",
+    relatedTerms: ["bgp-mpls-vpns", "vrf", "route-distinguisher"],
+  },
+  {
+    id: "route-distinguisher",
+    term: "Route Distinguisher",
+    definition:
+      "A unique identifier prepended to customer routes in BGP/MPLS VPNs to make them globally unique across all customers.",
+    category: "network",
+    relatedTerms: ["bgp-mpls-vpns", "route-target", "vrf"],
+  },
+  {
+    id: "pe-router",
+    term: "PE Router",
+    definition:
+      "Provider Edge Router - A service provider router that maintains customer VRFs and handles VPN traffic separation and forwarding.",
+    category: "network",
+    relatedTerms: ["bgp-mpls-vpns", "vrf", "ce-router", "p-router"],
+  },
+  {
+    id: "ce-router",
+    term: "CE Router",
+    definition:
+      "Customer Edge Router - A customer-owned router that connects to the service provider network, typically unaware of VPN operations.",
+    category: "network",
+    relatedTerms: ["pe-router", "bgp-mpls-vpns", "customer-site"],
+  },
+  {
+    id: "p-router",
+    term: "P Router",
+    definition:
+      "Provider Core Router - An MPLS router in the service provider core that forwards traffic based on labels without VPN awareness.",
+    category: "network",
+    relatedTerms: ["mpls", "pe-router", "label-switching"],
+  },
+  {
+    id: "label-switching",
+    term: "Label Switching",
+    definition:
+      "A forwarding mechanism where packets are forwarded based on labels rather than IP addresses, enabling faster processing and traffic engineering.",
+    category: "network",
+    relatedTerms: ["mpls", "label", "p-router"],
+  },
+  {
+    id: "traffic-engineering",
+    term: "Traffic Engineering",
+    definition:
+      "The process of controlling how traffic flows through a network to optimize performance, utilization, and avoid congestion.",
+    category: "network",
+    relatedTerms: ["mpls", "qos", "bandwidth"],
+  },
+
+  // ATM Terms
+  {
+    id: "atm",
+    term: "ATM",
+    definition:
+      "Asynchronous Transfer Mode - A cell-switching technology that uses fixed 53-byte cells to provide guaranteed quality of service for voice, video, and data.",
+    category: "network",
+    relatedTerms: ["cell", "vcc", "aal5", "qos"],
+  },
+  {
+    id: "cell",
+    term: "Cell",
+    definition:
+      "A fixed-size 53-byte data unit used in ATM networks, consisting of a 5-byte header and 48-byte payload, enabling predictable switching performance.",
+    category: "network",
+    relatedTerms: ["atm", "header", "payload"],
+  },
+  {
+    id: "vcc",
+    term: "VCC",
+    definition:
+      "Virtual Channel Connection - A connection-oriented path through an ATM network identified by VPI/VCI values, providing dedicated bandwidth and QoS.",
+    category: "network",
+    relatedTerms: ["atm", "vpi-vci", "virtual-circuit", "qos"],
+  },
+  {
+    id: "vpi-vci",
+    term: "VPI/VCI",
+    definition:
+      "Virtual Path Identifier/Virtual Channel Identifier - Address fields in ATM cell headers that identify the virtual circuit path.",
+    category: "network",
+    relatedTerms: ["atm", "vcc", "virtual-circuit"],
+  },
+  {
+    id: "aal5",
+    term: "AAL5",
+    definition:
+      "ATM Adaptation Layer 5 - The most common AAL for data services, segmenting variable-length packets into 48-byte ATM cell payloads.",
+    category: "protocol",
+    relatedTerms: ["atm", "segmentation", "reassembly"],
+  },
+  {
+    id: "llc-snap",
+    term: "LLC/SNAP",
+    definition:
+      "Logical Link Control/SubNetwork Access Protocol - An 8-byte header used in RFC 2684 to identify protocols when multiple protocols share an ATM VCC.",
+    category: "protocol",
+    relatedTerms: ["atm", "rfc2684", "encapsulation", "multiprotocol"],
+  },
+  {
+    id: "vc-multiplexing",
+    term: "VC Multiplexing",
+    definition:
+      "A method in RFC 2684 where an entire ATM virtual circuit is dedicated to a single protocol, eliminating the need for protocol identification headers.",
+    category: "protocol",
+    relatedTerms: ["atm", "rfc2684", "llc-snap", "efficiency"],
+  },
+  {
+    id: "rfc2684",
+    term: "RFC 2684",
+    definition:
+      "Multiprotocol Encapsulation over ATM - The specification that enables IP and other protocols to run efficiently over ATM networks.",
+    category: "protocol",
+    relatedTerms: ["atm", "multiprotocol", "encapsulation", "llc-snap"],
+  },
+  {
+    id: "qos",
+    term: "QoS",
+    definition:
+      "Quality of Service - Network mechanisms that provide different priority levels and performance guarantees for different types of traffic.",
+    category: "network",
+    relatedTerms: ["atm", "traffic-engineering", "bandwidth", "priority"],
+  },
+  {
+    id: "virtual-circuit",
+    term: "Virtual Circuit",
+    definition:
+      "A connection-oriented communication path that appears as a dedicated circuit but shares physical network resources with other connections.",
+    category: "network",
+    relatedTerms: ["atm", "vcc", "connection-oriented"],
+  },
+  {
+    id: "segmentation",
+    term: "Segmentation",
+    definition:
+      "The process of breaking large data units into smaller pieces that fit within the maximum transmission unit of the underlying network.",
+    category: "protocol",
+    relatedTerms: ["aal5", "atm", "reassembly", "mtu"],
+  },
+  {
+    id: "reassembly",
+    term: "Reassembly",
+    definition:
+      "The process of reconstructing original data from smaller segments that were transmitted separately across a network.",
+    category: "protocol",
+    relatedTerms: ["segmentation", "aal5", "atm"],
+  },
+  {
+    id: "multiprotocol",
+    term: "Multiprotocol",
+    definition:
+      "The ability to carry multiple different protocols (IP, IPX, AppleTalk, etc.) over the same network infrastructure.",
+    category: "protocol",
+    relatedTerms: ["rfc2684", "llc-snap", "encapsulation"],
+  },
+  {
+    id: "encapsulation",
+    term: "Encapsulation",
+    definition:
+      "The process of wrapping data from one protocol inside the data format of another protocol, enabling protocol interoperability.",
+    category: "protocol",
+    relatedTerms: ["rfc2684", "llc-snap", "multiprotocol", "tunnel"],
+  },
+  {
+    id: "connection-oriented",
+    term: "Connection-Oriented",
+    definition:
+      "A communication method that establishes a dedicated path between endpoints before data transmission, providing reliability and ordered delivery.",
+    category: "network",
+    relatedTerms: ["virtual-circuit", "atm", "tcp"],
+  },
+  {
+    id: "bandwidth",
+    term: "Bandwidth",
+    definition:
+      "The maximum rate of data transfer across a network connection, typically measured in bits per second (bps).",
+    category: "network",
+    relatedTerms: ["qos", "traffic-engineering", "capacity"],
+  },
+  {
+    id: "autonomous-system",
+    term: "Autonomous System",
+    definition:
+      "A collection of IP networks and routers under the control of a single administrative entity that presents a common routing policy to the internet.",
+    category: "network",
+    relatedTerms: ["bgp", "routing", "service-provider"],
+  },
+  {
+    id: "service-provider",
+    term: "Service Provider",
+    definition:
+      "An organization that provides networking services to customers, such as internet access, VPN services, or voice communications.",
+    category: "general",
+    relatedTerms: ["bgp-mpls-vpns", "autonomous-system", "pe-router"],
+  },
 ];
 
 // Create a lookup map for faster access

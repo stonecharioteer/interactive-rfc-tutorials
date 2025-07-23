@@ -1,0 +1,209 @@
+version: '3.8'
+
+services:
+  # ATM Switch Core
+  atm-switch:
+    build:
+      context: .
+      dockerfile: Dockerfile.atm-switch
+    container_name: atm-switch-core
+    hostname: ATM-Switch
+    networks:
+      atm-network:
+        ipv4_address: 10.1.0.1
+    environment:
+      - SWITCH_ID=1
+      - SWITCH_NAME=ATM-Core
+    volumes:
+      - ./scripts:/scripts
+      - ./configs:/configs
+    cap_add:
+      - NET_ADMIN
+    privileged: true
+    command: /scripts/start-atm-switch.sh
+
+  # IP Router with ATM Interface
+  ip-router:
+    build:
+      context: .
+      dockerfile: Dockerfile.ip-router
+    container_name: atm-ip-router
+    hostname: IP-Router
+    networks:
+      atm-network:
+        ipv4_address: 10.1.0.10
+      ip-network:
+        ipv4_address: 192.168.10.1
+    environment:
+      - ROUTER_ID=10.1.0.10
+      - ATM_VPI=1
+      - ATM_VCI=100
+    volumes:
+      - ./scripts:/scripts
+    cap_add:
+      - NET_ADMIN
+    privileged: true
+    command: /scripts/start-ip-router.sh
+
+  # Ethernet Bridge over ATM
+  ethernet-bridge:
+    build:
+      context: .
+      dockerfile: Dockerfile.ethernet-bridge
+    container_name: atm-ethernet-bridge
+    hostname: Ethernet-Bridge
+    networks:
+      atm-network:
+        ipv4_address: 10.1.0.20
+      ethernet-lan1:
+        ipv4_address: 192.168.20.1
+      ethernet-lan2:
+        ipv4_address: 192.168.21.1
+    environment:
+      - BRIDGE_ID=20
+      - ATM_VPI=2
+      - ATM_VCI=200
+    volumes:
+      - ./scripts:/scripts
+    cap_add:
+      - NET_ADMIN
+    privileged: true
+    command: /scripts/start-ethernet-bridge.sh
+
+  # ATM Client 1
+  atm-client1:
+    build:
+      context: .
+      dockerfile: Dockerfile.atm-client
+    container_name: atm-client1
+    hostname: ATM-Client1
+    networks:
+      atm-network:
+        ipv4_address: 10.1.0.101
+    environment:
+      - CLIENT_ID=101
+      - ATM_VPI=1
+      - ATM_VCI=101
+      - CLIENT_TYPE=ip
+    volumes:
+      - ./scripts:/scripts
+    command: /scripts/start-atm-client.sh
+
+  # ATM Client 2  
+  atm-client2:
+    build:
+      context: .
+      dockerfile: Dockerfile.atm-client
+    container_name: atm-client2
+    hostname: ATM-Client2
+    networks:
+      atm-network:
+        ipv4_address: 10.1.0.102
+    environment:
+      - CLIENT_ID=102
+      - ATM_VPI=1
+      - ATM_VCI=102
+      - CLIENT_TYPE=ip
+    volumes:
+      - ./scripts:/scripts
+    command: /scripts/start-atm-client.sh
+
+  # Ethernet Host 1
+  ethernet-host1:
+    build:
+      context: .
+      dockerfile: Dockerfile.ethernet-host
+    container_name: ethernet-host1
+    hostname: Ethernet-Host1
+    networks:
+      ethernet-lan1:
+        ipv4_address: 192.168.20.10
+    environment:
+      - HOST_ID=1
+      - GATEWAY=192.168.20.1
+    volumes:
+      - ./scripts:/scripts
+    command: /scripts/start-ethernet-host.sh
+
+  # Ethernet Host 2
+  ethernet-host2:
+    build:
+      context: .
+      dockerfile: Dockerfile.ethernet-host
+    container_name: ethernet-host2
+    hostname: Ethernet-Host2
+    networks:
+      ethernet-lan2:
+        ipv4_address: 192.168.21.10
+    environment:
+      - HOST_ID=2
+      - GATEWAY=192.168.21.1
+    volumes:
+      - ./scripts:/scripts
+    command: /scripts/start-ethernet-host.sh
+
+  # IP Host
+  ip-host:
+    build:
+      context: .
+      dockerfile: Dockerfile.ip-host
+    container_name: ip-host
+    hostname: IP-Host
+    networks:
+      ip-network:
+        ipv4_address: 192.168.10.10
+    environment:
+      - HOST_ID=10
+      - GATEWAY=192.168.10.1
+    volumes:
+      - ./scripts:/scripts
+    command: /scripts/start-ip-host.sh
+
+  # ATM Monitor and Demo
+  atm-monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile.atm-monitor
+    container_name: atm-monitor
+    hostname: ATM-Monitor
+    networks:
+      atm-network:
+        ipv4_address: 10.1.0.200
+    environment:
+      - MONITOR_ROLE=atm-demo
+    volumes:
+      - ./scripts:/scripts
+      - ./demos:/demos
+    depends_on:
+      - atm-switch
+      - ip-router
+      - ethernet-bridge
+    command: /scripts/start-atm-monitor.sh
+
+networks:
+  # ATM Core Network (simulated)
+  atm-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.1.0.0/24
+
+  # IP Network behind router
+  ip-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.10.0/24
+
+  # Ethernet LANs bridged over ATM
+  ethernet-lan1:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.20.0/24
+
+  ethernet-lan2:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.21.0/24

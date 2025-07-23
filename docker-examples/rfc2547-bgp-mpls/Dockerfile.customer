@@ -1,0 +1,32 @@
+# Customer Edge device simulation
+FROM ubuntu:22.04
+
+RUN apt-get update && apt-get install -y \
+    iproute2 \
+    iputils-ping \
+    traceroute \
+    tcpdump \
+    net-tools \
+    iperf3 \
+    python3 \
+    python3-pip \
+    curl \
+    telnet \
+    apache2 \
+    nginx \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python libraries for networking tests
+RUN pip3 install requests flask scapy
+
+# Create directories
+RUN mkdir -p /scripts /var/www/html
+
+# Simple web content for connectivity testing
+RUN echo '<h1>Customer Site</h1><p>Hostname: $HOSTNAME</p><p>Customer: $CUSTOMER_NAME</p><p>Site: $SITE_NAME</p>' > /var/www/html/index.html
+
+WORKDIR /scripts
+
+EXPOSE 80 8080
+
+CMD ["/scripts/start-customer.sh"]

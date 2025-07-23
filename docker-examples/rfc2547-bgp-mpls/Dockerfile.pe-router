@@ -1,0 +1,49 @@
+# Provider Edge Router with BGP/MPLS VPN capabilities
+FROM ubuntu:22.04
+
+# Install networking tools and BGP daemon
+RUN apt-get update && apt-get install -y \
+    iproute2 \
+    iputils-ping \
+    traceroute \
+    tcpdump \
+    net-tools \
+    iperf3 \
+    python3 \
+    python3-pip \
+    quagga \
+    frr \
+    vim \
+    curl \
+    telnet \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python networking libraries
+RUN pip3 install scapy netaddr
+
+# Create directories for configurations
+RUN mkdir -p /etc/bgp-mpls /var/log/bgp-mpls /scripts
+
+# Copy FRR configuration templates
+COPY configs/frr-daemons /etc/frr/daemons
+COPY configs/frr.conf.template /etc/frr/frr.conf.template
+
+# Enable IP forwarding
+RUN echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
+RUN echo 'net.ipv6.conf.all.forwarding=1' >> /etc/sysctl.conf
+
+# Set up MPLS
+RUN echo 'net.mpls.conf.lo.input=1' >> /etc/sysctl.conf
+RUN echo 'net.mpls.conf.eth0.input=1' >> /etc/sysctl.conf
+RUN echo 'net.mpls.conf.eth1.input=1' >> /etc/sysctl.conf
+RUN echo 'net.mpls.conf.eth2.input=1' >> /etc/sysctl.conf
+RUN echo 'net.mpls.platform_labels=100000' >> /etc/sysctl.conf
+
+# Create bgp-mpls user
+RUN useradd -r -s /bin/false bgp-mpls
+
+WORKDIR /scripts
+
+EXPOSE 179 2605
+
+CMD ["/scripts/start-pe-router.sh"]

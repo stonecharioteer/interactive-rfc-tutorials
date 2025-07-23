@@ -234,4 +234,34 @@ export const rfcs: RfcMetadata[] = [
     ],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc2460.html",
   },
+  {
+    number: 2547,
+    title: "BGP/MPLS VPNs",
+    description:
+      "The historical specification for BGP/MPLS Virtual Private Networks that established the foundation for modern service provider VPN technologies.",
+    era: "web-era",
+    year: 1999,
+    learningObjectives: [
+      "Understand BGP/MPLS VPN architecture and components",
+      "Learn about Route Distinguishers and Route Targets",
+      "Explore Provider Edge (PE) and Customer Edge (CE) roles",
+      "Master the foundation of modern enterprise connectivity",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc2547.html",
+  },
+  {
+    number: 2684,
+    title: "Multiprotocol Encapsulation over ATM",
+    description:
+      "The specification that enabled IP and other protocols to run over ATM networks, bridging telecommunications infrastructure with data networking.",
+    era: "web-era",
+    year: 1999,
+    learningObjectives: [
+      "Understand ATM cell structure and virtual circuits",
+      "Learn LLC/SNAP vs VC-based multiplexing methods",
+      "Explore AAL5 adaptation layer for data services",
+      "Master protocol encapsulation over ATM infrastructure",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc2684.html",
+  },
 ];
