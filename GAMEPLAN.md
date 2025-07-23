@@ -8,6 +8,37 @@ An interactive, mobile-friendly web application for learning important RFCs that
 
 Create an engaging, educational platform that makes complex networking concepts accessible through interactive content, visual learning aids, and progressive disclosure. The goal is to bridge the gap between academic RFC documents and practical understanding of how the internet works.
 
+## Code Examples Architecture (July 2025)
+
+**Code Snippet Extraction Initiative**: All Python code examples have been extracted from inline JSX into separate TypeScript files for better maintainability, readability, and copy-paste functionality. This eliminates HTML entity issues (`&gt;`, `&lt;`, `&lbrace;`, `&rbrace;`) and ensures clean, executable code examples.
+
+### Extracted Code Examples
+
+- **RFC5389**: STUN protocol (4 code files) ✅
+- **RFC8445**: ICE protocol (4 code files) ✅
+- **RFC1**: Host Software (2 code files) ✅
+- **RFC675**: Network layers (2 code files) ✅
+- **RFC791**: IPv4 addressing (4 code files) ✅
+- **RFC793**: TCP implementation (3 code files) ✅
+- **RFC821**: SMTP protocol (2 code files) ✅
+- **Additional RFCs**: Remaining files for other protocols
+
+### Code Block Formatting Fixes (July 23, 2025)
+
+**Fixed Code Rendering Issues**: Replaced markdown-style code blocks (```python) with proper CodeBlock component usage in RFC5389 and RFC8445 to resolve HTML entity display issues and ensure proper syntax highlighting.
+
+- **RFC5389**: Fixed 4 code block rendering issues ✅
+- **RFC8445**: Fixed 4 code block rendering issues ✅
+- **Issue Resolution**: Code now renders properly in formatted blocks instead of inline escaped text
+
+### Benefits
+
+- **Clean Code**: No HTML entity escaping issues
+- **Copy-Pasteable**: Users can directly copy and run examples
+- **Maintainable**: Code stored in separate `.ts` files
+- **Consistent**: All examples use `getCodeExample()` pattern
+- **Proper Formatting**: Code blocks render with syntax highlighting and proper structure
+
 ## Target Audience
 
 - **Computer Science Students**: Learning networking fundamentals
@@ -280,6 +311,7 @@ Create an engaging, educational platform that makes complex networking concepts 
 Following the successful era-based batching pattern from Phase 2, the Web Era RFCs will be implemented in themed batches:
 
 ##### Batch 1: HTTP Evolution Foundation ✅ (Complete)
+
 **Branch**: `feat/web-era-http-foundation` (Merged)
 **GitHub Issues**: #10, #11, #15
 
@@ -291,6 +323,7 @@ Following the successful era-based batching pattern from Phase 2, the Web Era RF
 **Educational Focus**: Request/response paradigm evolution, persistent connections, performance improvements
 
 ##### Batch 2: Network Security Suite ✅ (Complete)
+
 **Branch**: `feat/web-era-security` (Merged)
 **GitHub Issues**: #12, #13
 
@@ -301,6 +334,7 @@ Following the successful era-based batching pattern from Phase 2, the Web Era RF
 **Educational Focus**: Network security principles, next-generation internet protocol, VPN technologies
 
 ##### Batch 3: Service Provider Technologies ✅ (Complete)
+
 **Branch**: `feat/web-era-service-provider` (Ready for PR)
 **GitHub Issues**: #14, #16
 
@@ -311,6 +345,7 @@ Following the successful era-based batching pattern from Phase 2, the Web Era RF
 **Educational Focus**: VPN concepts, broadband access methods, network convergence
 
 **Implementation Summary**: Completed comprehensive service provider technology tutorials with:
+
 - BGP/MPLS VPN architecture with Docker demonstration showing PE/P/CE router roles
 - ATM multiprotocol encapsulation with LLC/SNAP vs VC-multiplexing comparisons
 - Added 25+ service provider networking terms to glossary
@@ -335,6 +370,7 @@ Each batch will follow the established pattern:
 Following Phase 3 completion, implement the cryptographic and networking protocols that underlie modern VPN solutions:
 
 ##### Batch 4: Modern Cryptographic Foundations ✅ (Complete)
+
 **Branch**: `feat/modern-crypto-foundations` (Merged)
 **GitHub Issues**: TBD
 **Theme**: Core cryptographic protocols powering WireGuard and modern secure communication
@@ -345,32 +381,36 @@ Following Phase 3 completion, implement the cryptographic and networking protoco
 **Educational Focus**: Modern cryptography that replaced older RSA/AES approaches, high-performance algorithms optimized for software implementation, authenticated encryption with associated data (AEAD).
 
 **Implementation Summary**: Completed comprehensive WireGuard cryptographic foundation tutorials with:
+
 - Curve25519 elliptic curve cryptography with educational X25519 key exchange implementation
 - ChaCha20-Poly1305 AEAD algorithm with mobile optimization benefits
 - Docker-based cryptographic protocol demonstrations showing complete WireGuard-like implementation
 - Added 27 modern cryptography terms to glossary covering VPN and secure communication concepts
 - Performance analysis showing software-optimized cryptography advantages over hardware-dependent alternatives
 
-##### Batch 5: Advanced NAT Traversal 
+##### Batch 5: Advanced NAT Traversal
+
 **GitHub Issues**: TBD
 **Theme**: Network protocols enabling peer-to-peer connectivity behind NATs (Tailscale's foundation)
 
-- **RFC 5389 (2008)**: Session Traversal Utilities for NAT (STUN) 
+- **RFC 5389 (2008)**: Session Traversal Utilities for NAT (STUN)
 - **RFC 8445 (2018)**: Interactive Connectivity Establishment (ICE) - NAT Traversal
 
 **Educational Focus**: Modern NAT traversal techniques, peer-to-peer networking, connectivity establishment algorithms.
 
 ##### Batch 6: Modern Security Architecture
+
 **GitHub Issues**: TBD  
 **Theme**: Updated security protocols and relay mechanisms
 
 - **RFC 4301 (2005)**: IPsec Security Architecture Updated
-- **RFC 4303 (2005)**: ESP - Encapsulating Security Payload  
+- **RFC 4303 (2005)**: ESP - Encapsulating Security Payload
 - **RFC 8656 (2019)**: Traversal Using Relays around NAT (TURN)
 
 **Educational Focus**: Evolution of IPsec, modern security architectures, relay protocols for difficult NAT scenarios.
 
 ##### Batch 7: Network Behavior Standards
+
 **GitHub Issues**: TBD
 **Theme**: NAT behavior specifications that enable predictable networking
 
@@ -380,12 +420,14 @@ Following Phase 3 completion, implement the cryptographic and networking protoco
 
 ### Phase 5: Legacy Modern Protocols (Future)
 
-##### Batch 8: Service Provider Evolution  
+##### Batch 8: Service Provider Evolution
+
 **GitHub Issues**: #19
 
 - **RFC 4364 (2006)**: BGP/MPLS IP VPNs Current Standard
 
 ##### Batch 9: Modern Web Standards
+
 **GitHub Issues**: #20, #21
 
 - **RFC 7540 (2015)**: HTTP/2 (verify completion status)
@@ -395,7 +437,8 @@ Following Phase 3 completion, implement the cryptographic and networking protoco
 
 **Motivation**: Many modern RFCs (IPsec, TLS, STUN authentication, WireGuard, etc.) rely heavily on cryptographic concepts that require foundational understanding.
 
-#### Educational Tutorial Sections:
+#### Educational Tutorial Sections
+
 - [ ] **Symmetric Cryptography**: AES, ChaCha20, key derivation, block vs stream ciphers
 - [ ] **Asymmetric Cryptography**: RSA, Elliptic Curves (P-256, Curve25519), key exchange
 - [ ] **Hash Functions**: SHA-256, SHA-3, HMAC, password hashing (scrypt, Argon2)
@@ -405,7 +448,8 @@ Following Phase 3 completion, implement the cryptographic and networking protoco
 - [ ] **Python Cryptography**: Using the `cryptography` library safely, common pitfalls
 - [ ] **Protocol Security**: Timing attacks, side channels, proper implementation practices
 
-#### Relevant Cryptographic RFCs for Future Implementation:
+#### Relevant Cryptographic RFCs for Future Implementation
+
 - **RFC 2104 (1997)**: HMAC - Keyed-Hashing for Message Authentication
 - **RFC 3174 (2001)**: US Secure Hash Algorithm 1 (SHA1) - Historical context
 - **RFC 6234 (2011)**: US Secure Hash Algorithms (SHA and SHA-based HMAC and HKDF)
