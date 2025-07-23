@@ -1,0 +1,225 @@
+version: '3.8'
+
+services:
+  # STUN Server for NAT discovery
+  stun-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.nat-demo
+    container_name: stun-server
+    ports:
+      - "3478:3478/udp"
+    command: python3 /scripts/stun-server.py
+    networks:
+      nat-demo-network:
+        ipv4_address: 172.20.0.10
+    environment:
+      - ROLE=stun-server
+      - PORT=3478
+    volumes:
+      - ./scripts:/scripts
+      - ./logs:/logs
+
+  # TURN Relay Server for fallback connections
+  turn-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.nat-demo
+    container_name: turn-server
+    ports:
+      - "3479:3479/udp"
+    command: python3 /scripts/turn-server.py
+    networks:
+      nat-demo-network:
+        ipv4_address: 172.20.0.11
+    environment:
+      - ROLE=turn-server
+      - PORT=3479
+    volumes:
+      - ./scripts:/scripts
+      - ./logs:/logs
+
+  # Simulated NAT/Firewall for Alice's network
+  alice-nat:
+    build:
+      context: .
+      dockerfile: Dockerfile.nat-demo
+    container_name: alice-nat
+    cap_add:
+      - NET_ADMIN
+    command: python3 /scripts/nat-simulator.py alice
+    networks:
+      nat-demo-network:
+        ipv4_address: 172.20.0.20
+      alice-network:
+        ipv4_address: 192.168.1.1
+    environment:
+      - ROLE=nat-gateway
+      - NAT_TYPE=full-cone
+      - INTERNAL_NETWORK=192.168.1.0/24
+    volumes:
+      - ./scripts:/scripts
+      - ./logs:/logs
+
+  # Alice's device behind NAT
+  alice:
+    build:
+      context: .
+      dockerfile: Dockerfile.nat-demo
+    container_name: alice-device
+    command: python3 /scripts/ice-peer.py alice
+    networks:
+      alice-network:
+        ipv4_address: 192.168.1.100
+    environment:
+      - ROLE=ice-peer
+      - PEER_NAME=alice
+      - STUN_SERVER=172.20.0.10:3478
+      - TURN_SERVER=172.20.0.11:3479
+      - SIGNALING_SERVER=172.20.0.30:8080
+    volumes:
+      - ./scripts:/scripts
+      - ./logs:/logs
+    depends_on:
+      - stun-server
+      - turn-server
+      - alice-nat
+      - signaling-server
+
+  # Simulated NAT/Firewall for Bob's network  
+  bob-nat:
+    build:
+      context: .
+      dockerfile: Dockerfile.nat-demo
+    container_name: bob-nat
+    cap_add:
+      - NET_ADMIN
+    command: python3 /scripts/nat-simulator.py bob
+    networks:
+      nat-demo-network:
+        ipv4_address: 172.20.0.21
+      bob-network:
+        ipv4_address: 10.0.0.1
+    environment:
+      - ROLE=nat-gateway
+      - NAT_TYPE=restricted-cone
+      - INTERNAL_NETWORK=10.0.0.0/24
+    volumes:
+      - ./scripts:/scripts
+      - ./logs:/logs
+
+  # Bob's device behind NAT
+  bob:
+    build:
+      context: .
+      dockerfile: Dockerfile.nat-demo
+    container_name: bob-device
+    command: python3 /scripts/ice-peer.py bob
+    networks:
+      bob-network:
+        ipv4_address: 10.0.0.200
+    environment:
+      - ROLE=ice-peer
+      - PEER_NAME=bob
+      - STUN_SERVER=172.20.0.10:3478
+      - TURN_SERVER=172.20.0.11:3479
+      - SIGNALING_SERVER=172.20.0.30:8080
+    volumes:
+      - ./scripts:/scripts
+      - ./logs:/logs
+    depends_on:
+      - stun-server
+      - turn-server
+      - bob-nat
+      - signaling-server
+
+  # Signaling server for ICE candidate exchange
+  signaling-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.nat-demo
+    container_name: signaling-server
+    ports:
+      - "8080:8080"
+    command: python3 /scripts/signaling-server.py
+    networks:
+      nat-demo-network:
+        ipv4_address: 172.20.0.30
+    environment:
+      - ROLE=signaling-server
+      - PORT=8080
+    volumes:
+      - ./scripts:/scripts
+      - ./logs:/logs
+
+  # Network monitoring and visualization
+  nat-monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile.nat-demo
+    container_name: nat-monitor
+    ports:
+      - "3000:3000"
+    command: python3 /scripts/nat-monitor.py
+    networks:
+      nat-demo-network:
+        ipv4_address: 172.20.0.40
+    environment:
+      - ROLE=monitor
+      - PORT=3000
+    volumes:
+      - ./scripts:/scripts
+      - ./logs:/logs
+      - ./web:/web
+    depends_on:
+      - stun-server
+      - turn-server
+      - signaling-server
+
+  # ICE connectivity testing tool
+  ice-tester:
+    build:
+      context: .
+      dockerfile: Dockerfile.nat-demo
+    container_name: ice-tester
+    command: python3 /scripts/ice-connectivity-tester.py
+    networks:
+      nat-demo-network:
+        ipv4_address: 172.20.0.50
+    environment:
+      - ROLE=ice-tester
+    volumes:
+      - ./scripts:/scripts
+      - ./logs:/logs
+    depends_on:
+      - alice
+      - bob
+      - signaling-server
+    profiles:
+      - testing
+
+networks:
+  # Main internet-like network
+  nat-demo-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          
+  # Alice's private network behind NAT
+  alice-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.1.0/24
+          
+  # Bob's private network behind NAT
+  bob-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.0.0/24
+
+volumes:
+  logs:
+  web:
