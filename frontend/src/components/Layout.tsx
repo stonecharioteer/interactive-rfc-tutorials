@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Home, BookOpen, Clock } from "lucide-react";
+import { Home, BookOpen, Clock, Github } from "lucide-react";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -28,6 +28,16 @@ export default function Layout({ children }: LayoutProps) {
                 <Home className="h-4 w-4" />
                 <span>Home</span>
               </Link>
+              <a
+                href="https://github.com/stonecharioteer/interactive-rfc-tutorials"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
+                title="View source code and examples on GitHub"
+              >
+                <Github className="h-4 w-4" />
+                <span>Code Examples</span>
+              </a>
               <div className="flex items-center space-x-2 text-gray-600">
                 <Clock className="h-4 w-4" />
                 <span className="text-sm">Progress: {getProgress()}%</span>
@@ -80,9 +90,21 @@ export default function Layout({ children }: LayoutProps) {
               </a>
               . Learn the standards that built the internet.
             </p>
-            <p className="mt-2 text-sm">
-              Progress is saved locally in your browser. No account required.
-            </p>
+            <div className="mt-3 flex justify-center items-center space-x-6 text-sm">
+              <span>
+                Progress is saved locally in your browser. No account required.
+              </span>
+              <span>•</span>
+              <a
+                href="https://github.com/stonecharioteer/interactive-rfc-tutorials"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-1 text-gray-500 hover:text-rfc-blue"
+              >
+                <Github className="h-4 w-4" />
+                <span>Source Code & Examples</span>
+              </a>
+            </div>
           </div>
         </div>
       </footer>

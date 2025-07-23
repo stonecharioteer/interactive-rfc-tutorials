@@ -220,8 +220,66 @@ scan_network("192.168.1.0/24")`}
 
       <p>
         IPv4 can fragment packets when they're too large for a network link.
-        This process:
+        This process enables large packets to traverse networks with smaller MTUs:
       </p>
+
+      <MermaidDiagram
+        chart={`
+graph TD
+    subgraph "Source Network (MTU 1500)"
+        A[Large Packet<br/>2000 bytes<br/>ID=12345]
+    end
+    
+    subgraph "Router with Small MTU (576)"
+        B[Fragment 1<br/>576 bytes<br/>ID=12345, Offset=0<br/>MF=1]
+        C[Fragment 2<br/>576 bytes<br/>ID=12345, Offset=576<br/>MF=1]
+        D[Fragment 3<br/>576 bytes<br/>ID=12345, Offset=1152<br/>MF=1]
+        E[Fragment 4<br/>272 bytes<br/>ID=12345, Offset=1728<br/>MF=0]
+    end
+    
+    subgraph "Destination Network"
+        F[Reassembled Packet<br/>2000 bytes<br/>ID=12345]
+    end
+    
+    A --> B
+    A --> C
+    A --> D
+    A --> E
+    
+    B --> F
+    C --> F
+    D --> F
+    E --> F
+    
+    style A fill:#e1f5fe
+    style F fill:#e8f5e8
+    style B fill:#fff3cd
+    style C fill:#fff3cd
+    style D fill:#fff3cd
+    style E fill:#fff3cd
+        `}
+        className="my-6"
+      />
+
+      <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg my-6">
+        <h4 className="font-semibold text-yellow-800 mb-3">Fragmentation Fields</h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div>
+            <div className="space-y-2">
+              <div><strong className="text-blue-600">Identification:</strong> Same for all fragments of a packet</div>
+              <div><strong className="text-green-600">Fragment Offset:</strong> Position of fragment in original packet</div>
+              <div><strong className="text-purple-600">More Fragments (MF):</strong> 1 = more fragments, 0 = last fragment</div>
+            </div>
+          </div>
+          <div>
+            <div className="space-y-2">
+              <div><strong className="text-orange-600">Don't Fragment (DF):</strong> 1 = don't fragment, drop if needed</div>
+              <div><strong className="text-red-600">Total Length:</strong> Length of this fragment (not original)</div>
+              <div><strong className="text-pink-600">Header Checksum:</strong> Recalculated for each fragment</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <ul>
         <li>Splits large packets into smaller fragments</li>

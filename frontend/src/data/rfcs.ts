@@ -114,4 +114,64 @@ export const rfcs: RfcMetadata[] = [
     ],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc821.html",
   },
+  {
+    number: 959,
+    title: "File Transfer Protocol (FTP)",
+    description:
+      "The classic file transfer protocol that established client-server file sharing models.",
+    era: "protocol-expansion",
+    year: 1985,
+    learningObjectives: [
+      "Understand FTP's client-server architecture",
+      "Learn about active and passive connection modes",
+      "Explore file transfer and directory operations",
+      "Connect to modern file sharing concepts",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc959.html",
+  },
+  {
+    number: 1034,
+    title: "Domain Names - Concepts and Facilities",
+    description:
+      "The foundational DNS specification that created the hierarchical naming system powering the modern internet.",
+    era: "protocol-expansion",
+    year: 1987,
+    learningObjectives: [
+      "Understand the hierarchical domain name space",
+      "Learn about distributed DNS authority and delegation",
+      "Explore DNS caching and performance optimization",
+      "Master the concepts behind internet naming",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc1034.html",
+  },
+  {
+    number: 1035,
+    title: "Domain Names - Implementation and Specification",
+    description:
+      "The technical implementation blueprint for DNS, defining message formats, resource records, and practical server guidelines.",
+    era: "protocol-expansion",
+    year: 1987,
+    learningObjectives: [
+      "Master DNS message format and binary protocols",
+      "Understand resource record types and encoding",
+      "Learn message compression techniques",
+      "Explore practical DNS server implementation",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc1035.html",
+  },
+  {
+    number: 1390,
+    title: "Transmission of IP and ARP over FDDI Networks",
+    description:
+      "Specification for running IP and ARP over FDDI networks, demonstrating internet protocol adaptability to new technologies.",
+    era: "protocol-expansion",
+    year: 1993,
+    learningObjectives: [
+      "Understand network protocol encapsulation principles",
+      "Learn about technology evolution and interoperability",
+      "Explore MTU handling and fragmentation concepts",
+      "Master address resolution across different network types",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc1390.html",
+  },
 ];

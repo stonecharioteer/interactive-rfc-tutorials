@@ -61,8 +61,9 @@ export default function RFC793() {
       </h3>
 
       <p>
-        Every <GlossaryTerm>TCP</GlossaryTerm> connection begins with a three-way handshake 
-        to synchronize sequence numbers and establish communication parameters.
+        Every <GlossaryTerm>TCP</GlossaryTerm> connection begins with a
+        three-way handshake to synchronize sequence numbers and establish
+        communication parameters.
       </p>
 
       <MermaidDiagram
@@ -70,7 +71,7 @@ export default function RFC793() {
 sequenceDiagram
     participant C as Client
     participant S as Server
-    
+
     Note over C,S: TCP Three-Way Handshake
     C->>S: SYN (seq=1000, window=8192)
     Note right of S: Server allocates resources
@@ -78,15 +79,112 @@ sequenceDiagram
     Note left of C: Client confirms connection
     C->>S: ACK (ack=2001, window=8192)
     Note over C,S: Connection Established!
-    
+
     Note over C,S: Data can now flow bidirectionally
         `}
         className="my-6"
       />
 
+      <ExpandableSection title="🐳 Interactive Docker Demo: See TCP in Action">
+        <p>
+          Experience TCP concepts hands-on with our Docker Compose
+          demonstration! This interactive setup shows:
+        </p>
+
+        <ul>
+          <li>
+            <strong>Three-way handshake</strong> - Watch connection
+            establishment
+          </li>
+          <li>
+            <strong>Reliable data delivery</strong> - See sequence numbers and
+            ACKs
+          </li>
+          <li>
+            <strong>Flow control</strong> - Observe backpressure mechanisms
+          </li>
+          <li>
+            <strong>Network monitoring</strong> - Real-time packet analysis
+          </li>
+        </ul>
+
+        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-4 my-4">
+          <h4 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">
+            🚀 Quick Start
+          </h4>
+
+          <CodeBlock
+            language="bash"
+            code={`# Clone the repository
+git clone https://github.com/stonecharioteer/interactive-rfc-tutorials.git
+cd interactive-rfc-tutorials/docker-examples/rfc793-tcp
+
+# Run the TCP demonstration
+docker compose up --build
+
+# Watch the logs to see TCP in action!`}
+          />
+
+          <p className="text-blue-800 dark:text-blue-200 text-sm mt-3">
+            <strong>What you'll see:</strong> Three services working together -
+            a TCP server, client, and network monitor demonstrating real TCP
+            communication with detailed logging of handshakes, data transfer,
+            and connection management.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-4">
+          <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded p-3">
+            <h5 className="font-semibold text-green-800 dark:text-green-200">
+              TCP Server
+            </h5>
+            <p className="text-sm text-green-700 dark:text-green-300">
+              Accepts connections, handles multiple clients, demonstrates flow
+              control
+            </p>
+          </div>
+          <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-700 rounded p-3">
+            <h5 className="font-semibold text-orange-800 dark:text-orange-200">
+              TCP Client
+            </h5>
+            <p className="text-sm text-orange-700 dark:text-orange-300">
+              Connects to server, sends messages, tracks responses and
+              statistics
+            </p>
+          </div>
+          <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-700 rounded p-3">
+            <h5 className="font-semibold text-purple-800 dark:text-purple-200">
+              Network Monitor
+            </h5>
+            <p className="text-sm text-purple-700 dark:text-purple-300">
+              Captures packets with tcpdump, shows connection states, analyzes
+              traffic
+            </p>
+          </div>
+        </div>
+
+        <details className="mt-4">
+          <summary className="cursor-pointer font-semibold text-gray-800 dark:text-gray-200">
+            🔧 Customize the Demo
+          </summary>
+          <div className="mt-2 pl-4 border-l-2 border-gray-200 dark:border-gray-600">
+            <CodeBlock
+              language="bash"
+              code={`# Send more messages with custom timing
+MESSAGE_COUNT=10 DELAY_SECONDS=1 docker compose up --build
+
+# Different scenarios
+MESSAGE_COUNT=50 DELAY_SECONDS=0.1 docker compose up  # High frequency
+MESSAGE_COUNT=3 DELAY_SECONDS=5 docker compose up    # Slow and steady`}
+            />
+          </div>
+        </details>
+      </ExpandableSection>
+
       <ExpandableSection title="🐍 ELI-Pythonista: TCP Socket Programming">
         <p>
-          Here's how the three-way handshake looks in Python using the socket library:
+          Here's how the three-way handshake looks in Python using the socket
+          library:
         </p>
 
         <h4>TCP Server</h4>
@@ -111,10 +209,10 @@ while True:
     # Accept connection (completes handshake)
     client_socket, client_address = server_socket.accept()
     print(f"Connection from {client_address}")
-    
+
     # Send data
     client_socket.send(b"Hello from TCP server!")
-    
+
     # Close connection (four-way handshake)
     client_socket.close()`}
         />
@@ -132,11 +230,11 @@ try:
     print("Initiating TCP handshake...")
     client_socket.connect(('localhost', 8080))
     print("✅ Connection established!")
-    
+
     # Receive data
     response = client_socket.recv(1024)
     print(f"Received: {response.decode()}")
-    
+
 finally:
     # Close connection
     client_socket.close()
@@ -147,17 +245,121 @@ finally:
           <strong>What happens behind the scenes:</strong>
         </p>
         <ol>
-          <li><code>listen()</code> puts server in SYN_LISTEN state</li>
-          <li><code>connect()</code> sends SYN packet</li>
+          <li>
+            <code>listen()</code> puts server in SYN_LISTEN state
+          </li>
+          <li>
+            <code>connect()</code> sends SYN packet
+          </li>
           <li>Server responds with SYN-ACK</li>
-          <li>Client sends ACK, <code>connect()</code> returns</li>
-          <li><code>accept()</code> returns the established connection</li>
+          <li>
+            Client sends ACK, <code>connect()</code> returns
+          </li>
+          <li>
+            <code>accept()</code> returns the established connection
+          </li>
         </ol>
       </ExpandableSection>
 
+      <h3>TCP Connection States</h3>
+
+      <p>
+        TCP connections progress through a well-defined state machine. Understanding
+        these states helps debug network issues and optimize application performance:
+      </p>
+
+      <MermaidDiagram
+        chart={`
+stateDiagram-v2
+    [*] --> CLOSED
+    CLOSED --> LISTEN : passive open
+    CLOSED --> SYN_SENT : active open
+    
+    LISTEN --> SYN_RCVD : receive SYN
+    SYN_SENT --> SYN_RCVD : receive SYN
+    SYN_SENT --> ESTABLISHED : receive SYN-ACK
+    SYN_RCVD --> ESTABLISHED : receive ACK
+    
+    ESTABLISHED --> FIN_WAIT_1 : close (send FIN)
+    ESTABLISHED --> CLOSE_WAIT : receive FIN
+    
+    FIN_WAIT_1 --> FIN_WAIT_2 : receive ACK
+    FIN_WAIT_1 --> CLOSING : receive FIN
+    FIN_WAIT_2 --> TIME_WAIT : receive FIN
+    
+    CLOSE_WAIT --> LAST_ACK : close (send FIN)
+    CLOSING --> TIME_WAIT : receive ACK
+    LAST_ACK --> CLOSED : receive ACK
+    
+    TIME_WAIT --> CLOSED : timeout (2MSL)
+    
+    note right of ESTABLISHED : Data transfer state
+    note right of TIME_WAIT : Ensures all packets are processed
+        `}
+        className="my-6"
+      />
+
+      <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg my-6">
+        <h4 className="font-semibold text-blue-800 mb-3">Key TCP States Explained</h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div>
+            <div className="space-y-2">
+              <div><strong className="text-green-600">ESTABLISHED:</strong> Connection ready for data transfer</div>
+              <div><strong className="text-blue-600">SYN_SENT:</strong> Waiting for SYN-ACK response</div>
+              <div><strong className="text-purple-600">LISTEN:</strong> Server waiting for connection requests</div>
+              <div><strong className="text-orange-600">CLOSE_WAIT:</strong> Remote side initiated close</div>
+            </div>
+          </div>
+          <div>
+            <div className="space-y-2">
+              <div><strong className="text-red-600">TIME_WAIT:</strong> Ensures all packets are processed</div>
+              <div><strong className="text-yellow-600">FIN_WAIT_1:</strong> Local side initiated close</div>
+              <div><strong className="text-pink-600">LAST_ACK:</strong> Waiting for final ACK</div>
+              <div><strong className="text-gray-600">CLOSED:</strong> No connection exists</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>TCP Segment Flow Visualization</h3>
+
+      <p>
+        Here's how TCP segments flow during a typical connection lifecycle,
+        including data transfer and connection termination:
+      </p>
+
+      <MermaidDiagram
+        chart={`
+sequenceDiagram
+    participant C as Client
+    participant S as Server
+    
+    Note over C,S: Connection Establishment
+    C->>+S: SYN (seq=100)
+    S->>+C: SYN-ACK (seq=200, ack=101)
+    C->>S: ACK (ack=201)
+    
+    Note over C,S: Data Transfer Phase
+    C->>S: PSH-ACK (seq=101, data="Hello", ack=201)
+    S->>C: ACK (ack=106)
+    S->>C: PSH-ACK (seq=201, data="World", ack=106) 
+    C->>S: ACK (ack=206)
+    
+    Note over C,S: Connection Termination (4-way handshake)
+    C->>S: FIN-ACK (seq=106, ack=206)
+    S->>C: ACK (ack=107)
+    S->>C: FIN-ACK (seq=206, ack=107)
+    C->>-S: ACK (ack=207)
+    
+    Note over C: TIME_WAIT (2MSL)
+    Note over C,S: Connection Closed
+        `}
+        className="my-6"
+      />
+
       <h3>TCP Header Structure</h3>
 
-      <div className="bg-gray-100 p-4 rounded-lg my-6 overflow-x-auto">
+      <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg my-6 overflow-x-auto">
         <h4 className="font-semibold mb-3">TCP Header (20+ bytes)</h4>
         <div className="grid grid-cols-8 gap-1 text-xs">
           <div className="bg-blue-200 p-2 text-center col-span-4">
@@ -259,7 +461,8 @@ finally:
 
       <ExpandableSection title="🐍 ELI-Pythonista: Socket Buffer Management">
         <p>
-          Python sockets automatically handle TCP flow control, but you can configure buffer sizes:
+          Python sockets automatically handle TCP flow control, but you can
+          configure buffer sizes:
         </p>
 
         <CodeBlock
@@ -295,15 +498,15 @@ import os
 def send_file(filename, host, port):
     """Send a file using TCP with proper buffer management."""
     file_size = os.path.getsize(filename)
-    
+
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         # Optimize for large transfers
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 65536)
         sock.connect((host, port))
-        
+
         # Send file size first
         sock.send(file_size.to_bytes(8, 'big'))
-        
+
         # Send file in chunks (TCP handles flow control)
         with open(filename, 'rb') as f:
             sent = 0
@@ -311,19 +514,20 @@ def send_file(filename, host, port):
                 chunk = f.read(8192)  # 8KB chunks
                 if not chunk:
                     break
-                
+
                 # send() may not send all data at once due to flow control
                 bytes_sent = sock.send(chunk)
                 sent += bytes_sent
-                
+
                 print(f"Sent {sent}/{file_size} bytes ({sent/file_size*100:.1f}%)")
-        
+
         print("✅ File sent successfully!")`}
         />
 
         <p>
-          Notice how <code>send()</code> might not send all data at once - that's TCP flow control working! 
-          The receiver's window size determines how much data can be sent.
+          Notice how <code>send()</code> might not send all data at once -
+          that's TCP flow control working! The receiver's window size determines
+          how much data can be sent.
         </p>
       </ExpandableSection>
 
@@ -375,7 +579,8 @@ def send_file(filename, host, port):
 
       <ExpandableSection title="🐍 ELI-Pythonista: TCP Socket Options and Diagnostics">
         <p>
-          Python allows you to access many TCP features and get diagnostic information:
+          Python allows you to access many TCP features and get diagnostic
+          information:
         </p>
 
         <CodeBlock
@@ -385,32 +590,32 @@ import struct
 
 def analyze_tcp_connection(host, port):
     """Demonstrate TCP socket options and connection analysis."""
-    
+
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         # Enable keep-alive to detect broken connections
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
-        
+
         # Disable Nagle's algorithm for low-latency applications
         sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-        
+
         print(f"Connecting to {host}:{port}...")
         sock.connect((host, port))
-        
+
         # Get connection information
         local_addr = sock.getsockname()
         remote_addr = sock.getpeername()
-        
+
         print(f"Local address: {local_addr}")
         print(f"Remote address: {remote_addr}")
-        
+
         # Check if Nagle's algorithm is disabled
         nodelay = sock.getsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY)
         print(f"TCP_NODELAY: {'Enabled' if nodelay else 'Disabled'}")
-        
+
         # Check keep-alive settings
         keepalive = sock.getsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE)
         print(f"Keep-alive: {'Enabled' if keepalive else 'Disabled'}")
-        
+
         # On Linux, you can get more detailed TCP info
         try:
             tcp_info = sock.getsockopt(socket.IPPROTO_TCP, socket.TCP_INFO, 192)
@@ -436,45 +641,46 @@ analyze_tcp_connection('httpbin.org', 80)`}
 def create_web_client_socket():
     """Optimized for HTTP requests - low latency."""
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    
+
     # Disable Nagle's algorithm for immediate sending
     sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-    
+
     # Shorter keep-alive for web connections
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
-    
+
     return sock
 
 def create_file_transfer_socket():
     """Optimized for bulk data transfer - high throughput."""
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    
+
     # Large buffers for bulk transfer
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 65536)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 65536)
-    
+
     # Keep Nagle's algorithm for better batching
     sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 0)
-    
+
     return sock
 
 def create_realtime_socket():
     """Optimized for gaming/streaming - minimal latency."""
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    
+
     # Immediate transmission
     sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-    
+
     # Smaller buffers to reduce buffering delays
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 8192)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 8192)
-    
+
     return sock`}
         />
 
         <p>
-          These optimizations demonstrate how TCP's flexibility allows tuning for different application needs - 
-          from web browsing to file transfers to real-time gaming!
+          These optimizations demonstrate how TCP's flexibility allows tuning
+          for different application needs - from web browsing to file transfers
+          to real-time gaming!
         </p>
       </ExpandableSection>
 

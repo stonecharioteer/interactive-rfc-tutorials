@@ -1,0 +1,19 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install required packages for network monitoring
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    tcpdump \
+    net-tools \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy server application
+COPY server.py /app/
+COPY shared_utils.py /app/
+
+# Expose the TCP port
+EXPOSE 8080
+
+# Run the TCP server
+CMD ["python", "/app/server.py"]

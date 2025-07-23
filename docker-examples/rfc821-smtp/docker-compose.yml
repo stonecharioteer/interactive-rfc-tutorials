@@ -1,0 +1,59 @@
+version: "3.8"
+
+services:
+  smtp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.smtp-server
+    container_name: rfc821-smtp-server
+    ports:
+      - "2525:25" # SMTP port (using 2525 to avoid conflicts)
+      - "8080:8080" # Web interface for viewing emails
+    networks:
+      - rfc821-network
+    environment:
+      - SMTP_PORT=25
+      - WEB_PORT=8080
+      - DOMAIN=example.com
+    volumes:
+      - smtp_data:/var/mail
+
+  smtp-client:
+    build:
+      context: .
+      dockerfile: Dockerfile.smtp-client
+    container_name: rfc821-smtp-client
+    depends_on:
+      - smtp-server
+    networks:
+      - rfc821-network
+    environment:
+      - SMTP_HOST=smtp-server
+      - SMTP_PORT=25
+      - EMAIL_COUNT=5
+      - DELAY_SECONDS=3
+    command: ["python", "/app/client.py"]
+
+  dns-simulator:
+    build:
+      context: .
+      dockerfile: Dockerfile.dns-simulator
+    container_name: rfc821-dns-simulator
+    networks:
+      - rfc821-network
+    ports:
+      - "5353:53/udp"
+    environment:
+      - DOMAIN=example.com
+      - MX_SERVER=smtp-server
+      - MX_PRIORITY=10
+
+networks:
+  rfc821-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16
+
+volumes:
+  smtp_data:
