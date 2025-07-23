@@ -1,0 +1,201 @@
+version: '3.8'
+
+services:
+  # Provider Edge Router 1
+  pe1-router:
+    build: 
+      context: .
+      dockerfile: Dockerfile.pe-router
+    container_name: bgp-mpls-pe1
+    hostname: PE1
+    networks:
+      mpls-core:
+        ipv4_address: 10.0.0.1
+      customer-a-site1:
+        ipv4_address: 192.168.1.1
+      customer-b-site1:
+        ipv4_address: 172.16.1.1
+    environment:
+      - ROUTER_ID=10.0.0.1
+      - ROUTER_NAME=PE1
+      - ASN=65001
+    volumes:
+      - ./configs/pe1:/etc/bgp-mpls
+      - ./scripts:/scripts
+    cap_add:
+      - NET_ADMIN
+    privileged: true
+    command: /scripts/start-pe-router.sh
+
+  # Provider Edge Router 2  
+  pe2-router:
+    build:
+      context: .
+      dockerfile: Dockerfile.pe-router
+    container_name: bgp-mpls-pe2
+    hostname: PE2
+    networks:
+      mpls-core:
+        ipv4_address: 10.0.0.2
+      customer-a-site2:
+        ipv4_address: 192.168.2.1
+      customer-b-site2:
+        ipv4_address: 172.16.2.1
+    environment:
+      - ROUTER_ID=10.0.0.2
+      - ROUTER_NAME=PE2
+      - ASN=65001
+    volumes:
+      - ./configs/pe2:/etc/bgp-mpls
+      - ./scripts:/scripts
+    cap_add:
+      - NET_ADMIN
+    privileged: true
+    command: /scripts/start-pe-router.sh
+
+  # Provider Core Router
+  p-router:
+    build:
+      context: .
+      dockerfile: Dockerfile.p-router
+    container_name: bgp-mpls-core
+    hostname: P1
+    networks:
+      mpls-core:
+        ipv4_address: 10.0.0.10
+    environment:
+      - ROUTER_ID=10.0.0.10
+      - ROUTER_NAME=P1
+    volumes:
+      - ./scripts:/scripts
+    cap_add:
+      - NET_ADMIN
+    privileged: true
+    command: /scripts/start-p-router.sh
+
+  # Customer A - Site 1 (Headquarters)
+  customer-a-hq:
+    build:
+      context: .
+      dockerfile: Dockerfile.customer
+    container_name: customer-a-hq
+    hostname: CustomerA-HQ
+    networks:
+      customer-a-site1:
+        ipv4_address: 192.168.1.10
+    environment:
+      - CUSTOMER_NAME=CustomerA
+      - SITE_NAME=Headquarters
+      - GATEWAY=192.168.1.1
+    volumes:
+      - ./scripts:/scripts
+    command: /scripts/start-customer.sh
+
+  # Customer A - Site 2 (Branch)
+  customer-a-branch:
+    build:
+      context: .
+      dockerfile: Dockerfile.customer
+    container_name: customer-a-branch
+    hostname: CustomerA-Branch
+    networks:
+      customer-a-site2:
+        ipv4_address: 192.168.2.10
+    environment:
+      - CUSTOMER_NAME=CustomerA
+      - SITE_NAME=Branch
+      - GATEWAY=192.168.2.1
+    volumes:
+      - ./scripts:/scripts
+    command: /scripts/start-customer.sh
+
+  # Customer B - Site 1 (Main Office)
+  customer-b-main:
+    build:
+      context: .
+      dockerfile: Dockerfile.customer
+    container_name: customer-b-main
+    hostname: CustomerB-Main
+    networks:
+      customer-b-site1:
+        ipv4_address: 172.16.1.10
+    environment:
+      - CUSTOMER_NAME=CustomerB
+      - SITE_NAME=MainOffice
+      - GATEWAY=172.16.1.1
+    volumes:
+      - ./scripts:/scripts
+    command: /scripts/start-customer.sh
+
+  # Customer B - Site 2 (Remote Office)
+  customer-b-remote:
+    build:
+      context: .
+      dockerfile: Dockerfile.customer
+    container_name: customer-b-remote
+    hostname: CustomerB-Remote
+    networks:
+      customer-b-site2:
+        ipv4_address: 172.16.2.10
+    environment:
+      - CUSTOMER_NAME=CustomerB
+      - SITE_NAME=RemoteOffice
+      - GATEWAY=172.16.2.1
+    volumes:
+      - ./scripts:/scripts
+    command: /scripts/start-customer.sh
+
+  # BGP/MPLS Monitor and Demo
+  vpn-monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile.monitor
+    container_name: bgp-mpls-monitor
+    hostname: VPN-Monitor
+    networks:
+      mpls-core:
+        ipv4_address: 10.0.0.100
+    environment:
+      - MONITOR_ROLE=bgp-mpls-demo
+    volumes:
+      - ./scripts:/scripts
+      - ./demos:/demos
+    depends_on:
+      - pe1-router
+      - pe2-router
+      - p-router
+    command: /scripts/start-monitor.sh
+
+networks:
+  # MPLS Core Network
+  mpls-core:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.0.0/24
+
+  # Customer A Networks
+  customer-a-site1:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.1.0/24
+
+  customer-a-site2:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.2.0/24
+
+  # Customer B Networks
+  customer-b-site1:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.1.0/24
+
+  customer-b-site2:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.2.0/24
