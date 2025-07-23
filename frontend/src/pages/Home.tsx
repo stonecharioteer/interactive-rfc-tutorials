@@ -100,7 +100,7 @@ export default function Home() {
               </h3>
               <p className="text-blue-700 dark:text-blue-300 text-sm">
                 {filters.searchTerm && `Search: "${filters.searchTerm}"`}
-                {filters.selectedEra !== 'all' && ` • Era: ${rfcEras[filters.selectedEra].name}`}
+                {filters.selectedEra !== 'all' && ` • Era: ${rfcEras[filters.selectedEra as keyof typeof rfcEras].name}`}
                 {filters.selectedYear !== 'all' && ` • Year: ${filters.selectedYear}`}
                 {filters.completedOnly && ` • Completed only`}
               </p>

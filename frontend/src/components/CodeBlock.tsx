@@ -5,7 +5,7 @@ import {
   oneLight,
 } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Copy, Check } from "lucide-react";
-import { useTheme } from "./ThemeProvider";
+import { useTheme } from "../hooks/useTheme";
 
 interface CodeBlockProps {
   code: string;

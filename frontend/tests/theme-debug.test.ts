@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test } from "@playwright/test";
 
 test("debug dark theme tutorial panels", async ({ page }) => {
   // Set a longer timeout for this debugging test

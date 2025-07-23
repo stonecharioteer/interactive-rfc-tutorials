@@ -7,7 +7,10 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "playwright test",
-    "test:ui": "playwright test --ui"
+    "test:ui": "playwright test --ui",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext ts,tsx --fix",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@types/react-syntax-highlighter": "^15.5.13",

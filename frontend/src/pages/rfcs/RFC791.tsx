@@ -475,12 +475,171 @@ simple_hop_check('httpbin.org', 80)`}
         <li>High cost of complete replacement</li>
       </ul>
 
+      <h3>IPv4's Extraordinary Impact on the Modern Internet</h3>
+
+      <p>
+        RFC 791's IPv4 protocol has become the foundation of global digital communication, 
+        powering everything from your smartphone to global financial systems:
+      </p>
+
+      <div className="bg-cyan-50 border border-cyan-200 p-6 rounded-lg my-6">
+        <h4 className="font-semibold text-cyan-900 mb-4">🌍 IPv4 in Today's Digital World</h4>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="space-y-3">
+            <h5 className="font-semibold text-cyan-800">Consumer Internet</h5>
+            <ul className="text-cyan-700 text-sm space-y-1">
+              <li>• 5+ billion smartphones</li>
+              <li>• Smart home devices (IoT)</li>
+              <li>• Streaming services (Netflix, YouTube)</li>
+              <li>• Social media platforms</li>
+              <li>• Online gaming networks</li>
+            </ul>
+          </div>
+          
+          <div className="space-y-3">
+            <h5 className="font-semibold text-cyan-800">Enterprise Systems</h5>
+            <ul className="text-cyan-700 text-sm space-y-1">
+              <li>• Cloud computing (AWS, Azure, GCP)</li>
+              <li>• Financial trading systems</li>
+              <li>• E-commerce platforms</li>
+              <li>• Corporate VPNs</li>
+              <li>• Data center networks</li>
+            </ul>
+          </div>
+          
+          <div className="space-y-3">
+            <h5 className="font-semibold text-cyan-800">Critical Infrastructure</h5>
+            <ul className="text-cyan-700 text-sm space-y-1">
+              <li>• Power grid communications</li>
+              <li>• Hospital networks</li>
+              <li>• Air traffic control</li>
+              <li>• Banking systems</li>
+              <li>• Government networks</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-amber-50 border border-amber-200 p-6 rounded-lg my-6">
+        <h4 className="font-semibold text-amber-900 mb-3">📊 By the Numbers (2025)</h4>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          <div>
+            <div className="text-2xl font-bold text-amber-800">~70%</div>
+            <div className="text-sm text-amber-700">Internet traffic still IPv4</div>
+          </div>
+          <div>
+            <div className="text-2xl font-bold text-amber-800">4.3B</div>
+            <div className="text-sm text-amber-700">Total IPv4 addresses</div>
+          </div>
+          <div>
+            <div className="text-2xl font-bold text-amber-800">$50+</div>
+            <div className="text-sm text-amber-700">Price per IPv4 address</div>
+          </div>
+          <div>
+            <div className="text-2xl font-bold text-amber-800">40+</div>
+            <div className="text-sm text-amber-700">Years in production</div>
+          </div>
+        </div>
+      </div>
+
+      <ExpandableSection title="🔄 Alternative Approaches and IPv4's Competition">
+        <p>
+          Several alternative networking protocols competed with IPv4, and modern solutions address its limitations:
+        </p>
+
+        <div className="space-y-6 mt-4">
+          <div className="bg-red-50 border border-red-200 p-4 rounded">
+            <h5 className="font-semibold text-red-800 mb-2">🥇 IPv6 (The Designated Successor)</h5>
+            <div className="text-red-700 text-sm space-y-2">
+              <p><strong>Advantages:</strong> 128-bit addresses (340 undecillion), built-in security, no NAT needed</p>
+              <p><strong>Challenge:</strong> Slow adoption due to IPv4's entrenchment and dual-stack complexity</p>
+              <p><strong>Status:</strong> ~30% of internet traffic as of 2025, growing steadily</p>
+              <p><strong>References:</strong> 
+                <a href="https://www.rfc-editor.org/rfc/rfc2460.html" className="underline ml-1" target="_blank" rel="noopener noreferrer">RFC 2460</a>,
+                <a href="https://www.google.com/intl/en/ipv6/statistics.html" className="underline ml-1" target="_blank" rel="noopener noreferrer">Google IPv6 Statistics</a>
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-yellow-50 border border-yellow-200 p-4 rounded">
+            <h5 className="font-semibold text-yellow-800 mb-2">⚡ OSI Network Layer (Historical Competitor)</h5>
+            <div className="text-yellow-700 text-sm space-y-2">
+              <p><strong>Approach:</strong> ISO's Connectionless Network Protocol (CLNP) with variable-length addresses</p>
+              <p><strong>Government Support:</strong> Mandated by US GOSIP and European governments in 1980s-90s</p>
+              <p><strong>Why it Failed:</strong> Complex, expensive to implement, IPv4 already had momentum</p>
+              <p><strong>Legacy:</strong> Many networking concepts survived in modern protocols</p>
+            </div>
+          </div>
+
+          <div className="bg-blue-50 border border-blue-200 p-4 rounded">
+            <h5 className="font-semibold text-blue-800 mb-2">🔧 IPv4 Workarounds and Extensions</h5>
+            <div className="text-blue-700 text-sm space-y-2">
+              <p><strong>NAT (Network Address Translation):</strong> Enables private networks, reduces address consumption</p>
+              <p><strong>CIDR (Classless Inter-Domain Routing):</strong> More efficient address allocation</p>
+              <p><strong>Private Address Spaces:</strong> RFC 1918 (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16)</p>
+              <p><strong>IPv4 Address Trading:</strong> Market-based address reallocation</p>
+            </div>
+          </div>
+
+          <div className="bg-green-50 border border-green-200 p-4 rounded">
+            <h5 className="font-semibold text-green-800 mb-2">🌐 Modern Internet Protocols</h5>
+            <div className="text-green-700 text-sm space-y-2">
+              <p><strong>QUIC over UDP:</strong> Faster connection establishment, better mobile performance</p>
+              <p><strong>HTTP/3:</strong> Reduces head-of-line blocking compared to TCP</p>
+              <p><strong>SD-WAN:</strong> Software-defined networking over IP</p>
+              <p><strong>Zero Trust Networks:</strong> Security models that don't rely on network location</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 p-4 bg-indigo-50 border border-indigo-200 rounded">
+          <h5 className="font-semibold text-indigo-800 mb-2">📖 Further Reading</h5>
+          <ul className="text-indigo-700 text-sm space-y-1">
+            <li><a href="https://www.rfc-editor.org/rfc/rfc2460.html" className="underline" target="_blank" rel="noopener noreferrer">RFC 2460: Internet Protocol, Version 6 (IPv6)</a></li>
+            <li><a href="https://www.rfc-editor.org/rfc/rfc1918.html" className="underline" target="_blank" rel="noopener noreferrer">RFC 1918: Address Allocation for Private Internets</a></li>
+            <li><a href="https://www.rfc-editor.org/rfc/rfc4291.html" className="underline" target="_blank" rel="noopener noreferrer">RFC 4291: IP Version 6 Addressing Architecture</a></li>
+            <li><a href="https://stats.labs.apnic.net/ipv6" className="underline" target="_blank" rel="noopener noreferrer">IPv6 Deployment Statistics - APNIC</a></li>
+            <li><a href="https://www.potaroo.net/tools/ipv4/index.html" className="underline" target="_blank" rel="noopener noreferrer">IPv4 Address Exhaustion - Geoff Huston</a></li>
+          </ul>
+        </div>
+      </ExpandableSection>
+
+      <div className="bg-orange-50 border border-orange-200 p-6 rounded-lg my-6">
+        <h4 className="font-semibold text-orange-900 mb-3">🔮 IPv4's Future: Adaptation Rather Than Replacement</h4>
+        <div className="space-y-4">
+          <div>
+            <h5 className="font-semibold text-orange-800">Short Term (2025-2030)</h5>
+            <p className="text-orange-700 text-sm">
+              Continued dual-stack deployment, IPv4 address trading market, 
+              carrier-grade NAT expansion, and IPv4-as-a-Service offerings
+            </p>
+          </div>
+          <div>
+            <h5 className="font-semibold text-orange-800">Medium Term (2030-2040)</h5>
+            <p className="text-orange-700 text-sm">
+              IPv6 becomes majority protocol, IPv4 relegated to legacy systems,
+              IPv4/IPv6 translation services become critical infrastructure
+            </p>
+          </div>
+          <div>
+            <h5 className="font-semibold text-orange-800">Long Term (2040+)</h5>
+            <p className="text-orange-700 text-sm">
+              IPv4 likely to persist in embedded systems, industrial networks,
+              and specialized applications where upgrade costs exceed benefits
+            </p>
+          </div>
+        </div>
+      </div>
+
       <div className="bg-green-50 border-l-4 border-green-400 p-4 mt-6">
         <h4 className="text-green-900 font-semibold">Key Takeaway</h4>
         <p className="text-green-800">
-          IPv4's success shows how well-designed protocols can far exceed their
-          original intended lifespan. Good design principles create lasting
-          value.
+          IPv4's 40+ year dominance demonstrates that simple, well-designed protocols 
+          can far exceed their original scope. While IPv6 offers technical improvements, 
+          IPv4's entrenchment in global infrastructure ensures its continued relevance 
+          for decades to come. The protocol's greatest achievement isn't just technical—it's 
+          creating the common language that enabled global digital communication.
         </p>
       </div>
     </article>
