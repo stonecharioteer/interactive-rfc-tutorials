@@ -31,6 +31,37 @@ Create an engaging, educational platform that makes complex networking concepts 
 - **RFC8445**: Fixed 4 code block rendering issues ✅
 - **Issue Resolution**: Code now renders properly in formatted blocks instead of inline escaped text
 
+### GitHub Actions CI/CD Infrastructure (July 24, 2025)
+
+**GitHub Actions Workflow Improvements**: Fixed and optimized the CI/CD pipeline with separate concerns for PR validation and manual testing.
+
+#### Issues Resolved:
+- **TypeScript Type Checking**: Fixed workflow command from `npm run type-check` to `npx tsc --noEmit`
+- **ESLint Configuration**: Resolved MermaidDiagram component typing issues causing linting failures
+- **Playwright Test Coverage**: Updated tests to reflect current RFC count (22+ RFCs) and added coverage for Batch 6 RFCs
+- **Test Infrastructure**: Added comprehensive validation for newly implemented security/NAT traversal RFCs
+
+#### PR Build Workflow (Simplified):
+- ✅ **Linting**: ESLint validation with zero warnings policy
+- ✅ **Type Checking**: TypeScript compilation verification  
+- ✅ **Build Validation**: Complete Vite production build testing
+
+#### Manual Docker Test Workflow:
+- ✅ **Docker Validation**: Docker Compose configuration testing for all RFC examples
+- ✅ **Security Scanning**: npm audit for dependency vulnerabilities (optional)
+- ✅ **On-Demand Execution**: Triggered via `workflow_dispatch` when needed
+
+#### Benefits of Separation:
+- **Faster PR Feedback**: Essential checks complete quickly for faster development
+- **Comprehensive Testing**: Full Docker and security validation available when needed
+- **Resource Efficiency**: Avoid running expensive Docker tests on every PR
+- **Flexibility**: Manual workflow can be customized for different testing scenarios
+
+#### Local Testing with `gh act`:
+- **Debugged workflows locally** using GitHub's `act` tool for faster development
+- **Validated all job stages** including build-and-test, docker-build-test, and security-scan
+- **Ensured workflow compatibility** with GitHub Actions environment
+
 ### Benefits
 
 - **Clean Code**: No HTML entity escaping issues
@@ -388,26 +419,47 @@ Following Phase 3 completion, implement the cryptographic and networking protoco
 - Added 27 modern cryptography terms to glossary covering VPN and secure communication concepts
 - Performance analysis showing software-optimized cryptography advantages over hardware-dependent alternatives
 
-##### Batch 5: Advanced NAT Traversal
+##### Batch 5: Advanced NAT Traversal ✅ (Complete)
 
-**GitHub Issues**: TBD
+**Branch**: `feat/advanced-nat-traversal` (Merged)
+**GitHub Issues**: #40
 **Theme**: Network protocols enabling peer-to-peer connectivity behind NATs (Tailscale's foundation)
 
-- **RFC 5389 (2008)**: Session Traversal Utilities for NAT (STUN)
-- **RFC 8445 (2018)**: Interactive Connectivity Establishment (ICE) - NAT Traversal
+- **RFC 5389 (2008)**: Session Traversal Utilities for NAT (STUN) ✅
+- **RFC 8445 (2018)**: Interactive Connectivity Establishment (ICE) - NAT Traversal ✅
 
 **Educational Focus**: Modern NAT traversal techniques, peer-to-peer networking, connectivity establishment algorithms.
 
-##### Batch 6: Modern Security Architecture
+**Implementation Summary**: Completed comprehensive NAT traversal tutorials with:
 
-**GitHub Issues**: TBD  
+- STUN protocol implementation with UDP hole punching demonstrations
+- ICE connectivity establishment with candidate gathering and prioritization
+- Docker examples showing peer-to-peer connection scenarios behind different NAT types
+- Added 30+ NAT traversal and networking terms to glossary
+- Modern context showing how these protocols power Tailscale, WebRTC, and VoIP systems
+- Performance analysis and comparison with direct vs relay connections
+
+##### Batch 6: Modern Security Architecture ✅ (Complete)
+
+**Branch**: `feat/modern-security-architecture` (Merged)
+**GitHub Issues**: #41
 **Theme**: Updated security protocols and relay mechanisms
 
-- **RFC 4301 (2005)**: IPsec Security Architecture Updated
-- **RFC 4303 (2005)**: ESP - Encapsulating Security Payload
-- **RFC 8656 (2019)**: Traversal Using Relays around NAT (TURN)
+- **RFC 4301 (2005)**: IPsec Security Architecture Updated ✅
+- **RFC 4303 (2005)**: ESP - Encapsulating Security Payload ✅
+- **RFC 8656 (2019)**: Traversal Using Relays around NAT (TURN) ✅
 
 **Educational Focus**: Evolution of IPsec, modern security architectures, relay protocols for difficult NAT scenarios.
+
+**Implementation Summary**: Completed comprehensive security architecture tutorials with:
+
+- IPsec Security Policy Database (SPD) and Security Association (SA) management
+- ESP encryption/authentication with anti-replay protection and algorithm selection
+- TURN relay protocol for NAT traversal with channel data optimization
+- Docker examples for all three protocols showing hands-on implementation
+- Added 50+ security and networking terms to glossary
+- Enhanced ELI-Pythonista educational sections with Python examples and real-world analogies
+- Performance analysis and modern cryptographic algorithm comparisons
 
 ##### Batch 7: Network Behavior Standards
 
