@@ -41,7 +41,7 @@ export default function RFC4301() {
       <h2>Evolution from RFC 2401</h2>
       <p>
         <strong>RFC 4301</strong> replaced{" "}
-        <Link to="/rfcs/2401" className="text-blue-600 hover:text-blue-800">
+        <Link to="/rfc/2401" className="text-blue-600 hover:text-blue-800">
           RFC 2401 (1998)
         </Link>{" "}
         with significant architectural improvements based on 7 years of real-world
@@ -376,7 +376,7 @@ graph LR
           Encapsulating Security Payload (ESP) protocol for hands-on encryption experience.
         </p>
         <Link
-          to="/rfcs/4303"
+          to="/rfc/4303"
           className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
         >
           RFC 4303: ESP Implementation →

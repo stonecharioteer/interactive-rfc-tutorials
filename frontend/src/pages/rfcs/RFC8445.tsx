@@ -29,7 +29,7 @@ export default function RFC8445() {
         <strong>Interactive Connectivity Establishment (ICE)</strong> represents
         the evolution of NAT traversal from simple{" "}
         <strong>
-          <Link to="/rfcs/5389" className="text-blue-600 hover:text-blue-800">
+          <Link to="/rfc/5389" className="text-blue-600 hover:text-blue-800">
             STUN (RFC 5389)
           </Link>
         </strong>
@@ -492,7 +492,7 @@ export default function RFC8445() {
       applications.
       <h3>Related Protocols to Explore</h3>-{" "}
       <strong>
-        <Link to="/rfcs/5389" className="text-blue-600 hover:text-blue-800">
+        <Link to="/rfc/5389" className="text-blue-600 hover:text-blue-800">
           RFC 5389 (STUN)
         </Link>
       </strong>

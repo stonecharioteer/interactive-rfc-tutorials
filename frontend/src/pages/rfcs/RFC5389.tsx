@@ -440,7 +440,7 @@ export default function RFC5389() {
       </p>
       -{" "}
       <strong>
-        <Link to="/rfcs/8445" className="text-blue-600 hover:text-blue-800">
+        <Link to="/rfc/8445" className="text-blue-600 hover:text-blue-800">
           RFC 8445 (ICE)
         </Link>
       </strong>
