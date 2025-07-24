@@ -46,6 +46,22 @@ import { rfc4303_esp_processing } from "../code-examples/rfc4303_esp_processing"
 // RFC8656 - TURN
 import { rfc8656_turn_client } from "../code-examples/rfc8656_turn_client";
 
+// RFC4787 - NAT Behavioral Requirements
+import { getCodeExample as rfc4787NatDetector } from "../code-examples/rfc4787_nat_detector";
+import { getCodeExample as rfc4787HolePuncher } from "../code-examples/rfc4787_hole_puncher";
+
+// RFC4364 - BGP/MPLS IP VPNs
+import { getCodeExample as rfc4364VpnProcessor } from "../code-examples/rfc4364_vpn_processor";
+import { getCodeExample as rfc4364ServiceProvisioner } from "../code-examples/rfc4364_service_provisioner";
+
+// RFC7540 - HTTP/2
+import { getCodeExample as rfc7540Http2Client } from "../code-examples/rfc7540_http2_client";
+import { getCodeExample as rfc7540ServerPush } from "../code-examples/rfc7540_server_push";
+
+// RFC9110 - HTTP Semantics
+import { getCodeExample as rfc9110HttpClient } from "../code-examples/rfc9110_http_client";
+import { getCodeExample as rfc9110ApiDesign } from "../code-examples/rfc9110_api_design";
+
 const codeExamples: Record<string, string> = {
   // RFC5389 - STUN Protocol
   rfc5389_stun_client: rfc5389StunClient,
@@ -92,6 +108,22 @@ const codeExamples: Record<string, string> = {
 
   // RFC8656 - TURN
   rfc8656_turn_client: rfc8656_turn_client,
+
+  // RFC4787 - NAT Behavioral Requirements  
+  rfc4787_nat_detector: rfc4787NatDetector(),
+  rfc4787_hole_puncher: rfc4787HolePuncher(),
+
+  // RFC4364 - BGP/MPLS IP VPNs
+  rfc4364_vpn_processor: rfc4364VpnProcessor(),
+  rfc4364_service_provisioner: rfc4364ServiceProvisioner(),
+
+  // RFC7540 - HTTP/2
+  rfc7540_http2_client: rfc7540Http2Client(),
+  rfc7540_server_push: rfc7540ServerPush(),
+
+  // RFC9110 - HTTP Semantics
+  rfc9110_http_client: rfc9110HttpClient(),
+  rfc9110_api_design: rfc9110ApiDesign(),
 };
 
 export const getCodeExample = (key: string): string => {
