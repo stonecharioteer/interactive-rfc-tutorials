@@ -369,4 +369,64 @@ export const rfcs: RfcMetadata[] = [
     ],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc8656.html",
   },
+  {
+    number: 4787,
+    title: "Network Address Translation (NAT) Behavioral Requirements for Unicast UDP",
+    description:
+      "The definitive specification for NAT behavioral requirements that ensures consistent NAT behavior across implementations, enabling reliable peer-to-peer connectivity and NAT traversal.",
+    era: "modern",
+    year: 2007,
+    learningObjectives: [
+      "Understand NAT mapping behaviors (endpoint-independent, address-dependent, address-port-dependent)",
+      "Learn NAT filtering requirements and security implications",
+      "Explore UDP hole punching techniques and their reliability",
+      "Master the requirements that enable modern P2P applications and WebRTC",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc4787.html",
+  },
+  {
+    number: 4364,
+    title: "BGP/MPLS IP VPNs",
+    description:
+      "The current standard for BGP/MPLS IP VPN services that replaced RFC 2547, defining how service providers deliver secure, scalable VPN connectivity to enterprise customers worldwide.",
+    era: "modern",
+    year: 2006,
+    learningObjectives: [
+      "Understand modern BGP/MPLS IP VPN architecture and service delivery",
+      "Learn VRF isolation, route distinguishers, and route target policies",
+      "Explore MP-BGP VPNv4 route distribution and MPLS label operations",
+      "Master the technology powering 95% of Fortune 500 enterprise connectivity",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc4364.html",
+  },
+  {
+    number: 7540,
+    title: "Hypertext Transfer Protocol Version 2 (HTTP/2)",
+    description:
+      "The revolutionary HTTP protocol that introduced binary framing, stream multiplexing, header compression, and server push, transforming web performance for billions of users worldwide.",
+    era: "modern",
+    year: 2015,
+    learningObjectives: [
+      "Understand HTTP/2's binary framing protocol and stream multiplexing",
+      "Learn HPACK header compression and server push optimization",
+      "Explore flow control, stream prioritization, and connection management",
+      "Master the protocol that powers 95% of modern web traffic and applications",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc7540.html",
+  },
+  {
+    number: 9110,
+    title: "HTTP Semantics",
+    description:
+      "The definitive modern HTTP standard that consolidates decades of web evolution, clarifying HTTP semantics, methods, status codes, and providing the foundation for all contemporary web applications and APIs.",
+    era: "current",
+    year: 2022,
+    learningObjectives: [
+      "Understand comprehensive HTTP method semantics (safe, idempotent, non-idempotent)",
+      "Learn definitive status code usage and error handling patterns",
+      "Explore modern caching strategies and conditional request mechanisms",
+      "Master the current HTTP standard powering all modern web applications and services",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc9110.html",
+  },
 ];
