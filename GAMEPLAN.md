@@ -48,6 +48,30 @@ Create an engaging, educational platform that makes complex networking concepts 
 
 #### Manual Docker Test Workflow:
 - ✅ **Docker Validation**: Docker Compose configuration testing for all RFC examples
+
+### GitHub Pages Direct URL Routing Fix (July 24, 2025)
+
+**Issue Resolved**: Fixed direct URL sharing problem where individual RFC pages (like `/rfc/793`) returned 404 errors when accessed directly on GitHub Pages hosting, while navigation from the home page worked correctly.
+
+#### Root Cause:
+GitHub Pages hosts static files and doesn't handle client-side routing for Single Page Applications (SPAs). Direct URLs like `/rfc/793` don't correspond to actual files in the deployment.
+
+#### Solution Implemented:
+- **404.html Fallback**: Created fallback page that intercepts 404 errors and redirects to home page with restore parameter
+- **URL Restoration Script**: Added JavaScript to index.html that detects redirects and restores original URLs using `history.replaceState()`
+- **.nojekyll File**: Added to prevent Jekyll processing and ensure proper Vite asset handling
+- **Seamless Experience**: Users see no visible redirect delay, URLs remain clean
+
+#### Technical Details:
+1. **Direct URL Flow**: `/rfc/793` → GitHub Pages 404 → `404.html` → redirect to `/?redirected=1` → restore `/rfc/793`
+2. **Files Added**: 
+   - `frontend/public/404.html` - GitHub Pages SPA redirect handler
+   - `frontend/public/.nojekyll` - Prevents Jekyll processing
+   - Modified `frontend/index.html` - URL restoration logic
+
+#### Pull Request: [#45](https://github.com/stonecharioteer/interactive-rfc-tutorials/pull/45)
+
+**Result**: Users can now share direct RFC page URLs (e.g., `https://site.github.io/rfc/793`) and they work perfectly on GitHub Pages deployment.
 - ✅ **Security Scanning**: npm audit for dependency vulnerabilities (optional)
 - ✅ **On-Demand Execution**: Triggered via `workflow_dispatch` when needed
 
