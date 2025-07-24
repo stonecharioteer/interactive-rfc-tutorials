@@ -6,23 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RFC Tutorial - Learn Internet Standards Interactively</title>
     <meta name="description" content="Interactive learning platform for understanding key RFCs that built the internet. From TCP/IP to HTTP, explore the protocols that power our connected world." />
+    
+    <!-- GitHub Pages SPA redirect script -->
+    <script>
+      // Store the current path before redirecting
+      sessionStorage.setItem('pathToRestore', location.pathname + location.search + location.hash);
+      // Redirect to home page, where the React app will handle the routing
+      location.replace(location.origin + '/?redirected=1');
+    </script>
   </head>
   <body>
     <div id="root"></div>
-    
-    <!-- GitHub Pages SPA redirect handler -->
-    <script>
-      // Check if we were redirected from 404.html
-      if (window.location.search.includes('redirected=1')) {
-        const pathToRestore = sessionStorage.getItem('pathToRestore');
-        if (pathToRestore) {
-          sessionStorage.removeItem('pathToRestore');
-          // Use replaceState to restore the URL without adding to history
-          history.replaceState(null, null, pathToRestore);
-        }
-      }
-    </script>
-    
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
