@@ -1,4 +1,5 @@
 import { useParams, Link } from "react-router-dom";
+import { useEffect } from "react";
 import { rfcs } from "../data/rfcs";
 import {
   ArrowLeft,
@@ -62,6 +63,11 @@ export default function RfcDetail() {
   const rfcNumber = parseInt(number || "0");
   const rfc = rfcs.find((r) => r.number === rfcNumber);
   const RfcComponent = rfcComponents[rfcNumber];
+
+  // Scroll to top when component mounts or RFC changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [rfcNumber]);
 
   if (!rfc || !RfcComponent) {
     return (
