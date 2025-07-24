@@ -35,6 +35,17 @@ import { code as rfc793BufferManagement } from "../code-examples/rfc793_buffer_m
 import { code as rfc821SmtpMethods } from "../code-examples/rfc821_smtp_methods";
 import { code as rfc821SendEmail } from "../code-examples/rfc821_send_email";
 
+// RFC4301 - IPsec Security Architecture
+import { rfc4301_security_association } from "../code-examples/rfc4301_security_association";
+import { rfc4301_policy_configuration } from "../code-examples/rfc4301_policy_configuration";
+
+// RFC4303 - ESP (Encapsulating Security Payload)
+import { rfc4303_esp_implementation } from "../code-examples/rfc4303_esp_implementation";
+import { rfc4303_esp_processing } from "../code-examples/rfc4303_esp_processing";
+
+// RFC8656 - TURN
+import { rfc8656_turn_client } from "../code-examples/rfc8656_turn_client";
+
 const codeExamples: Record<string, string> = {
   // RFC5389 - STUN Protocol
   rfc5389_stun_client: rfc5389StunClient,
@@ -70,6 +81,17 @@ const codeExamples: Record<string, string> = {
   // RFC821 - SMTP
   rfc821_smtp_methods: rfc821SmtpMethods,
   rfc821_send_email: rfc821SendEmail,
+
+  // RFC4301 - IPsec Security Architecture
+  rfc4301_security_association: rfc4301_security_association,
+  rfc4301_policy_configuration: rfc4301_policy_configuration,
+
+  // RFC4303 - ESP (Encapsulating Security Payload)
+  rfc4303_esp_implementation: rfc4303_esp_implementation,
+  rfc4303_esp_processing: rfc4303_esp_processing,
+
+  // RFC8656 - TURN
+  rfc8656_turn_client: rfc8656_turn_client,
 };
 
 export const getCodeExample = (key: string): string => {
