@@ -33,7 +33,7 @@ Create an engaging, educational platform that makes complex networking concepts 
 
 ### GitHub Actions CI/CD Infrastructure (July 24, 2025)
 
-**GitHub Actions Workflow Improvements**: Fixed and enhanced the PR build workflow to ensure reliable CI/CD pipeline for all pull requests.
+**GitHub Actions Workflow Improvements**: Fixed and optimized the CI/CD pipeline with separate concerns for PR validation and manual testing.
 
 #### Issues Resolved:
 - **TypeScript Type Checking**: Fixed workflow command from `npm run type-check` to `npx tsc --noEmit`
@@ -41,13 +41,21 @@ Create an engaging, educational platform that makes complex networking concepts 
 - **Playwright Test Coverage**: Updated tests to reflect current RFC count (22+ RFCs) and added coverage for Batch 6 RFCs
 - **Test Infrastructure**: Added comprehensive validation for newly implemented security/NAT traversal RFCs
 
-#### Workflow Capabilities:
+#### PR Build Workflow (Simplified):
 - ✅ **Linting**: ESLint validation with zero warnings policy
-- ✅ **Type Checking**: TypeScript compilation verification
+- ✅ **Type Checking**: TypeScript compilation verification  
 - ✅ **Build Validation**: Complete Vite production build testing
-- ✅ **Playwright Testing**: Comprehensive end-to-end testing across desktop and mobile
+
+#### Manual Docker Test Workflow:
 - ✅ **Docker Validation**: Docker Compose configuration testing for all RFC examples
-- ✅ **Security Scanning**: npm audit for dependency vulnerabilities
+- ✅ **Security Scanning**: npm audit for dependency vulnerabilities (optional)
+- ✅ **On-Demand Execution**: Triggered via `workflow_dispatch` when needed
+
+#### Benefits of Separation:
+- **Faster PR Feedback**: Essential checks complete quickly for faster development
+- **Comprehensive Testing**: Full Docker and security validation available when needed
+- **Resource Efficiency**: Avoid running expensive Docker tests on every PR
+- **Flexibility**: Manual workflow can be customized for different testing scenarios
 
 #### Local Testing with `gh act`:
 - **Debugged workflows locally** using GitHub's `act` tool for faster development
