@@ -1005,6 +1005,410 @@ export const glossaryTerms: GlossaryTerm[] = [
     relatedTerms: ["constant-time", "side-channel", "timing-attack-resistance"],
   },
   
+  // IPsec and VPN Security Terms (RFC 4301 & RFC 4303)
+  {
+    id: "ipsec",
+    term: "IPsec",
+    definition:
+      "Internet Protocol Security - A suite of protocols providing authentication, integrity, and confidentiality at the network layer, fundamental to modern VPN technologies.",
+    category: "security",
+    relatedTerms: ["esp", "ah", "vpn", "sa", "spd", "tunnel-mode", "transport-mode"],
+  },
+  {
+    id: "esp",
+    term: "ESP",
+    definition:
+      "Encapsulating Security Payload - The IPsec protocol providing confidentiality through encryption, plus optional authentication and anti-replay protection.",
+    category: "security",
+    relatedTerms: ["ipsec", "ah", "encryption", "authentication", "anti-replay", "spi"],
+  },
+  {
+    id: "ah",
+    term: "AH",
+    definition:
+      "Authentication Header - An IPsec protocol providing data origin authentication, integrity, and anti-replay protection without confidentiality.",
+    category: "security",
+    relatedTerms: ["ipsec", "esp", "authentication", "integrity", "anti-replay"],
+  },
+  {
+    id: "sa",
+    term: "Security Association (SA)",
+    definition:
+      "A unidirectional relationship between communicating parties that defines the security parameters for IPsec communication, identified by SPI, destination IP, and protocol.",
+    category: "security",
+    relatedTerms: ["ipsec", "spi", "sad", "esp", "ah", "security-parameters"],
+  },
+  {
+    id: "spd",
+    term: "Security Policy Database (SPD)",
+    definition:
+      "IPsec database containing policies that determine packet processing decisions: DISCARD, BYPASS, or PROTECT with specific security services.",
+    category: "security",
+    relatedTerms: ["ipsec", "security-policy", "selector", "sa", "packet-processing"],
+  },
+  {
+    id: "sad",
+    term: "Security Association Database (SAD)",
+    definition:
+      "IPsec database containing parameters for active security associations including cryptographic keys, algorithms, and lifetime information.",
+    category: "security",
+    relatedTerms: ["sa", "ipsec", "security-parameters", "cryptographic-keys", "spi"],
+  },
+  {
+    id: "spi",
+    term: "Security Parameter Index (SPI)",
+    definition:
+      "A 32-bit identifier in IPsec packets that, combined with destination IP and protocol, uniquely identifies a Security Association.",
+    category: "security",
+    relatedTerms: ["sa", "ipsec", "esp", "ah", "packet-identification"],
+  },
+  {
+    id: "tunnel-mode",
+    term: "Tunnel Mode",
+    definition:
+      "IPsec mode that encapsulates the entire original packet within a new IP packet, providing traffic flow confidentiality and commonly used for VPNs.",
+    category: "security",
+    relatedTerms: ["ipsec", "transport-mode", "vpn", "encapsulation", "traffic-flow-confidentiality"],
+  },
+  {
+    id: "transport-mode",
+    term: "Transport Mode",
+    definition:
+      "IPsec mode that protects the payload while preserving the original IP header, used for end-to-end communication between hosts.",
+    category: "security",
+    relatedTerms: ["ipsec", "tunnel-mode", "end-to-end", "payload-protection"],
+  },
+  {
+    id: "anti-replay",
+    term: "Anti-Replay Protection",
+    definition:
+      "Security mechanism using sequence numbers and sliding windows to detect and prevent replay attacks where captured packets are retransmitted.",
+    category: "security",
+    relatedTerms: ["esp", "sequence-number", "sliding-window", "replay-attack", "packet-security"],
+  },
+  {
+    id: "sequence-number",
+    term: "Sequence Number",
+    definition:
+      "A monotonically increasing counter in ESP packets used for anti-replay protection, ensuring each packet can be identified and duplicates detected.",
+    category: "security",
+    relatedTerms: ["esp", "anti-replay", "packet-ordering", "replay-protection"],
+  },
+  {
+    id: "selector",
+    term: "IPsec Selector",
+    definition:
+      "Traffic classification criteria in security policies including source/destination addresses, ports, protocol numbers, and DSCP values for packet matching.",
+    category: "security",
+    relatedTerms: ["spd", "security-policy", "traffic-classification", "packet-matching"],
+  },
+  {
+    id: "security-policy",
+    term: "Security Policy",
+    definition:
+      "IPsec rules defining how traffic should be processed, specifying selectors for traffic matching and actions (DISCARD, BYPASS, or PROTECT).",
+    category: "security",
+    relatedTerms: ["spd", "selector", "ipsec", "traffic-processing", "security-action"],
+  },
+  {
+    id: "vpn",
+    term: "VPN",
+    definition:
+      "Virtual Private Network - A secure network connection over public infrastructure, typically implemented using IPsec tunnel mode for site-to-site connectivity.",
+    category: "security",
+    relatedTerms: ["ipsec", "tunnel-mode", "secure-tunnel", "remote-access", "site-to-site"],
+  },
+  {
+    id: "ike",
+    term: "IKE",
+    definition:
+      "Internet Key Exchange - A protocol for establishing and managing IPsec Security Associations, handling authentication and key negotiation automatically.",
+    category: "security",
+    relatedTerms: ["ipsec", "sa", "key-management", "authentication", "key-negotiation"],
+  },
+  {
+    id: "encryption",
+    term: "Encryption",
+    definition:
+      "The process of converting plaintext data into ciphertext using cryptographic algorithms and keys to provide confidentiality protection.",
+    category: "security",
+    relatedTerms: ["esp", "confidentiality", "aes", "cipher", "cryptographic-algorithm"],
+  },
+  {
+    id: "authentication",
+    term: "Authentication",
+    definition:
+      "Cryptographic verification of data origin and integrity, ensuring data comes from the claimed source and hasn't been tampered with.",
+    category: "security",
+    relatedTerms: ["esp", "ah", "integrity", "hmac", "data-origin"],
+  },
+  {
+    id: "integrity",
+    term: "Data Integrity",
+    definition:
+      "Assurance that data has not been altered or corrupted during transmission or storage, typically verified using cryptographic hash functions.",
+    category: "security",
+    relatedTerms: ["authentication", "esp", "ah", "hash-function", "tampering-detection"],
+  },
+  {
+    id: "confidentiality",
+    term: "Confidentiality",
+    definition:
+      "Protection of information from unauthorized disclosure, achieved through encryption to ensure only authorized parties can access the data.",
+    category: "security",
+    relatedTerms: ["encryption", "esp", "privacy", "data-protection", "unauthorized-access"],
+  },
+  {
+    id: "replay-attack",
+    term: "Replay Attack",
+    definition:
+      "A network attack where captured packets are retransmitted to trick the receiver, prevented by anti-replay mechanisms using sequence numbers.",
+    category: "security",
+    relatedTerms: ["anti-replay", "sequence-number", "packet-capture", "network-attack"],
+  },
+  {
+    id: "sliding-window",
+    term: "Sliding Window",
+    definition:
+      "Anti-replay mechanism maintaining a window of acceptable sequence numbers, rejecting packets outside the window or previously received.",
+    category: "security",
+    relatedTerms: ["anti-replay", "sequence-number", "esp", "window-size", "packet-acceptance"],
+  },
+  {
+    id: "encapsulation",
+    term: "Encapsulation",
+    definition:
+      "The process of wrapping data with protocol headers and trailers, such as ESP encapsulation adding security headers to protect the original packet.",
+    category: "network",
+    relatedTerms: ["esp", "tunnel-mode", "packet-wrapping", "protocol-headers"],
+  },
+  {
+    id: "esp-header",
+    term: "ESP Header",
+    definition:
+      "The IPsec ESP packet header containing Security Parameter Index (SPI) and sequence number, followed by the Initialization Vector for encryption.",
+    category: "security",
+    relatedTerms: ["esp", "spi", "sequence-number", "iv", "packet-structure"],
+  },
+  {
+    id: "esp-trailer",
+    term: "ESP Trailer",
+    definition:
+      "The end portion of ESP packets containing padding, pad length, next header field, and optional Integrity Check Value for authentication.",
+    category: "security",
+    relatedTerms: ["esp", "padding", "next-header", "icv", "packet-structure"],
+  },
+  {
+    id: "iv",
+    term: "Initialization Vector (IV)",
+    definition:
+      "A random or pseudo-random value used with encryption algorithms to ensure identical plaintexts encrypt to different ciphertexts.",
+    category: "security",
+    relatedTerms: ["encryption", "esp", "aes-cbc", "randomness", "cryptographic-security"],
+  },
+  {
+    id: "icv",
+    term: "Integrity Check Value (ICV)",
+    definition:
+      "The authentication data appended to ESP packets containing HMAC or other authentication codes to verify data integrity and origin.",
+    category: "security",
+    relatedTerms: ["esp", "authentication", "hmac", "integrity", "auth-tag"],
+  },
+  {
+    id: "padding",
+    term: "ESP Padding",
+    definition:
+      "Extra bytes added to ESP packets to align data to cipher block boundaries and conceal the actual payload length for block ciphers.",
+    category: "security",
+    relatedTerms: ["esp", "block-cipher", "aes-cbc", "alignment", "traffic-analysis"],
+  },
+  {
+    id: "next-header",
+    term: "Next Header",
+    definition:
+      "Field in IPsec packets identifying the protocol of the protected data (e.g., TCP=6, UDP=17), indicating what follows the IPsec processing.",
+    category: "protocol",
+    relatedTerms: ["esp", "ah", "protocol-identification", "packet-processing"],
+  },
+  {
+    id: "site-to-site",
+    term: "Site-to-Site VPN",
+    definition:
+      "VPN connection between two network locations (like offices) using IPsec tunnel mode to create a secure bridge over the internet.",
+    category: "security",
+    relatedTerms: ["vpn", "tunnel-mode", "ipsec", "enterprise-connectivity", "network-bridge"],
+  },
+  {
+    id: "remote-access",
+    term: "Remote Access VPN",
+    definition:
+      "VPN allowing individual users to securely connect to a corporate network from remote locations, typically using IPsec or SSL/TLS.",
+    category: "security",
+    relatedTerms: ["vpn", "ipsec", "ssl-vpn", "mobile-access", "corporate-network"],
+  },
+  {
+    id: "traffic-flow-confidentiality",
+    term: "Traffic Flow Confidentiality",
+    definition:
+      "Security service that conceals traffic patterns and communication relationships by hiding source/destination information in tunnel mode.",
+    category: "security",
+    relatedTerms: ["tunnel-mode", "ipsec", "traffic-analysis", "communication-privacy"],
+  },
+  
+  // TURN Relay Protocol Terms (RFC 8656)
+  {
+    id: "turn-allocation",
+    term: "TURN Allocation",
+    definition:
+      "A relay address and port on a TURN server allocated to a client, providing a public endpoint for receiving data from peers when direct connections fail.",
+    category: "network",
+    relatedTerms: ["turn", "relay-address", "nat-traversal", "allocation-request", "fallback"],
+  },
+  {
+    id: "turn-permission",
+    term: "TURN Permission",
+    definition:
+      "Authorization mechanism in TURN that specifies which peer IP addresses are allowed to send data to the client's relay allocation, preventing unauthorized usage.",
+    category: "security",
+    relatedTerms: ["turn", "turn-allocation", "peer-authorization", "access-control", "relay-security"],
+  },
+  {
+    id: "turn-channel",
+    term: "TURN Channel",
+    definition:
+      "An optimized TURN data transmission method using 4-byte headers instead of full STUN encapsulation, reducing overhead for high-volume communications.",
+    category: "network",
+    relatedTerms: ["turn", "channel-data", "send-indication", "data-indication", "optimization"],
+  },
+  {
+    id: "send-indication",
+    term: "Send Indication",
+    definition:
+      "TURN message type used by clients to send data to peers through the relay server, containing the peer address and the data to be forwarded.",
+    category: "protocol",
+    relatedTerms: ["turn", "data-indication", "turn-channel", "relay-data", "peer-communication"],
+  },
+  {
+    id: "data-indication",
+    term: "Data Indication",
+    definition:
+      "TURN message type used by the server to forward peer data to clients, containing the peer source address and the received data.",
+    category: "protocol",
+    relatedTerms: ["turn", "send-indication", "turn-channel", "relay-data", "peer-communication"],
+  },
+  {
+    id: "channel-data",
+    term: "Channel Data",
+    definition:
+      "Compact TURN data transmission format using channel numbers instead of full STUN headers, providing 90% reduction in packet overhead.",
+    category: "protocol",
+    relatedTerms: ["turn-channel", "turn", "channel-bind", "optimization", "header-reduction"],
+  },
+  {
+    id: "allocation-request",
+    term: "Allocation Request",
+    definition:
+      "TURN message requesting the server to create a new relay allocation, specifying transport protocols and lifetime preferences.",
+    category: "protocol",
+    relatedTerms: ["turn-allocation", "turn", "relay-address", "allocation-response"],
+  },
+  {
+    id: "allocation-response",
+    term: "Allocation Response",
+    definition:
+      "TURN server response containing the allocated relay address and transport information, or an error if allocation failed.",
+    category: "protocol",
+    relatedTerms: ["allocation-request", "turn-allocation", "relay-address", "turn"],
+  },
+  {
+    id: "channel-bind",
+    term: "Channel Bind",
+    definition:
+      "TURN operation that associates a channel number with a peer address, enabling the use of compact Channel Data messages for that peer.",
+    category: "protocol",
+    relatedTerms: ["turn-channel", "channel-data", "turn", "peer-binding"],
+  },
+  {
+    id: "refresh-request",
+    term: "Refresh Request",
+    definition:
+      "TURN message used to extend the lifetime of an existing allocation, preventing it from expiring during active communications.",
+    category: "protocol",
+    relatedTerms: ["turn-allocation", "turn", "allocation-lifetime", "keep-alive"],
+  },
+  {
+    id: "relay-address",
+    term: "Relay Address",
+    definition:
+      "The public IP address and port allocated by a TURN server for a client, serving as the destination address for peers to reach the client.",
+    category: "network",
+    relatedTerms: ["turn-allocation", "turn", "public-address", "nat-traversal"],
+  },
+  {
+    id: "relay",
+    term: "Relay",
+    definition:
+      "Intermediate server that forwards data between endpoints when direct communication is not possible, used as fallback in NAT traversal.",
+    category: "network",
+    relatedTerms: ["turn", "relay-address", "fallback", "nat-traversal", "indirect-connection"],
+  },
+  {
+    id: "allocation-lifetime",
+    term: "Allocation Lifetime",
+    definition:
+      "The duration for which a TURN allocation remains active, after which it expires unless refreshed by the client.",
+    category: "network",
+    relatedTerms: ["turn-allocation", "refresh-request", "turn", "resource-management"],
+  },
+  {
+    id: "turn-server",
+    term: "TURN Server",
+    definition:
+      "A network server implementing the TURN protocol to provide relay services for clients behind restrictive NATs or firewalls.",
+    category: "network",
+    relatedTerms: ["turn", "relay", "nat-traversal", "stun-server", "relay-service"],
+  },
+  {
+    id: "fallback",
+    term: "Fallback Connection",
+    definition:
+      "Alternative communication method used when the preferred direct connection fails, such as TURN relay when P2P connectivity cannot be established.",
+    category: "network",
+    relatedTerms: ["turn", "relay", "ice", "connectivity-fallback", "backup-path"],
+  },
+  {
+    id: "peer-authorization",
+    term: "Peer Authorization",
+    definition:
+      "TURN security mechanism requiring explicit permission for each peer IP address before it can send data to the client's relay allocation.",
+    category: "security",
+    relatedTerms: ["turn-permission", "turn", "access-control", "relay-security"],
+  },
+  {
+    id: "relay-security",
+    term: "Relay Security",
+    definition:
+      "Security mechanisms in TURN including authentication, rate limiting, and peer permissions to prevent abuse and unauthorized relay usage.",
+    category: "security",
+    relatedTerms: ["turn", "turn-permission", "authentication", "rate-limiting", "abuse-prevention"],
+  },
+  {
+    id: "bandwidth-throttling",
+    term: "Bandwidth Throttling",
+    definition:
+      "Rate limiting mechanism in TURN servers to prevent abuse and manage resource consumption by limiting data transfer rates per allocation.",
+    category: "network",
+    relatedTerms: ["turn", "rate-limiting", "resource-management", "abuse-prevention"],
+  },
+  {
+    id: "relay-candidate",
+    term: "Relay Candidate",
+    definition:
+      "An ICE candidate obtained through a TURN server that provides a relay address for cases where direct connectivity cannot be established.",
+    category: "network",
+    relatedTerms: ["ice-candidate", "turn", "relay", "fallback", "symmetric-nat"],
+  },
+  
   // NAT Traversal Terms (RFC 5389 & RFC 8445)
   {
     id: "nat",
