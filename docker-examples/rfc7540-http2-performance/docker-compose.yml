@@ -1,0 +1,246 @@
+version: '3.8'
+
+services:
+  # RFC 7540 HTTP/2 Performance Comparison Environment
+  
+  # HTTP/1.1 Server for Comparison
+  http1-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.http1-server
+    container_name: rfc7540-http1-server
+    ports:
+      - "8080:80"
+    networks:
+      - web-network
+    environment:
+      - SERVER_TYPE=HTTP/1.1
+      - MAX_CONNECTIONS=6
+      - KEEP_ALIVE_TIMEOUT=5
+    volumes:
+      - ./content:/var/www/html
+      - ./logs/http1:/var/log/nginx
+
+  # HTTP/2 Server 
+  http2-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.http2-server
+    container_name: rfc7540-http2-server
+    ports:
+      - "8443:443"
+    networks:
+      - web-network
+    environment:
+      - SERVER_TYPE=HTTP/2
+      - MAX_CONCURRENT_STREAMS=100
+      - HPACK_TABLE_SIZE=4096
+      - SERVER_PUSH_ENABLED=true
+    volumes:
+      - ./content:/var/www/html
+      - ./ssl:/etc/ssl/certs
+      - ./logs/http2:/var/log/nginx
+      - ./server-push-config:/etc/nginx/push
+
+  # HTTP/2 with Server Push Demonstration
+  http2-push-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.http2-push
+    container_name: rfc7540-push-server
+    ports:
+      - "8444:443"
+    networks:
+      - web-network
+    environment:
+      - SERVER_PUSH_AGGRESSIVE=true
+      - PUSH_STRATEGY=smart
+      - PRELOAD_HINTS=true
+    volumes:
+      - ./content:/var/www/html
+      - ./ssl:/etc/ssl/certs
+      - ./push-logs:/var/log/push
+      - ./push-analytics:/app/analytics
+
+  # Performance Testing and Analysis
+  performance-tester:
+    build:
+      context: .
+      dockerfile: Dockerfile.performance-tester
+    container_name: rfc7540-performance-tester
+    ports:
+      - "3000:3000"
+    networks:
+      - web-network
+    environment:
+      - TESTER_PORT=3000
+      - TEST_SCENARIOS=basic,heavy,mobile,cdn
+      - CONCURRENT_CLIENTS=50
+    volumes:
+      - ./test-scenarios:/app/scenarios
+      - ./test-results:/app/results
+      - ./performance-reports:/app/reports
+    depends_on:
+      - http1-server
+      - http2-server
+      - http2-push-server
+
+  # Real Browser Testing Environment
+  browser-testing:
+    build:
+      context: .
+      dockerfile: Dockerfile.browser-testing
+    container_name: rfc7540-browser-testing
+    ports:
+      - "4444:4444"
+      - "7900:7900"  # VNC for visual testing
+    networks:
+      - web-network
+    environment:
+      - SELENIUM_HUB_HOST=browser-testing
+      - VNC_NO_PASSWORD=1
+      - SCREEN_WIDTH=1920
+      - SCREEN_HEIGHT=1080
+    volumes:
+      - ./browser-tests:/app/tests
+      - ./browser-results:/app/results
+    shm_size: 2gb
+
+  # Network Simulation for Realistic Testing
+  network-simulator:
+    build:
+      context: .
+      dockerfile: Dockerfile.network-sim
+    container_name: rfc7540-network-sim
+    networks:
+      - web-network
+    environment:
+      - NETWORK_PROFILES=3g,4g,cable,fiber
+      - LATENCY_SIMULATION=true
+      - BANDWIDTH_THROTTLING=true
+    volumes:
+      - ./network-profiles:/app/profiles
+    cap_add:
+      - NET_ADMIN
+    depends_on:
+      - http1-server
+      - http2-server
+
+  # HTTP/2 Protocol Analyzer
+  protocol-analyzer:
+    build:
+      context: .
+      dockerfile: Dockerfile.protocol-analyzer
+    container_name: rfc7540-protocol-analyzer
+    ports:
+      - "8090:8090"
+    networks:
+      - web-network
+    environment:
+      - ANALYZER_PORT=8090
+      - CAPTURE_HPACK=true
+      - CAPTURE_FRAMES=true
+      - ANALYZE_MULTIPLEXING=true
+    volumes:
+      - ./protocol-captures:/app/captures
+      - ./frame-analysis:/app/analysis
+    depends_on:
+      - http2-server
+
+  # Load Generator for Stress Testing
+  load-generator:
+    build:
+      context: .
+      dockerfile: Dockerfile.load-generator
+    container_name: rfc7540-load-generator
+    networks:
+      - web-network
+    environment:
+      - LOAD_PATTERNS=gradual,spike,sustained
+      - MAX_RPS=1000
+      - CONNECTION_POOLING=true
+    volumes:
+      - ./load-patterns:/app/patterns
+      - ./load-results:/app/results
+    depends_on:
+      - http1-server
+      - http2-server
+
+  # Web Dashboard for Results Visualization
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile.dashboard
+    container_name: rfc7540-dashboard
+    ports:
+      - "3001:3001"
+    networks:
+      - web-network
+    environment:
+      - DASHBOARD_PORT=3001
+      - REAL_TIME_UPDATES=true
+      - GRAFANA_INTEGRATION=true
+    volumes:
+      - ./test-results:/app/data/results:ro
+      - ./performance-reports:/app/data/reports:ro
+      - ./protocol-captures:/app/data/captures:ro
+      - ./dashboards:/app/dashboards
+    depends_on:
+      - performance-tester
+      - protocol-analyzer
+
+  # CDN Simulation for Real-World Testing
+  cdn-simulator:
+    build:
+      context: .
+      dockerfile: Dockerfile.cdn-sim
+    container_name: rfc7540-cdn-sim
+    ports:
+      - "8445:443"
+    networks:
+      - web-network
+    environment:
+      - CDN_REGIONS=us-east,us-west,eu,asia
+      - CACHE_HIT_RATIO=85
+      - HTTP2_PUSH_CDN=true
+    volumes:
+      - ./content:/var/www/html
+      - ./cdn-cache:/var/cache/cdn
+      - ./cdn-logs:/var/log/cdn
+
+  # Mobile Performance Testing
+  mobile-tester:
+    build:
+      context: .
+      dockerfile: Dockerfile.mobile-tester
+    container_name: rfc7540-mobile-tester
+    networks:
+      - web-network
+    environment:
+      - DEVICE_PROFILES=iphone,android,tablet
+      - NETWORK_CONDITIONS=3g,4g,wifi
+      - BATTERY_SIMULATION=true
+    volumes:
+      - ./mobile-tests:/app/tests
+      - ./mobile-results:/app/results
+    depends_on:
+      - network-simulator
+
+networks:
+  web-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/16
+
+volumes:
+  content-data:
+  ssl-certificates:
+  test-results:
+  performance-reports:
+  protocol-captures:
+  browser-results:
+  load-results:
+  mobile-results:
+  cdn-cache:
+  logs:
