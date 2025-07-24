@@ -4,6 +4,7 @@ import { getCodeExample } from "../../utils/codeReader";
 import CodeBlock from "../../components/CodeBlock";
 import ExpandableSection from "../../components/ExpandableSection";
 import MermaidDiagram from "../../components/MermaidDiagram";
+import GlossaryTerm from "../../components/GlossaryTerm";
 
 export default function RFC8656() {
   return (
@@ -69,7 +70,7 @@ export default function RFC8656() {
             <h4 className="font-semibold text-green-800 mb-2">TURN Solution</h4>
             <ul className="list-disc list-inside space-y-1 text-green-700">
               <li>Provides relay address for communication</li>
-              <li>Works through any firewall/NAT</li>
+              <li>Works through any <GlossaryTerm>firewall</GlossaryTerm>/NAT</li>
               <li>Maintains connection state</li>
               <li>Supports authentication and permissions</li>
             </ul>
@@ -410,7 +411,7 @@ sequenceDiagram
                 <td className="p-2">Reliability</td>
                 <td className="p-2">NAT dependent</td>
                 <td className="p-2">99%+ success</td>
-                <td className="p-2">Works through any firewall</td>
+                <td className="p-2">Works through any <GlossaryTerm>firewall</GlossaryTerm></td>
               </tr>
             </tbody>
           </table>

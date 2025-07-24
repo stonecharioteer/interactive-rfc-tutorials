@@ -1650,6 +1650,103 @@ export const glossaryTerms: GlossaryTerm[] = [
     category: "protocol",
     relatedTerms: ["ice", "simplified-ice", "server-implementation", "host-candidate"],
   },
+  // High-priority networking infrastructure terms
+  {
+    id: "router",
+    term: "Router",
+    definition:
+      "A network device that forwards packets between different networks using routing tables and protocols. Routers operate at Layer 3 and make path decisions based on IP addresses.",
+    category: "network",
+    relatedTerms: ["routing", "gateway", "ip", "packet", "layer-3"],
+  },
+  {
+    id: "gateway",
+    term: "Gateway",
+    definition:
+      "A network node that serves as an access point to another network, often translating between different protocols. In home networks, typically refers to the default gateway (router).",
+    category: "network",
+    relatedTerms: ["router", "default-gateway", "network", "protocol-translation"],
+  },
+  {
+    id: "firewall",
+    term: "Firewall",
+    definition:
+      "A network security device that monitors and controls incoming and outgoing network traffic based on predetermined security rules, acting as a barrier between trusted and untrusted networks.",
+    category: "security",
+    relatedTerms: ["security", "packet-filtering", "access-control", "network-security"],
+  },
+  {
+    id: "proxy",
+    term: "Proxy",
+    definition:
+      "An intermediary server that acts on behalf of clients, forwarding requests to other servers. Proxies can provide caching, security, anonymity, and access control functions.",
+    category: "network",
+    relatedTerms: ["proxy-server", "intermediary", "cache", "reverse-proxy"],
+  },
+  {
+    id: "cache",
+    term: "Cache",
+    definition:
+      "A temporary storage area that stores frequently accessed data closer to the user to improve performance and reduce network load. Common in web browsers, CDNs, and proxy servers.",
+    category: "network",
+    relatedTerms: ["caching", "cdn", "proxy", "performance", "temporary-storage"],
+  },
+  {
+    id: "load-balancer",
+    term: "Load Balancer",
+    definition:
+      "A device or software that distributes incoming network traffic across multiple servers to ensure no single server becomes overwhelmed, improving performance and reliability.",
+    category: "network",
+    relatedTerms: ["load-balancing", "traffic-distribution", "server-farm", "high-availability"],
+  },
+  {
+    id: "cdn",
+    term: "CDN",
+    definition:
+      "Content Delivery Network - A geographically distributed group of servers that work together to provide fast delivery of internet content by serving users from the nearest location.",
+    category: "network",
+    relatedTerms: ["content-delivery", "cache", "edge-server", "performance", "distributed-system"],
+  },
+  {
+    id: "latency",
+    term: "Latency",
+    definition:
+      "The time delay between sending a request and receiving a response over a network. Measured in milliseconds, it's a key factor in network performance and user experience.",
+    category: "network",
+    relatedTerms: ["delay", "rtt", "performance", "network-performance"],
+  },
+  {
+    id: "throughput",
+    term: "Throughput",
+    definition:
+      "The actual amount of data successfully transmitted over a network in a given time period, usually measured in bits per second (bps). Different from bandwidth, which is theoretical capacity.",
+    category: "network",
+    relatedTerms: ["bandwidth", "data-rate", "performance", "network-capacity"],
+  },
+  {
+    id: "websocket",
+    term: "WebSocket",
+    definition:
+      "A communication protocol that provides full-duplex communication channels over a single TCP connection, enabling real-time data exchange between client and server.",
+    category: "web",
+    relatedTerms: ["real-time", "full-duplex", "tcp", "web-protocol"],
+  },
+  {
+    id: "cors",
+    term: "CORS",
+    definition:
+      "Cross-Origin Resource Sharing - A mechanism that allows restricted resources on a web page to be requested from another domain outside the domain from which the first resource was served.",
+    category: "web",
+    relatedTerms: ["cross-origin", "security", "web-security", "same-origin-policy"],
+  },
+  {
+    id: "jwt",
+    term: "JWT",
+    definition:
+      "JSON Web Token - A compact, URL-safe means of representing claims between two parties. Commonly used for authentication and information exchange in web applications.",
+    category: "web",
+    relatedTerms: ["authentication", "token", "json", "web-authentication"],
+  },
 ];
 
 // Create a lookup map for faster access
