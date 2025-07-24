@@ -4,6 +4,7 @@ import { getCodeExample } from "../../utils/codeReader";
 import CodeBlock from "../../components/CodeBlock";
 import ExpandableSection from "../../components/ExpandableSection";
 import MermaidDiagram from "../../components/MermaidDiagram";
+import GlossaryTerm from "../../components/GlossaryTerm";
 
 export default function RFC8656() {
   return (
@@ -40,11 +41,11 @@ export default function RFC8656() {
       <h2>The Problem TURN Solves</h2>
       <p>
         While{" "}
-        <Link to="/rfcs/5389" className="text-blue-600 hover:text-blue-800">
+        <Link to="/rfc/5389" className="text-blue-600 hover:text-blue-800">
           STUN (RFC 5389)
         </Link>{" "}
         and{" "}
-        <Link to="/rfcs/8445" className="text-blue-600 hover:text-blue-800">
+        <Link to="/rfc/8445" className="text-blue-600 hover:text-blue-800">
           ICE (RFC 8445)
         </Link>{" "}
         enable direct peer-to-peer connections in many scenarios, some network
@@ -69,7 +70,7 @@ export default function RFC8656() {
             <h4 className="font-semibold text-green-800 mb-2">TURN Solution</h4>
             <ul className="list-disc list-inside space-y-1 text-green-700">
               <li>Provides relay address for communication</li>
-              <li>Works through any firewall/NAT</li>
+              <li>Works through any <GlossaryTerm>firewall</GlossaryTerm>/NAT</li>
               <li>Maintains connection state</li>
               <li>Supports authentication and permissions</li>
             </ul>
@@ -410,7 +411,7 @@ sequenceDiagram
                 <td className="p-2">Reliability</td>
                 <td className="p-2">NAT dependent</td>
                 <td className="p-2">99%+ success</td>
-                <td className="p-2">Works through any firewall</td>
+                <td className="p-2">Works through any <GlossaryTerm>firewall</GlossaryTerm></td>
               </tr>
             </tbody>
           </table>
@@ -499,21 +500,21 @@ sequenceDiagram
         </p>
         <div className="flex flex-wrap gap-2 mt-3">
           <Link
-            to="/rfcs/5389"
+            to="/rfc/5389"
             className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium text-sm"
           >
             ← RFC 5389: STUN
           </Link>
           <span className="text-gray-400">|</span>
           <Link
-            to="/rfcs/8445"
+            to="/rfc/8445"
             className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium text-sm"
           >
             RFC 8445: ICE
           </Link>
           <span className="text-gray-400">|</span>
           <Link
-            to="/rfcs/4787"
+            to="/rfc/4787"
             className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium text-sm"
           >
             RFC 4787: NAT Behavior →

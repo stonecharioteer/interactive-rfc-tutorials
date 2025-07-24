@@ -117,10 +117,10 @@ VRF = Virtual Routing and Forwarding table
             <strong>Outer Label (Transport/LDP):</strong> Routes packet through MPLS core to destination PE
           </div>
           <div className="bg-white p-2 rounded border">
-            <strong>Inner Label (VPN/BGP):</strong> Identifies the specific VRF on the destination PE router
+            <strong>Inner Label (VPN/BGP):</strong> Identifies the specific VRF on the destination PE <GlossaryTerm>router</GlossaryTerm>
           </div>
           <div className="bg-blue-50 p-2 rounded border">
-            <strong>Packet Flow:</strong> CE → PE (push labels) → P-routers (swap outer) → PE (pop labels) → CE
+            <strong>Packet Flow:</strong> CE → PE (push labels) → P-<GlossaryTerm>router</GlossaryTerm>s (swap outer) → PE (pop labels) → CE
           </div>
         </div>
       </div>

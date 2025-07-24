@@ -3,6 +3,7 @@ import { ExternalLink, Wifi, Globe } from "lucide-react";
 import { getCodeExample } from "../../utils/codeReader";
 import CodeBlock from "../../components/CodeBlock";
 import ExpandableSection from "../../components/ExpandableSection";
+import GlossaryTerm from "../../components/GlossaryTerm";
 
 export default function RFC5389() {
   return (
@@ -108,7 +109,7 @@ export default function RFC5389() {
             Think of NAT like a hotel reception desk. When you're staying in room 237, people outside
             can't call you directly - they have to call the hotel's main number, and the receptionist
             forwards the call to your room. Similarly, your devices behind NAT can't be reached directly
-            from the internet - all connections must go through your router.
+            from the internet - all connections must go through your <GlossaryTerm>router</GlossaryTerm>.
           </p>
 
           <h4 className="font-semibold text-gray-800">The NAT Problem</h4>
@@ -440,7 +441,7 @@ export default function RFC5389() {
       </p>
       -{" "}
       <strong>
-        <Link to="/rfcs/8445" className="text-blue-600 hover:text-blue-800">
+        <Link to="/rfc/8445" className="text-blue-600 hover:text-blue-800">
           RFC 8445 (ICE)
         </Link>
       </strong>

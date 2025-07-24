@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Home, BookOpen, Clock, Github } from "lucide-react";
+import { Home, BookOpen, Clock, Github, Book } from "lucide-react";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -27,6 +27,13 @@ export default function Layout({ children }: LayoutProps) {
               >
                 <Home className="h-4 w-4" />
                 <span>Home</span>
+              </Link>
+              <Link
+                to="/glossary"
+                className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
+              >
+                <Book className="h-4 w-4" />
+                <span>Glossary</span>
               </Link>
               <a
                 href="https://github.com/stonecharioteer/interactive-rfc-tutorials"

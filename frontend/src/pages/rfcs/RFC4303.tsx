@@ -132,7 +132,7 @@ graph TD
       <h2>Security Services Provided</h2>
       <p>
         ESP can provide different combinations of security services depending
-        on configuration. <Link to="/rfcs/4301" className="text-blue-600 hover:text-blue-800">RFC 4301</Link> defines
+        on configuration. <Link to="/rfc/4301" className="text-blue-600 hover:text-blue-800">RFC 4301</Link> defines
         which combinations are mandatory and optional.
       </p>
 
@@ -557,7 +557,7 @@ graph LR
           relay mechanisms for NAT traversal in challenging network scenarios.
         </p>
         <Link
-          to="/rfcs/8656"
+          to="/rfc/8656"
           className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
         >
           RFC 8656: TURN Relay Protocol →

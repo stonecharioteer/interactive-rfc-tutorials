@@ -3,6 +3,7 @@ import { ExternalLink, Network, Zap } from "lucide-react";
 import { getCodeExample } from "../../utils/codeReader";
 import CodeBlock from "../../components/CodeBlock";
 import ExpandableSection from "../../components/ExpandableSection";
+import GlossaryTerm from "../../components/GlossaryTerm";
 
 export default function RFC8445() {
   return (
@@ -29,7 +30,7 @@ export default function RFC8445() {
         <strong>Interactive Connectivity Establishment (ICE)</strong> represents
         the evolution of NAT traversal from simple{" "}
         <strong>
-          <Link to="/rfcs/5389" className="text-blue-600 hover:text-blue-800">
+          <Link to="/rfc/5389" className="text-blue-600 hover:text-blue-800">
             STUN (RFC 5389)
           </Link>
         </strong>
@@ -51,7 +52,7 @@ export default function RFC8445() {
           strategies
         </li>
         <li>
-          <strong>Firewall policies</strong> blocking certain connection types
+          <strong><GlossaryTerm>Firewall</GlossaryTerm> policies</strong> blocking certain connection types
         </li>
         <li>
           <strong>Network changes</strong> during connection establishment
@@ -92,7 +93,7 @@ export default function RFC8445() {
           <div>
             <strong className="text-green-700">🎮 Real-time Gaming:</strong>
             <p className="text-green-600 mt-1">
-              Low-latency multiplayer games rely on ICE for direct connections
+              Low-<GlossaryTerm>latency</GlossaryTerm> multiplayer games rely on ICE for direct connections
             </p>
           </div>
           <div>
@@ -492,7 +493,7 @@ export default function RFC8445() {
       applications.
       <h3>Related Protocols to Explore</h3>-{" "}
       <strong>
-        <Link to="/rfcs/5389" className="text-blue-600 hover:text-blue-800">
+        <Link to="/rfc/5389" className="text-blue-600 hover:text-blue-800">
           RFC 5389 (STUN)
         </Link>
       </strong>
