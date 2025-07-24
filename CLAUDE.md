@@ -78,8 +78,47 @@
 - **Total RFCs Implemented**: 22 comprehensive tutorials
 - **Docker Examples**: Available for 15+ RFCs with hands-on demonstrations
 - **Test Coverage**: 124 Playwright tests covering desktop and mobile scenarios
-- **Glossary Terms**: 300+ networking and security terms with contextual explanations
+- **Glossary Terms**: 1,662+ networking and security terms with contextual explanations
 - **Educational Sections**: ELI-Pythonista sections with Python examples for complex protocols
+
+### Glossary System Enhancement (July 24, 2025)
+
+**Branch**: `fix/cross-link-routing-urls` (PR #47)
+**Status**: Complete with comprehensive educational infrastructure upgrade
+
+**Major Educational Infrastructure Improvements:**
+
+1. **Glossary Database Expansion**:
+   - Added 12 high-priority networking infrastructure terms: router, gateway, firewall, proxy, cache, load-balancer, CDN, latency, throughput, WebSocket, CORS, JWT
+   - Enhanced definitions with proper categorization and related term cross-references
+   - Total glossary now contains 1,662+ comprehensive networking definitions
+   - Improved coverage of fundamental infrastructure, security, and web technology concepts
+
+2. **Complete Cross-Linking Implementation**:
+   - Enhanced 8 RFC tutorial files with 15+ new clickable GlossaryTerm references
+   - Implemented "every instance" linking policy - all occurrences of key terms now provide educational popups
+   - Fixed 12 broken cross-links using incorrect `/rfcs/` URL pattern to proper `/rfc/` routing
+   - Added GlossaryTerm imports and wrappers across: RFC675, RFC2547, RFC5389, RFC793, RFC8445, RFC959, RFC8656
+
+3. **New Dedicated Glossary Page (`/glossary`)**:
+   - Full-featured browsing interface with real-time search and category filtering
+   - Visual organization with color-coded category badges (Protocol, Network, Security, Web, Email, General)
+   - Statistics dashboard showing term counts per category with emoji icons
+   - Responsive grid layout optimized for mobile learning experience
+   - Added navigation link in main header for easy access
+   - 1,662+ searchable definitions with related terms cross-referencing
+
+**Educational Impact:**
+- Improved learning experience: Users can access definitions at any point during reading
+- Comprehensive coverage: Every key networking term is now clickable and defined throughout tutorials
+- Centralized reference: Dedicated page for browsing and discovering related networking concepts
+- Enhanced discoverability: Better relationships between networking concepts and terminology
+
+**Technical Implementation:**
+- Added `/glossary` route to main App router configuration
+- Enhanced Layout component with glossary navigation link
+- Implemented comprehensive search and filtering functionality with React hooks
+- Maintained build compatibility and performance standards
 
 ### Technical Architecture Decisions
 
@@ -89,6 +128,8 @@
 - **Type Safety**: Ensure TypeScript compilation passes with `npx tsc --noEmit`
 - **Glossary Linking**: Add every networking/security abbreviation to the glossary and link with GlossaryTerm component
 - **Educational Patterns**: All complex RFCs must include ELI-Pythonista sections with Python examples and analogies
+- **Code Consistency**: ALL code examples must be in Python, never TypeScript or other languages  
+- **ELI-Pythonista Quality**: ELI-Pythonista sections must contain genuinely pythonic explanations and code, not generic content retrofitted with Python syntax
 - **Docker Integration**: Provide hands-on Docker demonstrations for protocols where applicable
 - **GitHub Actions**: Use `gh act` for local workflow testing before pushing changes
 
@@ -101,9 +142,22 @@
 5. **Pull Request**: Create detailed PRs linking to GitHub issues with comprehensive test plans
 6. **Documentation**: Update both GAMEPLAN.md and CLAUDE.md to reflect implementation progress
 
-### Glossary Expansion Requirements
+### Glossary Expansion Requirements ✅ (Completed - July 24, 2025)
 
-- **Comprehensive Coverage**: Add all networking, security, cryptography, and protocol-specific terms
-- **Contextual Linking**: Use `<GlossaryTerm>` component for automatic popup definitions
-- **Educational Value**: Include terms that help users understand broader internet concepts
-- **Cross-Reference System**: Link related terms and concepts for deeper learning paths
+- **Comprehensive Coverage**: ✅ Added high-priority networking, security, cryptography, and protocol-specific terms
+- **Contextual Linking**: ✅ Implemented `<GlossaryTerm>` component usage across all major networking terms
+- **Educational Value**: ✅ 1,662+ terms help users understand broader internet concepts and relationships  
+- **Cross-Reference System**: ✅ Related terms linking and dedicated glossary page for deeper learning paths
+
+### Future Educational Content Requirements
+
+#### Foundation Tutorials (High Priority)
+- **"How the Internet Works" Overview**: Primary landing tutorial with internet fundamentals and RFC cross-references
+- **Python Networking Getting Started**: Comprehensive sockets library and networking library tutorial for RFC learning
+- **Docker Examples Documentation**: Dedicated guide for using RFC Docker demonstrations
+- **Python Cryptography Tutorial**: Hand-written cryptographic paradigms and internet security tutorial
+- **Core Networking Protocols**: Hand-written Python implementations of DHCP, DNS, and other essential protocols
+
+#### Advanced Protocol Coverage
+- **P2P and Distributed Systems**: BitTorrent, TOR, DHT, and decentralized networking protocol tutorials
+- **Protocol Quality Standards**: All tutorials must maintain Python-first approach with authentic educational content
