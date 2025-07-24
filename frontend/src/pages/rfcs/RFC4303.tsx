@@ -342,17 +342,59 @@ graph LR
         </div>
       </div>
 
-      <h2>Practical ESP Implementation</h2>
-      <p>
-        Implementing ESP requires careful attention to cryptographic operations,
-        padding calculations, and authentication verification. The following
-        example demonstrates core ESP processing.
-      </p>
+      <ExpandableSection title="🐍 ELI-Pythonista: ESP Encryption & Authentication">
+        <div className="space-y-4">
+          <p>
+            ESP is where the rubber meets the road in IPsec - it's the protocol that actually
+            encrypts your data. Think of ESP as a security wrapper that takes your plain data,
+            encrypts it, adds authentication, and packages it for secure transmission.
+          </p>
 
-      <CodeBlock 
-        code={getCodeExample("rfc4303_esp_processing")}
-        language="python"
-      />
+          <h4 className="font-semibold text-gray-800">Anti-Replay Protection</h4>
+          <p>
+            One of ESP's coolest features is preventing replay attacks. Imagine someone captures
+            your encrypted "transfer $1000" packet and tries to replay it later. ESP's sequence
+            number system prevents this by tracking which packets you've already seen.
+          </p>
+
+          <CodeBlock 
+            code={getCodeExample("rfc4303_esp_implementation")}
+            language="python"
+          />
+
+          <h4 className="font-semibold text-gray-800 mt-6">Complete ESP Processing Pipeline</h4>
+          <p>
+            This example shows the full ESP workflow: packet creation, encryption, authentication,
+            verification, and decryption. It's like building a secure envelope system where only
+            the right recipient can open and verify the contents.
+          </p>
+
+          <CodeBlock 
+            code={getCodeExample("rfc4303_esp_processing")}
+            language="python"
+          />
+
+          <div className="bg-green-50 border border-green-200 p-4 rounded-lg mt-4">
+            <h5 className="font-semibold text-green-800 mb-2">Key Python Concepts Demonstrated</h5>
+            <ul className="text-sm text-green-700 space-y-1">
+              <li>• <strong>Cryptography library:</strong> Professional-grade encryption and authentication</li>
+              <li>• <strong>Binary data handling:</strong> Struct packing, byte manipulation, and padding</li>
+              <li>• <strong>Security patterns:</strong> HMAC, anti-replay windows, and key management</li>
+              <li>• <strong>Protocol implementation:</strong> RFC-compliant packet structure and processing</li>
+              <li>• <strong>Error handling:</strong> Graceful failure modes and security validation</li>
+            </ul>
+          </div>
+
+          <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg mt-4">
+            <h5 className="font-semibold text-yellow-800 mb-2">🚨 Security Notice</h5>
+            <p className="text-sm text-yellow-700">
+              These examples are for educational purposes only! Production IPsec implementations
+              require proper key exchange (IKE), certificate validation, constant-time operations,
+              and extensive security testing. Never roll your own crypto for real applications.
+            </p>
+          </div>
+        </div>
+      </ExpandableSection>
 
       <h2>Docker Demonstration</h2>
       <p>

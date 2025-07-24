@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ExternalLink, Wifi, Globe } from "lucide-react";
 import { getCodeExample } from "../../utils/codeReader";
 import CodeBlock from "../../components/CodeBlock";
+import ExpandableSection from "../../components/ExpandableSection";
 
 export default function RFC5389() {
   return (
@@ -101,10 +102,73 @@ export default function RFC5389() {
         connectivity challenges. Here's a Python demonstration of the core
         problem:
       </p>
-      <CodeBlock
-        language="python"
-        code={getCodeExample("rfc5389_network_topology")}
-      />
+      <ExpandableSection title="🐍 ELI-Pythonista: Understanding NAT Traversal">
+        <div className="space-y-4">
+          <p>
+            Think of NAT like a hotel reception desk. When you're staying in room 237, people outside
+            can't call you directly - they have to call the hotel's main number, and the receptionist
+            forwards the call to your room. Similarly, your devices behind NAT can't be reached directly
+            from the internet - all connections must go through your router.
+          </p>
+
+          <h4 className="font-semibold text-gray-800">The NAT Problem</h4>
+          <p>
+            STUN solves this by acting like a friend outside the hotel who can tell you: "Hey, when you
+            called me, the caller ID showed the hotel's number plus extension 1234." Now you know your
+            "public identity" and can tell others how to reach you.
+          </p>
+
+          <CodeBlock
+            language="python"
+            code={getCodeExample("rfc5389_network_topology")}
+          />
+
+          <h4 className="font-semibold text-gray-800 mt-6">STUN Client Implementation</h4>
+          <p>
+            This STUN client demonstrates the core protocol operations: sending binding requests to discover
+            your public IP address and NAT behavior, then using that information for peer-to-peer connectivity.
+          </p>
+
+          <CodeBlock
+            language="python"
+            code={getCodeExample("rfc5389_stun_client")}
+          />
+
+          <h4 className="font-semibold text-gray-800 mt-6">UDP Hole Punching</h4>
+          <p>
+            The real magic happens with UDP hole punching - both sides simultaneously try to connect to each
+            other's public address, and if the timing is right, the packets "punch holes" through both NATs,
+            creating a direct connection.
+          </p>
+
+          <CodeBlock
+            language="python"
+            code={getCodeExample("rfc5389_udp_hole_puncher")}
+          />
+
+          <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg mt-4">
+            <h5 className="font-semibold text-blue-800 mb-2">Key Python Concepts Demonstrated</h5>
+            <ul className="text-sm text-blue-700 space-y-1">
+              <li>• <strong>Socket programming:</strong> UDP client/server communication patterns</li>
+              <li>• <strong>Binary protocols:</strong> Struct packing for network byte order</li>
+              <li>• <strong>Network discovery:</strong> Learning public IP addresses and NAT behavior</li>
+              <li>• <strong>Concurrent programming:</strong> Simultaneous connection attempts</li>
+              <li>• <strong>Error handling:</strong> Network timeouts and connection failures</li>
+            </ul>
+          </div>
+
+          <div className="bg-green-50 border border-green-200 p-4 rounded-lg mt-4">
+            <h5 className="font-semibold text-green-800 mb-2">Real-World Applications</h5>
+            <p className="text-sm text-green-700">
+              STUN powers the peer-to-peer connectivity in applications like Tailscale (mesh VPN), 
+              WebRTC (browser video calls), and gaming platforms. Understanding STUN helps you 
+              appreciate how modern internet applications achieve direct connectivity despite 
+              being behind NATs and firewalls.
+            </p>
+          </div>
+        </div>
+      </ExpandableSection>
+
       <h3>NAT Types and Behaviors</h3>
       <p>
         STUN helps applications identify different <strong>NAT types</strong>,
@@ -149,13 +213,9 @@ export default function RFC5389() {
       <p>
         <strong>STUN</strong> operates as a simple{" "}
         <strong>client-server protocol</strong> using <strong>UDP</strong>{" "}
-        (primarily) or <strong>TCP</strong>. Here's an educational
-        implementation:
+        (primarily) or <strong>TCP</strong>. The protocol enables applications
+        to discover their public IP address and NAT behavior.
       </p>
-      <CodeBlock
-        language="python"
-        code={getCodeExample("rfc5389_stun_client")}
-      />
       <h3>STUN Message Format</h3>
       <p>
         <strong>STUN messages</strong> follow a specific binary format optimized
@@ -191,12 +251,10 @@ export default function RFC5389() {
       <h3>The Hole Punching Technique</h3>
       <p>
         <strong>UDP hole punching</strong> is the key technique that STUN
-        enables for NAT traversal:
+        enables for NAT traversal. This technique allows two devices behind
+        different NATs to establish direct communication by simultaneously
+        sending packets to each other's public addresses.
       </p>
-      <CodeBlock
-        language="python"
-        code={getCodeExample("rfc5389_udp_hole_puncher")}
-      />
       <h2>Modern Applications and Impact</h2>
       <h3>Tailscale's Use of STUN</h3>
       <p>
@@ -232,12 +290,10 @@ export default function RFC5389() {
       <h3>WebRTC and Real-Time Communication</h3>
       <p>
         <strong>WebRTC</strong> (Web Real-Time Communication) relies heavily on
-        STUN for browser-to-browser connections:
+        STUN for browser-to-browser connections. WebRTC uses STUN servers to
+        discover public IP addresses and enable direct peer-to-peer communication
+        for video calls, file sharing, and real-time applications.
       </p>
-      <CodeBlock
-        language="javascript"
-        code={getCodeExample("rfc5389_webrtc_config")}
-      />
       <h2>Performance and Security Considerations</h2>
       <h3>STUN Performance Characteristics</h3>
       <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 my-6">

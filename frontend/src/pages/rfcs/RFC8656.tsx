@@ -299,17 +299,55 @@ sequenceDiagram
         </div>
       </div>
 
-      <h2>Integration with ICE</h2>
-      <p>
-        TURN works seamlessly with ICE to provide a complete NAT traversal
-        solution. TURN relay addresses become ICE relay candidates in the
-        connectivity establishment process.
-      </p>
+      <ExpandableSection title="🐍 ELI-Pythonista: TURN Relay Implementation">
+        <div className="space-y-4">
+          <p>
+            TURN is like having a helpful friend in the middle of the internet who's willing to
+            forward your messages when you can't talk directly to someone. The TURN server acts
+            as this relay, but with strict security rules about who can use it and for what.
+          </p>
 
-      <CodeBlock 
-        code={getCodeExample("rfc8656_turn_client")}
-        language="python"
-      />
+          <h4 className="font-semibold text-gray-800">Understanding TURN Allocations</h4>
+          <p>
+            Think of a TURN allocation like renting a P.O. Box at the post office. You get a
+            public address (the relay address) that others can send mail to, and the post office
+            (TURN server) forwards it to your real address. But unlike a P.O. Box, you can
+            control exactly who is allowed to send you mail.
+          </p>
+
+          <h4 className="font-semibold text-gray-800 mt-4">TURN Protocol Implementation</h4>
+          <p>
+            This implementation shows how TURN clients allocate relay addresses, manage permissions,
+            and transmit data efficiently. It demonstrates both Send/Data Indications (full headers)
+            and Channel Data (compact 4-byte headers) for different use cases.
+          </p>
+
+          <CodeBlock 
+            code={getCodeExample("rfc8656_turn_client")}
+            language="python"
+          />
+
+          <div className="bg-purple-50 border border-purple-200 p-4 rounded-lg mt-4">
+            <h5 className="font-semibold text-purple-800 mb-2">Key Python Concepts Demonstrated</h5>
+            <ul className="text-sm text-purple-700 space-y-1">
+              <li>• <strong>Async networking:</strong> Non-blocking socket operations with asyncio</li>
+              <li>• <strong>Protocol implementation:</strong> STUN/TURN message parsing and creation</li>
+              <li>• <strong>Binary protocols:</strong> Struct packing for network byte order</li>
+              <li>• <strong>State management:</strong> Tracking allocations, permissions, and channels</li>
+              <li>• <strong>Error handling:</strong> Network timeouts and protocol error responses</li>
+            </ul>
+          </div>
+
+          <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg mt-4">
+            <h5 className="font-semibold text-blue-800 mb-2">Integration with ICE</h5>
+            <p className="text-sm text-blue-700">
+              In real applications, TURN relay addresses become ICE "relay candidates" that are
+              tested alongside direct and server-reflexive candidates. The ICE framework
+              automatically chooses the best working path, using TURN only when necessary.
+            </p>
+          </div>
+        </div>
+      </ExpandableSection>
 
       <h2>Docker Demonstration</h2>
       <p>

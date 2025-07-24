@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ExternalLink, Network, Zap } from "lucide-react";
 import { getCodeExample } from "../../utils/codeReader";
 import CodeBlock from "../../components/CodeBlock";
+import ExpandableSection from "../../components/ExpandableSection";
 
 export default function RFC8445() {
   return (
@@ -103,15 +104,72 @@ export default function RFC8445() {
         </div>
       </div>
       <h2>ICE Architecture and Components</h2>
-      <h3>ICE Terminology and Concepts</h3>
-      <p>
-        <strong>ICE</strong> introduces several key concepts that work together
-        for comprehensive connectivity:
-      </p>
-      <CodeBlock
-        language="python"
-        code={getCodeExample("rfc8445_ice_concepts")}
-      />
+      <ExpandableSection title="🐍 ELI-Pythonista: ICE Connection Establishment">
+        <div className="space-y-4">
+          <p>
+            ICE is like a really smart matchmaking service for network connections. Imagine you're trying
+            to meet someone in a crowded city, but neither of you knows exactly where the other person is.
+            ICE would help by: (1) gathering all possible meeting places, (2) trying them all simultaneously,
+            and (3) picking the best one that works for both of you.
+          </p>
+
+          <h4 className="font-semibold text-gray-800">ICE Terminology and Concepts</h4>
+          <p>
+            ICE introduces several key concepts that work together for comprehensive connectivity.
+            Understanding these concepts is crucial for implementing peer-to-peer applications.
+          </p>
+
+          <CodeBlock
+            language="python"
+            code={getCodeExample("rfc8445_ice_concepts")}
+          />
+
+          <h4 className="font-semibold text-gray-800 mt-6">Candidate Gathering Process</h4>
+          <p>
+            Think of ICE gathering like preparing for a first date - you want to suggest multiple places
+            to meet, starting with the most convenient (your neighborhood cafe) and including backups
+            (the central train station that everyone can reach). ICE does the same with network addresses.
+          </p>
+
+          <CodeBlock
+            language="python"
+            code={getCodeExample("rfc8445_ice_gatherer")}
+          />
+
+          <h4 className="font-semibold text-gray-800 mt-6">Connectivity Checking</h4>
+          <p>
+            The connectivity checking process is like speed dating - ICE systematically tries every
+            possible combination of your addresses with the peer's addresses, prioritizing the most
+            promising connections first, until it finds one that works reliably.
+          </p>
+
+          <CodeBlock
+            language="python"
+            code={getCodeExample("rfc8445_connectivity_checker")}
+          />
+
+          <div className="bg-green-50 border border-green-200 p-4 rounded-lg mt-4">
+            <h5 className="font-semibold text-green-800 mb-2">Key Python Concepts Demonstrated</h5>
+            <ul className="text-sm text-green-700 space-y-1">
+              <li>• <strong>Async programming:</strong> Concurrent candidate gathering and connectivity checks</li>
+              <li>• <strong>State machines:</strong> Managing complex ICE negotiation states</li>
+              <li>• <strong>Priority algorithms:</strong> Candidate prioritization and selection logic</li>
+              <li>• <strong>Network programming:</strong> Multi-interface address discovery and binding</li>
+              <li>• <strong>Protocol integration:</strong> Combining STUN, TURN, and local connectivity</li>
+            </ul>
+          </div>
+
+          <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg mt-4">
+            <h5 className="font-semibold text-blue-800 mb-2">Real-World Applications</h5>
+            <p className="text-sm text-blue-700">
+              ICE is the secret sauce behind Tailscale's mesh networking, WebRTC video calls, and modern
+              P2P applications. It automatically handles the complexity of NAT traversal, making
+              direct peer-to-peer connections "just work" even in challenging network environments.
+            </p>
+          </div>
+        </div>
+      </ExpandableSection>
+
       <h3>ICE Priority Calculation</h3>
       <p>
         <strong>ICE</strong> uses a sophisticated priority system to prefer
@@ -150,22 +208,15 @@ export default function RFC8445() {
       <h3>The ICE Gathering Process</h3>
       <p>
         <strong>ICE gathering</strong> is the process of discovering all
-        possible ways to reach a peer:
+        possible ways to reach a peer through multiple network interfaces
+        and connectivity methods.
       </p>
-      <CodeBlock
-        language="python"
-        code={getCodeExample("rfc8445_ice_gatherer")}
-      />
       <h3>ICE Connectivity Checks</h3>
       <p>
         The heart of <strong>ICE</strong> is the{" "}
         <strong>connectivity checking</strong> process that tests all candidate
-        pairs:
+        pairs systematically to find the best working connection path.
       </p>
-      <CodeBlock
-        language="python"
-        code={getCodeExample("rfc8445_connectivity_checker")}
-      />
       <h2>ICE in Real-World Applications</h2>
       <h3>Tailscale's ICE Implementation</h3>
       <p>
@@ -198,12 +249,9 @@ export default function RFC8445() {
       <h3>WebRTC ICE Integration</h3>
       <p>
         <strong>WebRTC</strong> in browsers uses ICE automatically for
-        peer-to-peer connections:
+        peer-to-peer connections, handling the complex negotiation process
+        transparently for web applications.
       </p>
-      <CodeBlock
-        language="javascript"
-        code={getCodeExample("rfc8445_webrtc_demo")}
-      />
       <h2>Performance Characteristics and Optimization</h2>
       <h3>ICE Performance Analysis</h3>
       <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 my-6">

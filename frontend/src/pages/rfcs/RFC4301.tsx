@@ -229,17 +229,50 @@ graph LR
         </div>
       </div>
 
-      <h2>Practical Implementation Example</h2>
-      <p>
-        Understanding IPsec requires hands-on experience with policy configuration
-        and security association management. The following example demonstrates
-        basic IPsec setup between two hosts.
-      </p>
+      <ExpandableSection title="🐍 ELI-Pythonista: IPsec Security Architecture">
+        <div className="space-y-4">
+          <p>
+            IPsec can seem complex, but understanding it through code makes the concepts clear.
+            Think of IPsec as a security framework that sits between your application and the network,
+            making decisions about every packet that flows through.
+          </p>
 
-      <CodeBlock 
-        code={getCodeExample("rfc4301_policy_configuration")}
-        language="python"
-      />
+          <h4 className="font-semibold text-gray-800">Security Association Management</h4>
+          <p>
+            Security Associations (SAs) are like "contracts" between two network endpoints that define
+            exactly how to protect their communication. Each SA specifies the encryption algorithm,
+            keys, and other security parameters.
+          </p>
+
+          <CodeBlock 
+            code={getCodeExample("rfc4301_security_association")}
+            language="python"
+          />
+
+          <h4 className="font-semibold text-gray-800 mt-6">Policy Configuration</h4>
+          <p>
+            The Security Policy Database (SPD) acts like a firewall rule set, but for IPsec.
+            For each packet, it decides: "Should I drop this, let it pass, or encrypt it?"
+            This is where network administrators define their security requirements.
+          </p>
+
+          <CodeBlock 
+            code={getCodeExample("rfc4301_policy_configuration")}
+            language="python"
+          />
+
+          <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg mt-4">
+            <h5 className="font-semibold text-blue-800 mb-2">Key Python Concepts Demonstrated</h5>
+            <ul className="text-sm text-blue-700 space-y-1">
+              <li>• <strong>Dataclasses:</strong> Clean representation of IPsec structures</li>
+              <li>• <strong>Enums:</strong> Type-safe policy actions and modes</li>
+              <li>• <strong>Network programming:</strong> IP address validation and CIDR handling</li>
+              <li>• <strong>Security patterns:</strong> Key management and policy enforcement</li>
+              <li>• <strong>Enterprise architecture:</strong> Scalable security policy design</li>
+            </ul>
+          </div>
+        </div>
+      </ExpandableSection>
 
       <h2>Docker Demonstration</h2>
       <p>
