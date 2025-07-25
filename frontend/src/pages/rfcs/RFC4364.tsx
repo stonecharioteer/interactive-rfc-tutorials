@@ -520,7 +520,14 @@ sequenceDiagram
           </p>
           <CodeBlock
             language="bash"
-            code="cd docker-examples/rfc4364-bgp-mpls-vpn/\ndocker compose up -d\n\n# Access the network topology viewer at:\n# http://localhost:8080\n\n# Monitor BGP/MPLS operations:\n# docker compose logs -f pe-router-1"
+            code={`cd docker-examples/rfc4364-bgp-mpls-vpn/
+docker compose up -d
+
+# Access the network topology viewer at:
+# http://localhost:8080
+
+# Monitor BGP/MPLS operations:
+# docker compose logs -f pe-router-1`}
           />
           <p className="mt-3 text-sm">
             The demonstration includes PE routers with VRF configurations, MP-BGP 

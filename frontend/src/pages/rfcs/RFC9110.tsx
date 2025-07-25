@@ -539,7 +539,14 @@ sequenceDiagram
           </p>
           <CodeBlock
             language="bash"
-            code="cd docker-examples/rfc9110-http-standards/\ndocker compose up -d\n\n# Access the standards test suite at:\n# http://localhost:8080\n\n# Monitor compliance testing:\n# docker compose logs -f compliance-tester"
+            code={`cd docker-examples/rfc9110-http-standards/
+docker compose up -d
+
+# Access the standards test suite at:
+# http://localhost:8080
+
+# Monitor compliance testing:
+# docker compose logs -f compliance-tester`}
           />
           <p className="mt-3 text-sm">
             The demonstration includes method semantics testing, caching behavior 
