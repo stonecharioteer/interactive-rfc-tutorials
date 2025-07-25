@@ -22,31 +22,31 @@ export const rfcEras = {
     name: "Foundation Era",
     period: "1969-1982",
     description: "The birth of the internet and core protocols",
-    color: "bg-blue-500",
+    color: "bg-[#0072b2]",
   },
   "protocol-expansion": {
     name: "Protocol Expansion",
     period: "1983-1990",
     description: "Building the internet infrastructure",
-    color: "bg-green-500",
+    color: "bg-[#009e73]",
   },
   "web-era": {
     name: "Web Era",
     period: "1990s-2000s",
     description: "The World Wide Web revolution",
-    color: "bg-purple-500",
+    color: "bg-[#cc79a7]",
   },
   modern: {
     name: "Modern Networking",
     period: "2000s-2010s",
     description: "Security and performance improvements",
-    color: "bg-amber-500",
+    color: "bg-[#f0e442]",
   },
   current: {
     name: "Current Standards",
     period: "2020s",
     description: "Latest developments and standards",
-    color: "bg-red-500",
+    color: "bg-[#d55e00]",
   },
 };
 
@@ -56,35 +56,35 @@ export const rfcTags: Record<string, RfcTag> = {
     id: "transport",
     name: "Transport",
     category: "protocol",
-    color: "bg-blue-500",
+    color: "bg-[#0072b2]",
     description: "Transport layer protocols (TCP, UDP)"
   },
   "application": {
     id: "application",
     name: "Application",
     category: "protocol",
-    color: "bg-green-500",
+    color: "bg-[#009e73]",
     description: "Application layer protocols (HTTP, SMTP, FTP)"
   },
   "network": {
     id: "network",
     name: "Network",
     category: "protocol",
-    color: "bg-purple-500",
+    color: "bg-[#cc79a7]",
     description: "Network layer protocols (IP, IPv6, routing)"
   },
   "security": {
     id: "security",
     name: "Security",
     category: "protocol",
-    color: "bg-red-500",
+    color: "bg-[#d55e00]",
     description: "Security and cryptographic protocols"
   },
   "naming": {
     id: "naming",
     name: "Naming",
     category: "protocol",
-    color: "bg-yellow-500",
+    color: "bg-[#f0e442]",
     description: "Naming and addressing protocols (DNS)"
   },
   
@@ -93,42 +93,42 @@ export const rfcTags: Record<string, RfcTag> = {
     id: "cryptography",
     name: "Cryptography",
     category: "technology",
-    color: "bg-red-600",
+    color: "bg-[#0072b2]",
     description: "Encryption, authentication, and key exchange"
   },
   "nat-traversal": {
     id: "nat-traversal",
     name: "NAT Traversal",
     category: "technology",
-    color: "bg-indigo-500",
+    color: "bg-[#009e73]",
     description: "NAT and firewall traversal techniques"
   },
   "vpn": {
     id: "vpn",
     name: "VPN",
     category: "technology",
-    color: "bg-orange-500",
+    color: "bg-[#cc79a7]",
     description: "VPN and tunneling technologies"
   },
   "p2p": {
     id: "p2p",
     name: "P2P",
     category: "technology",
-    color: "bg-teal-500",
+    color: "bg-[#d55e00]",
     description: "Peer-to-peer networking concepts"
   },
   "performance": {
     id: "performance",
     name: "Performance",
     category: "technology",
-    color: "bg-cyan-500",
+    color: "bg-[#f0e442]",
     description: "Optimization and performance improvements"
   },
   "legacy": {
     id: "legacy",
     name: "Legacy",
     category: "technology",
-    color: "bg-gray-500",
+    color: "bg-gray-600",
     description: "Historical technologies with learning value"
   },
   
@@ -137,21 +137,21 @@ export const rfcTags: Record<string, RfcTag> = {
     id: "foundational",
     name: "Foundational",
     category: "level",
-    color: "bg-emerald-400",
+    color: "bg-[#009e73]",
     description: "Core concepts, suitable for beginners"
   },
   "intermediate": {
     id: "intermediate",
     name: "Intermediate",
     category: "level",
-    color: "bg-amber-500",
+    color: "bg-[#f0e442]",
     description: "Requires basic networking knowledge"
   },
   "advanced": {
     id: "advanced",
     name: "Advanced",
     category: "level",
-    color: "bg-red-600",
+    color: "bg-gray-600",
     description: "Complex protocols requiring deep technical understanding"
   },
   
@@ -160,28 +160,28 @@ export const rfcTags: Record<string, RfcTag> = {
     id: "enterprise",
     name: "Enterprise",
     category: "relevance",
-    color: "bg-slate-600",
+    color: "bg-gray-600",
     description: "Enterprise networking and service provider technologies"
   },
   "consumer": {
     id: "consumer",
     name: "Consumer",
     category: "relevance",
-    color: "bg-blue-400",
+    color: "bg-[#0072b2]",
     description: "Consumer internet and web technologies"
   },
   "infrastructure": {
     id: "infrastructure",
     name: "Infrastructure",
     category: "relevance",
-    color: "bg-stone-600",
+    color: "bg-[#cc79a7]",
     description: "Core internet infrastructure protocols"
   },
   "emerging": {
     id: "emerging",
     name: "Emerging",
     category: "relevance",
-    color: "bg-violet-500",
+    color: "bg-[#d55e00]",
     description: "Cutting-edge or recently standardized protocols"
   }
 };

@@ -123,6 +123,26 @@
 - Implemented comprehensive search and filtering functionality with React hooks
 - Maintained build compatibility and performance standards
 
+### Color System & Accessibility Standards
+
+**Colorblind-Friendly Palette** (Established - July 25, 2025)
+
+All tag colors and UI elements MUST use only the following scientifically-tested colorblind-accessible palette:
+
+- **Blue**: `#0072b2` (RGB: 0,114,178) - Primary blue for transport, cryptography, consumer tags
+- **Green**: `#009e73` (RGB: 0,158,115) - Teal-green for application, nat-traversal, foundational tags  
+- **Pink/Magenta**: `#cc79a7` (RGB: 204,121,167) - Soft pink for network, vpn, infrastructure tags
+- **Yellow**: `#f0e442` (RGB: 240,228,66) - Bright yellow for naming, performance, intermediate tags
+- **Orange**: `#d55e00` (RGB: 213,94,0) - Orange-red for security, p2p, emerging tags
+- **Gray**: Standard Tailwind `bg-gray-600` - Neutral gray for legacy, advanced, enterprise tags
+
+**Implementation Guidelines:**
+- Use Tailwind arbitrary value syntax: `bg-[#0072b2]` 
+- These colors provide full accessibility for deuteranopia, protanopia, and tritanopia
+- Maintain excellent contrast with white text on all colored backgrounds
+- Yellow backgrounds may require dark text color adjustment for optimal readability
+- NO other colors should be introduced without accessibility testing
+
 ### Technical Architecture Decisions
 
 - **Build Validation**: Always run `npm run build` before pushing to remote to ensure production compatibility

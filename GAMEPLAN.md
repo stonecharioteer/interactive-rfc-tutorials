@@ -72,6 +72,38 @@ GitHub Pages hosts static files and doesn't handle client-side routing for Singl
 #### Pull Request: [#45](https://github.com/stonecharioteer/interactive-rfc-tutorials/pull/45)
 
 **Result**: Users can now share direct RFC page URLs (e.g., `https://site.github.io/rfc/793`) and they work perfectly on GitHub Pages deployment.
+
+### Colorblind-Friendly UI Accessibility Implementation (July 25, 2025)
+
+**Accessibility Enhancement**: Implemented scientifically-tested colorblind-friendly color palette across all UI elements to ensure full accessibility for users with deuteranopia, protanopia, and tritanopia.
+
+#### Problem Identified:
+- Previous color scheme used too many similar red-family colors creating visual confusion
+- Poor contrast between light tag backgrounds and white text made content barely readable
+- Color system wasn't accessible to users with various forms of colorblindness
+
+#### Solution Implemented:
+**Colorblind-Friendly Palette** with excellent contrast:
+- **Blue**: `#0072b2` (RGB: 0,114,178) - transport, cryptography, consumer tags
+- **Green**: `#009e73` (RGB: 0,158,115) - application, nat-traversal, foundational tags  
+- **Pink/Magenta**: `#cc79a7` (RGB: 204,121,167) - network, vpn, infrastructure tags
+- **Yellow**: `#f0e442` (RGB: 240,228,66) - naming, performance, intermediate tags
+- **Orange**: `#d55e00` (RGB: 213,94,0) - security, p2p, emerging tags
+- **Gray**: Standard Tailwind `bg-gray-600` - legacy, advanced, enterprise tags
+
+#### Technical Implementation:
+- **Tag Components Updated**: Modified `TagBadge.tsx` and `TagFilter.tsx` to use new palette
+- **Smart Text Contrast**: Implemented logic to use dark text (`text-gray-900`) on yellow backgrounds, white text on all others
+- **RFC Data Updated**: All `rfcEras` and `rfcTags` color definitions updated to use new palette
+- **Documentation**: Color system recorded in `CLAUDE.md` with implementation guidelines
+
+#### Files Modified:
+- `frontend/src/data/rfcs.ts` - Color palette definitions
+- `frontend/src/components/TagBadge.tsx` - Badge component text contrast
+- `frontend/src/components/TagFilter.tsx` - Filter component text contrast  
+- `CLAUDE.md` - Color system documentation
+
+**Result**: All tags and UI elements now provide excellent accessibility for colorblind users while maintaining visual appeal and professional appearance.
 - ✅ **Security Scanning**: npm audit for dependency vulnerabilities (optional)
 - ✅ **On-Demand Execution**: Triggered via `workflow_dispatch` when needed
 
