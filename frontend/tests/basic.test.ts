@@ -9,7 +9,7 @@ test.describe("RFC Tutorial App", () => {
 
     // Check main heading
     await expect(page.locator("h1")).toContainText(
-      "Learn the RFCs That Built the Internet",
+      "Read the RFCs That Built the Internet",
     );
 
     // Check that RFC cards are present
