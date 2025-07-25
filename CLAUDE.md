@@ -12,6 +12,8 @@
 - Always include python examples for each RFC tutorial to demonstrate implementation and learning
 - You must add docker-based examples for each RFC where relevant to show how it works locally.
 - You must link to the RFC in every tutorial so people can read the original
+- You must put docker code blocks in a collapsible block that has the code lines in a copyable code component.
+- You must put python code blocks in an ELI-Pythonista block. Do not put generic explanations into such a block, put them separately.
 
 ### RFC Influence and Historical Context
 

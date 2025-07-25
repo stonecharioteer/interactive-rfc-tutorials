@@ -516,6 +516,79 @@ Following Phase 3 completion, implement the cryptographic and networking protoco
 
 **Impact**: This systematic improvement ensures that all RFC tutorials maintain consistent Python-first educational approach with authentic, executable code examples that developers can learn from and use in practice.
 
+### RFC Visit History Tracking Feature (July 25, 2025)
+
+**User Experience Enhancement**: Implemented comprehensive RFC visit history tracking system to help users track their learning progress through visual indicators.
+
+#### Feature Implementation
+- **localStorage-based Tracking**: Created `visitHistory.ts` utility that persists RFC visit data across browser sessions
+- **Automatic Recording**: Visits are automatically tracked when users navigate to any RFC detail page
+- **Visual State Indicators**: Three distinct visual states for RFC cards in the homepage list:
+  - **Unvisited**: Gray FileText icon, default styling
+  - **Visited**: Blue Eye icon, blue border/background tint, blue title text  
+  - **Completed**: Green CheckCircle icon, green border/background tint, green title text
+- **Consistent Display**: Visual indicators work in both era-grouped homepage and filtered search results
+- **No Interference**: History tracking operates independently of existing completion tracking system
+
+#### Technical Implementation
+- **visitHistory.ts**: Utility module with comprehensive visit management functions
+- **Home.tsx**: Enhanced with `visitHistoryUtils.isRfcVisited()` checks and conditional styling
+- **RfcDetail.tsx**: Integrated `visitHistoryUtils.recordVisit()` in component useEffect
+- **Clean Architecture**: Simple, non-intrusive localStorage-based design
+
+#### User Experience Benefits
+- **Learning Progress Visibility**: Users can immediately see which RFCs they've explored
+- **Differentiated States**: Clear distinction between visited (explored) and completed (mastered) content
+- **Persistent Tracking**: History survives browser restarts and continues across sessions
+- **Non-disruptive Design**: Subtle visual enhancements that don't interfere with existing UI
+
+#### Bug Fix Included
+- **RFC2547 Section Title**: Fixed "Python BGP/MPLS VPN Simulation" to proper "ELI-Pythonista: BGP/MPLS VPN Simulation" format for consistency
+
+**Pull Request**: [#51](https://github.com/stonecharioteer/interactive-rfc-tutorials/pull/51)
+**Branch**: `feat/history-tracker` (Merged)
+
+### RFC 9110-9114 Individual Page Separation (High Priority - July 25, 2025)
+
+**Architectural Inconsistency Fix**: The current RFC 9110 implementation violates the platform's core design principle of individual, focused RFC tutorials by merging 5 separate RFCs (9110-9114) into a single page.
+
+#### Problem Analysis
+- **Current Structure**: Single merged page titled "RFC 9110-9114: HTTP Semantics Internet Standard"
+- **Covers 5 RFCs**: 9110 (HTTP Semantics), 9111 (HTTP Caching), 9112 (HTTP/1.1), 9113 (HTTP/2 Updated), 9114 (HTTP/3)
+- **Platform Violation**: Inconsistent with the individual RFC approach used for all other 25+ RFC tutorials
+- **User Experience Impact**: Prevents focused learning, bookmarking, and sharing of specific HTTP standards
+
+#### Required Implementation
+1. **Create Individual Components**: Split into 5 separate RFC component files
+   - `RFC9110.tsx` - HTTP Semantics (Core protocol mechanics and methods)
+   - `RFC9111.tsx` - HTTP Caching (Comprehensive caching behaviors)
+   - `RFC9112.tsx` - HTTP/1.1 (Message syntax and connection management)
+   - `RFC9113.tsx` - HTTP/2 Updated (Binary framing and multiplexing updates)
+   - `RFC9114.tsx` - HTTP/3 (QUIC-based transport for modern web)
+
+2. **Update Data Structure**: Add 5 individual RFC entries to `rfcs.ts` replacing merged entry
+3. **Routing Updates**: Update `RfcDetail.tsx` component mapping for all 5 new RFCs
+4. **Content Distribution**: Extract and redistribute educational content appropriately
+5. **Cross-Reference System**: Add "Required Reading" links between related HTTP RFCs
+6. **Code Examples**: Split and distribute Python code examples to appropriate individual RFCs
+
+#### Benefits
+- **Design Consistency**: Aligns with platform's individual RFC architecture
+- **Focused Learning**: Each HTTP standard gets dedicated, comprehensive coverage
+- **Better Navigation**: Users can bookmark and share specific HTTP standard pages (e.g., `/rfc/9111` for caching)
+- **Educational Clarity**: Clear separation of HTTP semantics, caching, transport protocols
+- **Platform Integration**: Individual RFCs work properly with search/filter and history tracking systems
+
+#### Priority Justification
+**HIGH PRIORITY** - This architectural inconsistency affects core platform usability:
+- Violates established design patterns users expect
+- Impairs educational effectiveness through content mixing
+- Breaks navigation and sharing expectations
+- Affects SEO and content discoverability
+
+**Status**: Identified for immediate implementation
+**Estimated Effort**: 1-2 days for complete separation and testing
+
 ### Glossary System Enhancement (July 24, 2025)
 
 **Major Educational Infrastructure Upgrade**: Comprehensive glossary system enhancement with cross-linking and dedicated browsing interface.
