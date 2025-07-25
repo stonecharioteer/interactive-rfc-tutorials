@@ -306,10 +306,30 @@ graph LR
         capturing and retransmitting packets.
       </p>
 
-      <CodeBlock 
-        code={getCodeExample("rfc4303_esp_implementation")}
-        language="python"
-      />
+      <ExpandableSection title="🐍 ELI-Pythonista: Anti-Replay Protection Implementation">
+        <div className="space-y-4">
+          <p>
+            Anti-replay protection is like having a smart bouncer who remembers everyone 
+            who's already entered and won't let them in twice. Here's how ESP implements 
+            this security feature in Python:
+          </p>
+          
+          <CodeBlock 
+            code={getCodeExample("rfc4303_esp_implementation")}
+            language="python"
+          />
+          
+          <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg mt-4">
+            <h5 className="font-semibold text-blue-800 mb-2">Key Security Concepts</h5>
+            <ul className="text-sm text-blue-700 space-y-1">
+              <li>• <strong>Sequence Numbers:</strong> Each packet gets a unique, incrementing number</li>
+              <li>• <strong>Sliding Window:</strong> Tracks recently seen packets to detect replays</li>
+              <li>• <strong>Replay Detection:</strong> Rejects packets with previously seen sequence numbers</li>
+              <li>• <strong>Window Management:</strong> Efficiently manages memory for replay tracking</li>
+            </ul>
+          </div>
+        </div>
+      </ExpandableSection>
 
       <h3>Sequence Number Management</h3>
       <p>
