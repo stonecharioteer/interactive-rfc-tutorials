@@ -847,7 +847,7 @@ def create_realtime_socket():
             <div className="text-green-700 text-sm space-y-2">
               <p><strong>Universal Support:</strong> Works everywhere, from routers to smartphones</p>
               <p><strong>Proven Reliability:</strong> Four decades of real-world testing</p>
-              <p><strong>NAT/Firewall Friendly:</strong> Well-understood by network equipment</p>
+              <p><strong>NAT/<GlossaryTerm>Firewall</GlossaryTerm> Friendly:</strong> Well-understood by network equipment</p>
               <p><strong>Developer Familiarity:</strong> Simple socket API in every programming language</p>
               <p><strong>Infrastructure Investment:</strong> Trillions of dollars of TCP-optimized equipment</p>
             </div>

@@ -1,0 +1,204 @@
+version: '3.8'
+
+services:
+  # IPsec Gateway A - Site A security gateway
+  ipsec-gateway-a:
+    build:
+      context: .
+      dockerfile: Dockerfile.ipsec-gateway
+    container_name: ipsec-gateway-a
+    hostname: ipsec-gw-a
+    networks:
+      internet:
+        ipv4_address: 172.20.0.10
+      site-a:
+        ipv4_address: 192.168.1.1
+    environment:
+      - GATEWAY_ID=A
+      - LOCAL_NETWORK=192.168.1.0/24
+      - REMOTE_NETWORK=10.0.0.0/24
+      - PEER_GATEWAY=172.20.0.20
+      - TUNNEL_MODE=true
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./scripts:/scripts:ro
+      - ./configs:/configs:ro
+    command: python3 /scripts/ipsec-gateway.py
+
+  # IPsec Gateway B - Site B security gateway  
+  ipsec-gateway-b:
+    build:
+      context: .
+      dockerfile: Dockerfile.ipsec-gateway
+    container_name: ipsec-gateway-b
+    hostname: ipsec-gw-b
+    networks:
+      internet:
+        ipv4_address: 172.20.0.20
+      site-b:
+        ipv4_address: 10.0.0.1
+    environment:
+      - GATEWAY_ID=B
+      - LOCAL_NETWORK=10.0.0.0/24
+      - REMOTE_NETWORK=192.168.1.0/24
+      - PEER_GATEWAY=172.20.0.10
+      - TUNNEL_MODE=true
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./scripts:/scripts:ro
+      - ./configs:/configs:ro
+    command: python3 /scripts/ipsec-gateway.py
+
+  # Site A Host 1
+  host-a1:
+    build:
+      context: .
+      dockerfile: Dockerfile.host
+    container_name: host-a1
+    hostname: host-a1
+    networks:
+      site-a:
+        ipv4_address: 192.168.1.10
+    environment:
+      - HOST_ID=A1
+      - DEFAULT_GATEWAY=192.168.1.1
+    volumes:
+      - ./scripts:/scripts:ro
+    command: python3 /scripts/network-host.py
+
+  # Site A Host 2
+  host-a2:
+    build:
+      context: .
+      dockerfile: Dockerfile.host
+    container_name: host-a2
+    hostname: host-a2
+    networks:
+      site-a:
+        ipv4_address: 192.168.1.20
+    environment:
+      - HOST_ID=A2
+      - DEFAULT_GATEWAY=192.168.1.1
+    volumes:
+      - ./scripts:/scripts:ro
+    command: python3 /scripts/network-host.py
+
+  # Site B Host 1
+  host-b1:
+    build:
+      context: .
+      dockerfile: Dockerfile.host
+    container_name: host-b1
+    hostname: host-b1
+    networks:
+      site-b:
+        ipv4_address: 10.0.0.10
+    environment:
+      - HOST_ID=B1
+      - DEFAULT_GATEWAY=10.0.0.1
+    volumes:
+      - ./scripts:/scripts:ro
+    command: python3 /scripts/network-host.py
+
+  # Site B Host 2
+  host-b2:
+    build:
+      context: .
+      dockerfile: Dockerfile.host
+    container_name: host-b2
+    hostname: host-b2
+    networks:
+      site-b:
+        ipv4_address: 10.0.0.20
+    environment:
+      - HOST_ID=B2
+      - DEFAULT_GATEWAY=10.0.0.1
+    volumes:
+      - ./scripts:/scripts:ro
+    command: python3 /scripts/network-host.py
+
+  # Policy Monitor - Web interface for monitoring IPsec policies
+  policy-monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile.monitor
+    container_name: policy-monitor
+    hostname: policy-monitor
+    networks:
+      internet:
+        ipv4_address: 172.20.0.30
+    ports:
+      - "3000:3000"
+    environment:
+      - MONITOR_GATEWAYS=172.20.0.10,172.20.0.20
+    volumes:
+      - ./scripts:/scripts:ro
+      - ./web:/web:ro
+    command: python3 /scripts/policy-monitor.py
+
+  # Traffic Generator - Creates test traffic for policy demonstration
+  traffic-generator:
+    build:
+      context: .
+      dockerfile: Dockerfile.traffic
+    container_name: traffic-generator
+    hostname: traffic-gen
+    networks:
+      internet:
+        ipv4_address: 172.20.0.40
+    environment:
+      - TARGET_SITES=192.168.1.0/24,10.0.0.0/24
+      - TRAFFIC_PATTERNS=web,ssh,ping,ftp
+    volumes:
+      - ./scripts:/scripts:ro
+    command: python3 /scripts/traffic-generator.py
+
+  # External Host - Simulates internet traffic for policy testing
+  external-host:
+    build:
+      context: .
+      dockerfile: Dockerfile.host
+    container_name: external-host
+    hostname: external-host
+    networks:
+      internet:
+        ipv4_address: 172.20.0.50
+    environment:
+      - HOST_ID=EXTERNAL
+      - ROLE=external_tester
+    volumes:
+      - ./scripts:/scripts:ro
+    command: python3 /scripts/network-host.py
+
+networks:
+  # Internet network - Public IP space for IPsec tunnels
+  internet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1
+
+  # Site A network - Corporate headquarters
+  site-a:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.1.0/24
+          gateway: 192.168.1.1
+
+  # Site B network - Branch office
+  site-b:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.0.0/24
+          gateway: 10.0.0.1
+
+volumes:
+  ipsec-logs:
+    driver: local
+  policy-data:
+    driver: local

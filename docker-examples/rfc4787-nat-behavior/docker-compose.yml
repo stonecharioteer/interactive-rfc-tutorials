@@ -1,0 +1,133 @@
+version: '3.8'
+
+services:
+  # RFC 4787 NAT Behavior Testing Environment
+  
+  nat-tester:
+    build:
+      context: .
+      dockerfile: Dockerfile.nat-tester
+    container_name: rfc4787-nat-tester
+    ports:
+      - "8080:8080"
+    networks:
+      - internal-network
+      - external-network
+    environment:
+      - NODE_ENV=development
+      - LOG_LEVEL=info
+    volumes:
+      - ./logs:/app/logs
+    depends_on:
+      - endpoint-detector
+      - behavior-analyzer
+
+  endpoint-detector:
+    build:
+      context: .
+      dockerfile: Dockerfile.detector
+    container_name: rfc4787-detector
+    ports:
+      - "3001:3001"
+      - "3002:3002/udp"
+    networks:
+      - internal-network
+    environment:
+      - STUN_PORT=3001
+      - UDP_PORT=3002
+    volumes:
+      - ./detection-results:/app/results
+
+  behavior-analyzer:
+    build:
+      context: .
+      dockerfile: Dockerfile.analyzer
+    container_name: rfc4787-analyzer
+    ports:
+      - "4001:4001"
+    networks:
+      - internal-network
+    environment:
+      - ANALYSIS_PORT=4001
+    volumes:
+      - ./analysis-results:/app/results
+
+  # Simulated NAT devices with different behaviors
+  nat-eif:
+    build:
+      context: .
+      dockerfile: Dockerfile.nat-simulator
+    container_name: rfc4787-nat-eif
+    environment:
+      - NAT_TYPE=endpoint-independent-filtering
+      - NAT_PORT=5001
+    networks:
+      - internal-network
+    cap_add:
+      - NET_ADMIN
+
+  nat-adf:
+    build:
+      context: .
+      dockerfile: Dockerfile.nat-simulator
+    container_name: rfc4787-nat-adf
+    environment:
+      - NAT_TYPE=address-dependent-filtering
+      - NAT_PORT=5002
+    networks:
+      - internal-network
+    cap_add:
+      - NET_ADMIN
+
+  nat-apdf:
+    build:
+      context: .
+      dockerfile: Dockerfile.nat-simulator
+    container_name: rfc4787-nat-apdf
+    environment:
+      - NAT_TYPE=address-port-dependent-filtering  
+      - NAT_PORT=5003
+    networks:
+      - internal-network
+    cap_add:
+      - NET_ADMIN
+
+  # Web interface for results visualization
+  web-interface:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    container_name: rfc4787-web
+    ports:
+      - "8443:443"
+    networks:
+      - internal-network
+    environment:
+      - HTTPS_PORT=443
+    volumes:
+      - ./web-content:/app/public
+      - ./logs:/app/logs:ro
+      - ./detection-results:/app/detection:ro
+      - ./analysis-results:/app/analysis:ro
+    depends_on:
+      - nat-tester
+      - endpoint-detector
+      - behavior-analyzer
+
+networks:
+  internal-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+  external-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16
+
+volumes:
+  detection-results:
+  analysis-results:
+  logs:
+  web-content:

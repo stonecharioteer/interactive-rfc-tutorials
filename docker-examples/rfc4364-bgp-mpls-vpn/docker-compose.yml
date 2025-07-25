@@ -1,0 +1,289 @@
+version: '3.8'
+
+services:
+  # RFC 4364 BGP/MPLS IP VPN Demonstration Environment
+  
+  # Service Provider Core Network
+  pe-router-1:
+    build:
+      context: .
+      dockerfile: Dockerfile.pe-router
+    container_name: rfc4364-pe-router-1
+    hostname: pe1.provider.net
+    ports:
+      - "8181:80"
+      - "1791:179"  # BGP
+    networks:
+      mpls-core:
+        ipv4_address: 10.0.1.1
+      customer-a-site1:
+        ipv4_address: 192.168.100.1
+    environment:
+      - ROUTER_ID=1.1.1.1
+      - AS_NUMBER=65001
+      - MPLS_ENABLED=true
+      - VRF_CONFIG=/config/vrf-customer-a.conf
+    volumes:
+      - ./config/pe1:/config
+      - ./logs/pe1:/logs
+    cap_add:
+      - NET_ADMIN
+
+  pe-router-2:
+    build:
+      context: .
+      dockerfile: Dockerfile.pe-router
+    container_name: rfc4364-pe-router-2
+    hostname: pe2.provider.net
+    ports:
+      - "8182:80"
+      - "1792:179"  # BGP
+    networks:
+      mpls-core:
+        ipv4_address: 10.0.1.2
+      customer-a-site2:
+        ipv4_address: 192.168.101.1
+    environment:
+      - ROUTER_ID=2.2.2.2
+      - AS_NUMBER=65001
+      - MPLS_ENABLED=true
+      - VRF_CONFIG=/config/vrf-customer-a.conf
+    volumes:
+      - ./config/pe2:/config
+      - ./logs/pe2:/logs
+    cap_add:
+      - NET_ADMIN
+
+  pe-router-3:
+    build:
+      context: .
+      dockerfile: Dockerfile.pe-router
+    container_name: rfc4364-pe-router-3
+    hostname: pe3.provider.net
+    ports:
+      - "8183:80"
+      - "1793:179"  # BGP
+    networks:
+      mpls-core:
+        ipv4_address: 10.0.1.3
+      customer-b-site1:
+        ipv4_address: 192.168.200.1
+    environment:
+      - ROUTER_ID=3.3.3.3
+      - AS_NUMBER=65001
+      - MPLS_ENABLED=true
+      - VRF_CONFIG=/config/vrf-customer-b.conf
+    volumes:
+      - ./config/pe3:/config
+      - ./logs/pe3:/logs
+    cap_add:
+      - NET_ADMIN
+
+  # Provider Core Router
+  p-router:
+    build:
+      context: .
+      dockerfile: Dockerfile.p-router
+    container_name: rfc4364-p-router
+    hostname: p1.provider.net
+    ports:
+      - "8184:80"
+    networks:
+      mpls-core:
+        ipv4_address: 10.0.1.10
+    environment:
+      - ROUTER_ID=10.10.10.10
+      - AS_NUMBER=65001
+      - MPLS_CORE=true
+    volumes:
+      - ./config/p1:/config
+      - ./logs/p1:/logs
+    cap_add:
+      - NET_ADMIN
+
+  # Route Reflector
+  route-reflector:
+    build:
+      context: .
+      dockerfile: Dockerfile.rr
+    container_name: rfc4364-route-reflector
+    hostname: rr1.provider.net
+    ports:
+      - "8185:80"  
+      - "1794:179"  # BGP
+    networks:
+      mpls-core:
+        ipv4_address: 10.0.1.254
+    environment:
+      - ROUTER_ID=254.254.254.254
+      - AS_NUMBER=65001
+      - ROUTE_REFLECTOR=true
+    volumes:
+      - ./config/rr1:/config
+      - ./logs/rr1:/logs
+
+  # Customer Equipment
+  ce-customer-a-site1:
+    build:
+      context: .
+      dockerfile: Dockerfile.ce-router
+    container_name: rfc4364-ce-a-site1
+    hostname: ce-a-site1.customer-a.com
+    ports:
+      - "8191:80"
+    networks:
+      customer-a-site1:
+        ipv4_address: 192.168.100.10
+    environment:
+      - CUSTOMER_NAME=customer-a
+      - SITE_ID=site1
+      - CE_AS=65100
+    volumes:
+      - ./config/ce-a-site1:/config
+      - ./logs/ce-a-site1:/logs
+
+  ce-customer-a-site2:
+    build:
+      context: .
+      dockerfile: Dockerfile.ce-router
+    container_name: rfc4364-ce-a-site2
+    hostname: ce-a-site2.customer-a.com
+    ports:
+      - "8192:80"
+    networks:
+      customer-a-site2:
+        ipv4_address: 192.168.101.10
+    environment:
+      - CUSTOMER_NAME=customer-a
+      - SITE_ID=site2
+      - CE_AS=65100
+    volumes:
+      - ./config/ce-a-site2:/config
+      - ./logs/ce-a-site2:/logs
+
+  ce-customer-b-site1:
+    build:
+      context: .
+      dockerfile: Dockerfile.ce-router
+    container_name: rfc4364-ce-b-site1
+    hostname: ce-b-site1.customer-b.com
+    ports:
+      - "8193:80"
+    networks:
+      customer-b-site1:
+        ipv4_address: 192.168.200.10
+    environment:
+      - CUSTOMER_NAME=customer-b
+      - SITE_ID=site1
+      - CE_AS=65200
+    volumes:
+      - ./config/ce-b-site1:/config
+      - ./logs/ce-b-site1:/logs
+
+  # VPN Service Orchestrator
+  vpn-orchestrator:
+    build:
+      context: .
+      dockerfile: Dockerfile.orchestrator
+    container_name: rfc4364-orchestrator
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    networks:
+      - mpls-core
+    environment:
+      - ORCHESTRATOR_PORT=8080
+      - HTTPS_PORT=8443
+      - PROVIDER_AS=65001
+    volumes:
+      - ./config:/app/config
+      - ./logs:/app/logs
+      - ./service-templates:/app/templates
+    depends_on:
+      - pe-router-1
+      - pe-router-2
+      - pe-router-3
+      - route-reflector
+
+  # Network Monitoring and Analytics
+  network-monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile.monitor
+    container_name: rfc4364-monitor
+    ports:
+      - "3000:3000"
+    networks:
+      - mpls-core
+    environment:
+      - GRAFANA_PORT=3000
+      - SNMP_COMMUNITY=rfc4364demo
+    volumes:
+      - ./monitoring/dashboards:/app/dashboards
+      - ./monitoring/alerts:/app/alerts
+      - ./logs:/app/logs:ro
+    depends_on:
+      - pe-router-1
+      - pe-router-2
+      - pe-router-3
+      - p-router
+
+  # Traffic Generator for Testing
+  traffic-generator:
+    build:
+      context: .
+      dockerfile: Dockerfile.traffic
+    container_name: rfc4364-traffic
+    networks:
+      - customer-a-site1
+      - customer-a-site2
+      - customer-b-site1
+    environment:
+      - TEST_SCENARIOS=basic,performance,failover
+    volumes:
+      - ./traffic-patterns:/app/patterns
+      - ./test-results:/app/results
+    depends_on:
+      - ce-customer-a-site1
+      - ce-customer-a-site2
+      - ce-customer-b-site1
+
+networks:
+  # MPLS Service Provider Core Network
+  mpls-core:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.1.0/24
+          gateway: 10.0.1.1
+
+  # Customer A Sites
+  customer-a-site1:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.100.0/24
+          gateway: 192.168.100.1
+
+  customer-a-site2:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.101.0/24
+          gateway: 192.168.101.1
+
+  # Customer B Sites  
+  customer-b-site1:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.200.0/24
+          gateway: 192.168.200.1
+
+volumes:
+  config-data:
+  log-data:
+  monitoring-data:
+  service-templates:
+  traffic-patterns:
+  test-results:

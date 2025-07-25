@@ -1,0 +1,55 @@
+FROM python:3.11-slim
+
+# Install system dependencies for networking and IPsec
+RUN apt-get update && apt-get install -y \
+    iproute2 \
+    iptables \
+    tcpdump \
+    netcat-openbsd \
+    curl \
+    dnsutils \
+    net-tools \
+    iputils-ping \
+    traceroute \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python networking and cryptography libraries
+RUN pip install --no-cache-dir \
+    cryptography \
+    scapy \
+    asyncio \
+    websockets \
+    flask \
+    requests
+
+# Create directories for IPsec configuration and logs
+RUN mkdir -p /etc/ipsec /var/log/ipsec /scripts /configs
+
+# Copy IPsec configuration templates
+COPY configs/ipsec.conf.template /etc/ipsec/
+COPY configs/ipsec.secrets.template /etc/ipsec/
+
+# Set up logging
+RUN touch /var/log/ipsec/gateway.log && \
+    touch /var/log/ipsec/policy.log && \
+    touch /var/log/ipsec/sa.log
+
+# Educational notice
+RUN echo "This is an educational IPsec implementation for RFC 4301 learning purposes." > /etc/motd && \
+    echo "DO NOT use in production environments." >> /etc/motd && \
+    echo "Real IPsec deployments require proper key management and security hardening." >> /etc/motd
+
+# Create non-root user for security
+RUN useradd -m -s /bin/bash ipsecuser && \
+    chown -R ipsecuser:ipsecuser /var/log/ipsec /scripts /configs
+
+WORKDIR /scripts
+
+# Enable IP forwarding for gateway functionality
+RUN echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
+
+EXPOSE 500/udp 4500/udp
+
+USER ipsecuser
+
+CMD ["python3", "/scripts/ipsec-gateway.py"]

@@ -104,7 +104,7 @@ sequenceDiagram
           />
           <p className="text-orange-700 text-sm">
             <strong>Active Mode:</strong> Server initiates data connection back to client.
-            Can have firewall issues.
+            Can have <GlossaryTerm>firewall</GlossaryTerm> issues.
           </p>
         </div>
 
@@ -567,7 +567,7 @@ if __name__ == "__main__":
           <h4 className="font-semibold text-yellow-800 mb-2">FTP Limitations</h4>
           <ul className="text-yellow-700 text-sm space-y-1">
             <li>• No encryption (passwords sent in clear text)</li>
-            <li>• Complex firewall traversal (dual connections)</li>
+            <li>• Complex <GlossaryTerm>firewall</GlossaryTerm> traversal (dual connections)</li>
             <li>• No integrity checking</li>
             <li>• Limited metadata support</li>
             <li>• ASCII vs Binary mode confusion</li>
@@ -597,7 +597,7 @@ if __name__ == "__main__":
         <li><strong>Stateful Sessions:</strong> Persistent connections with context</li>
         <li><strong>Command-Response Protocol:</strong> Text-based interaction model</li>
         <li><strong>Data Channel Separation:</strong> Control vs data plane concepts</li>
-        <li><strong>Passive Mode Innovation:</strong> Solving NAT/firewall challenges</li>
+        <li><strong>Passive Mode Innovation:</strong> Solving NAT/<GlossaryTerm>firewall</GlossaryTerm> challenges</li>
       </ul>
 
       <div className="bg-blue-50 border-l-4 border-blue-400 p-4 my-6">
@@ -730,7 +730,7 @@ if __name__ == "__main__":
             <h5 className="font-semibold text-yellow-800 mb-2">🚫 Why FTP Failed to Modernize</h5>
             <div className="text-yellow-700 text-sm space-y-2">
               <p><strong>Security by Design:</strong> No encryption, clear-text passwords, passive mode vulnerabilities</p>
-              <p><strong>NAT/Firewall Issues:</strong> Dual connections difficult for modern network architectures</p>
+              <p><strong>NAT/<GlossaryTerm>Firewall</GlossaryTerm> Issues:</strong> Dual connections difficult for modern network architectures</p>
               <p><strong>Limited Metadata:</strong> No rich file attributes, permissions, or versioning</p>
               <p><strong>ASCII vs Binary Confusion:</strong> Transfer mode errors causing file corruption</p>
               <p><strong>Stateful Protocol:</strong> Connection management complexity vs stateless HTTP alternatives</p>

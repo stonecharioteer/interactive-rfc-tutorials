@@ -324,4 +324,109 @@ export const rfcs: RfcMetadata[] = [
     ],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc8445.html",
   },
+  {
+    number: 4301,
+    title: "Security Architecture for the Internet Protocol",
+    description:
+      "The updated IPsec security architecture that modernized network-layer security with refined policies, enhanced selectors, and improved integration for contemporary VPN technologies.",
+    era: "modern",
+    year: 2005,
+    learningObjectives: [
+      "Understand the modernized IPsec security architecture and policy framework",
+      "Learn about Security Policy Database (SPD) and Security Association (SA) management",
+      "Explore transport vs tunnel mode differences and use cases",
+      "Master the architecture powering today's enterprise VPN deployments",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc4301.html",
+  },
+  {
+    number: 4303,
+    title: "IP Encapsulating Security Payload (ESP)",
+    description:
+      "The core IPsec protocol providing confidentiality, authentication, and anti-replay protection through encryption and authentication mechanisms for secure network communications.",
+    era: "modern",
+    year: 2005,
+    learningObjectives: [
+      "Understand ESP packet structure and security services",
+      "Learn about encryption algorithms, authentication methods, and AEAD ciphers",
+      "Explore anti-replay protection and sequence number management",
+      "Master the protocol that encrypts virtually every VPN connection",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc4303.html",
+  },
+  {
+    number: 8656,
+    title: "Traversal Using Relays around NAT (TURN)",
+    description:
+      "The relay protocol that provides fallback connectivity when direct peer-to-peer connections fail, ensuring universal reachability through restrictive NATs and firewalls.",
+    era: "current",
+    year: 2020,
+    learningObjectives: [
+      "Understand TURN's relay mechanism for challenging NAT scenarios",
+      "Learn about allocation management, permissions, and data transmission methods",
+      "Explore integration with STUN and ICE for complete NAT traversal",
+      "Master the fallback protocol ensuring universal peer-to-peer connectivity",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc8656.html",
+  },
+  {
+    number: 4787,
+    title: "Network Address Translation (NAT) Behavioral Requirements for Unicast UDP",
+    description:
+      "The definitive specification for NAT behavioral requirements that ensures consistent NAT behavior across implementations, enabling reliable peer-to-peer connectivity and NAT traversal.",
+    era: "modern",
+    year: 2007,
+    learningObjectives: [
+      "Understand NAT mapping behaviors (endpoint-independent, address-dependent, address-port-dependent)",
+      "Learn NAT filtering requirements and security implications",
+      "Explore UDP hole punching techniques and their reliability",
+      "Master the requirements that enable modern P2P applications and WebRTC",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc4787.html",
+  },
+  {
+    number: 4364,
+    title: "BGP/MPLS IP VPNs",
+    description:
+      "The current standard for BGP/MPLS IP VPN services that replaced RFC 2547, defining how service providers deliver secure, scalable VPN connectivity to enterprise customers worldwide.",
+    era: "modern",
+    year: 2006,
+    learningObjectives: [
+      "Understand modern BGP/MPLS IP VPN architecture and service delivery",
+      "Learn VRF isolation, route distinguishers, and route target policies",
+      "Explore MP-BGP VPNv4 route distribution and MPLS label operations",
+      "Master the technology powering 95% of Fortune 500 enterprise connectivity",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc4364.html",
+  },
+  {
+    number: 7540,
+    title: "Hypertext Transfer Protocol Version 2 (HTTP/2)",
+    description:
+      "The revolutionary HTTP protocol that introduced binary framing, stream multiplexing, header compression, and server push, transforming web performance for billions of users worldwide.",
+    era: "modern",
+    year: 2015,
+    learningObjectives: [
+      "Understand HTTP/2's binary framing protocol and stream multiplexing",
+      "Learn HPACK header compression and server push optimization",
+      "Explore flow control, stream prioritization, and connection management",
+      "Master the protocol that powers 95% of modern web traffic and applications",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc7540.html",
+  },
+  {
+    number: 9110,
+    title: "HTTP Semantics",
+    description:
+      "The definitive modern HTTP standard that consolidates decades of web evolution, clarifying HTTP semantics, methods, status codes, and providing the foundation for all contemporary web applications and APIs.",
+    era: "current",
+    year: 2022,
+    learningObjectives: [
+      "Understand comprehensive HTTP method semantics (safe, idempotent, non-idempotent)",
+      "Learn definitive status code usage and error handling patterns",
+      "Explore modern caching strategies and conditional request mechanisms",
+      "Master the current HTTP standard powering all modern web applications and services",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc9110.html",
+  },
 ];

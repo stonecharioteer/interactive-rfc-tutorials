@@ -9,6 +9,20 @@
   </head>
   <body>
     <div id="root"></div>
+    
+    <!-- GitHub Pages SPA redirect handler -->
+    <script>
+      // Check if we were redirected from 404.html
+      if (window.location.search.includes('redirected=1')) {
+        const pathToRestore = sessionStorage.getItem('pathToRestore');
+        if (pathToRestore) {
+          sessionStorage.removeItem('pathToRestore');
+          // Use replaceState to restore the URL without adding to history
+          history.replaceState(null, null, pathToRestore);
+        }
+      }
+    </script>
+    
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

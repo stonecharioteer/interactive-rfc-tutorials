@@ -31,6 +31,61 @@ Create an engaging, educational platform that makes complex networking concepts 
 - **RFC8445**: Fixed 4 code block rendering issues ✅
 - **Issue Resolution**: Code now renders properly in formatted blocks instead of inline escaped text
 
+### GitHub Actions CI/CD Infrastructure (July 24, 2025)
+
+**GitHub Actions Workflow Improvements**: Fixed and optimized the CI/CD pipeline with separate concerns for PR validation and manual testing.
+
+#### Issues Resolved:
+- **TypeScript Type Checking**: Fixed workflow command from `npm run type-check` to `npx tsc --noEmit`
+- **ESLint Configuration**: Resolved MermaidDiagram component typing issues causing linting failures
+- **Playwright Test Coverage**: Updated tests to reflect current RFC count (22+ RFCs) and added coverage for Batch 6 RFCs
+- **Test Infrastructure**: Added comprehensive validation for newly implemented security/NAT traversal RFCs
+
+#### PR Build Workflow (Simplified):
+- ✅ **Linting**: ESLint validation with zero warnings policy
+- ✅ **Type Checking**: TypeScript compilation verification  
+- ✅ **Build Validation**: Complete Vite production build testing
+
+#### Manual Docker Test Workflow:
+- ✅ **Docker Validation**: Docker Compose configuration testing for all RFC examples
+
+### GitHub Pages Direct URL Routing Fix (July 24, 2025)
+
+**Issue Resolved**: Fixed direct URL sharing problem where individual RFC pages (like `/rfc/793`) returned 404 errors when accessed directly on GitHub Pages hosting, while navigation from the home page worked correctly.
+
+#### Root Cause:
+GitHub Pages hosts static files and doesn't handle client-side routing for Single Page Applications (SPAs). Direct URLs like `/rfc/793` don't correspond to actual files in the deployment.
+
+#### Solution Implemented:
+- **404.html Fallback**: Created fallback page that intercepts 404 errors and redirects to home page with restore parameter
+- **URL Restoration Script**: Added JavaScript to index.html that detects redirects and restores original URLs using `history.replaceState()`
+- **.nojekyll File**: Added to prevent Jekyll processing and ensure proper Vite asset handling
+- **Seamless Experience**: Users see no visible redirect delay, URLs remain clean
+
+#### Technical Details:
+1. **Direct URL Flow**: `/rfc/793` → GitHub Pages 404 → `404.html` → redirect to `/?redirected=1` → restore `/rfc/793`
+2. **Files Added**: 
+   - `frontend/public/404.html` - GitHub Pages SPA redirect handler
+   - `frontend/public/.nojekyll` - Prevents Jekyll processing
+   - Modified `frontend/index.html` - URL restoration logic
+
+#### Pull Request: [#45](https://github.com/stonecharioteer/interactive-rfc-tutorials/pull/45)
+
+**Result**: Users can now share direct RFC page URLs (e.g., `https://site.github.io/rfc/793`) and they work perfectly on GitHub Pages deployment.
+- ✅ **Security Scanning**: npm audit for dependency vulnerabilities (optional)
+- ✅ **On-Demand Execution**: Triggered via `workflow_dispatch` when needed
+
+#### Benefits of Separation:
+- **Faster PR Feedback**: Essential checks complete quickly for faster development
+- **Comprehensive Testing**: Full Docker and security validation available when needed
+- **Resource Efficiency**: Avoid running expensive Docker tests on every PR
+- **Flexibility**: Manual workflow can be customized for different testing scenarios
+
+#### Local Testing with `gh act`:
+- **Debugged workflows locally** using GitHub's `act` tool for faster development
+- **Validated all job stages** including build-and-test, docker-build-test, and security-scan
+- **Ensured workflow compatibility** with GitHub Actions environment
+
 ### Benefits
 
 - **Clean Code**: No HTML entity escaping issues
@@ -388,26 +443,80 @@ Following Phase 3 completion, implement the cryptographic and networking protoco
 - Added 27 modern cryptography terms to glossary covering VPN and secure communication concepts
 - Performance analysis showing software-optimized cryptography advantages over hardware-dependent alternatives
 
-##### Batch 5: Advanced NAT Traversal
+##### Batch 5: Advanced NAT Traversal ✅ (Complete)
 
-**GitHub Issues**: TBD
+**Branch**: `feat/advanced-nat-traversal` (Merged)
+**GitHub Issues**: #40
 **Theme**: Network protocols enabling peer-to-peer connectivity behind NATs (Tailscale's foundation)
 
-- **RFC 5389 (2008)**: Session Traversal Utilities for NAT (STUN)
-- **RFC 8445 (2018)**: Interactive Connectivity Establishment (ICE) - NAT Traversal
+- **RFC 5389 (2008)**: Session Traversal Utilities for NAT (STUN) ✅
+- **RFC 8445 (2018)**: Interactive Connectivity Establishment (ICE) - NAT Traversal ✅
 
 **Educational Focus**: Modern NAT traversal techniques, peer-to-peer networking, connectivity establishment algorithms.
 
-##### Batch 6: Modern Security Architecture
+**Implementation Summary**: Completed comprehensive NAT traversal tutorials with:
 
-**GitHub Issues**: TBD  
+- STUN protocol implementation with UDP hole punching demonstrations
+- ICE connectivity establishment with candidate gathering and prioritization
+- Docker examples showing peer-to-peer connection scenarios behind different NAT types
+- Added 30+ NAT traversal and networking terms to glossary
+- Modern context showing how these protocols power Tailscale, WebRTC, and VoIP systems
+- Performance analysis and comparison with direct vs relay connections
+
+##### Batch 6: Modern Security Architecture ✅ (Complete)
+
+**Branch**: `feat/modern-security-architecture` (Merged)
+**GitHub Issues**: #41
 **Theme**: Updated security protocols and relay mechanisms
 
-- **RFC 4301 (2005)**: IPsec Security Architecture Updated
-- **RFC 4303 (2005)**: ESP - Encapsulating Security Payload
-- **RFC 8656 (2019)**: Traversal Using Relays around NAT (TURN)
+- **RFC 4301 (2005)**: IPsec Security Architecture Updated ✅
+- **RFC 4303 (2005)**: ESP - Encapsulating Security Payload ✅
+- **RFC 8656 (2019)**: Traversal Using Relays around NAT (TURN) ✅
 
 **Educational Focus**: Evolution of IPsec, modern security architectures, relay protocols for difficult NAT scenarios.
+
+**Implementation Summary**: Completed comprehensive security architecture tutorials with:
+
+- IPsec Security Policy Database (SPD) and Security Association (SA) management
+- ESP encryption/authentication with anti-replay protection and algorithm selection
+- TURN relay protocol for NAT traversal with channel data optimization
+- Docker examples for all three protocols showing hands-on implementation
+- Added 50+ security and networking terms to glossary
+- Enhanced ELI-Pythonista educational sections with Python examples and real-world analogies
+- Performance analysis and modern cryptographic algorithm comparisons
+
+### Glossary System Enhancement (July 24, 2025)
+
+**Major Educational Infrastructure Upgrade**: Comprehensive glossary system enhancement with cross-linking and dedicated browsing interface.
+
+#### Glossary Database Expansion
+- **Added 12 high-priority networking infrastructure terms**: router, gateway, firewall, proxy, cache, load-balancer, CDN, latency, throughput, WebSocket, CORS, JWT
+- **Total terms now: 1,662+ comprehensive definitions** covering networking, security, protocols, and web technologies  
+- **Enhanced category coverage**: Infrastructure, security, web technologies, and performance concepts
+
+#### Complete Cross-Linking Implementation  
+- **Enhanced 8 RFC tutorial files** with 15+ new clickable GlossaryTerm references:
+  - RFC675: router, gateway concepts in internetworking foundations
+  - RFC2547: router references in MPLS/VPN architecture context
+  - RFC5389: router in NAT traversal explanations  
+  - RFC793, RFC8445, RFC959, RFC8656: firewall security discussions
+  - RFC8445: latency in real-time gaming scenarios
+- **Every instance linkable**: All occurrences of key terms now provide educational popup definitions (not just first occurrence)
+- **Cross-link routing fixes**: Corrected 12 broken `/rfcs/` → `/rfc/` URL patterns for proper navigation
+
+#### New Dedicated Glossary Page (`/glossary`)
+- **Full-featured browsing interface** with real-time search and category filtering
+- **Visual organization** with color-coded category badges (Protocol, Network, Security, Web, Email, General)
+- **Statistics dashboard** showing term counts per category
+- **Responsive design** with mobile-friendly grid layout optimized for learning
+- **Navigation integration**: Added glossary link in main header for easy access
+- **1,662+ searchable definitions** with related terms cross-referencing
+
+#### Educational Impact
+- **Improved learning experience**: Users can access definitions at any point during reading
+- **Comprehensive coverage**: Every key networking term is now clickable and defined
+- **Centralized reference**: Dedicated page for browsing and discovering related concepts  
+- **Enhanced discoverability**: Better relationships between networking concepts and terminology
 
 ##### Batch 7: Network Behavior Standards
 
@@ -463,8 +572,8 @@ Following Phase 3 completion, implement the cryptographic and networking protoco
 
 - [ ] Advanced interactive simulations
 - [ ] Progressive Web App (PWA) capabilities
-- [ ] **Glossary Navigation**: Dedicated glossary page with search and filtering
-- [ ] **Cross-Reference System**: Automatic linking between RFCs and glossary terms
+- [x] **Glossary Navigation**: Dedicated glossary page with search and filtering ✅ (July 24, 2025)
+- [x] **Cross-Reference System**: Automatic linking between RFCs and glossary terms ✅ (July 24, 2025)
 
 ### Phase 8: Polish & Enhancement (Future)
 
@@ -472,6 +581,26 @@ Following Phase 3 completion, implement the cryptographic and networking protoco
 - [ ] Performance optimization
 - [ ] Accessibility improvements
 - [ ] SEO optimization for educational content
+- [ ] **Build Timestamp Display**: Add "last updated on" information at the bottom of pages to show when content was last built/deployed
+- [ ] **Code Example Consistency**: Audit all RFC tutorials to ensure ALL code examples use Python (not TypeScript) - found at least one TS example that needs conversion
+- [ ] **ELI-Pythonista Quality Review**: Review all ELI-Pythonista sections to ensure they contain genuinely pythonic explanations and code examples, not generic content that's been retrofitted
+
+### Phase 9: Comprehensive Educational Content Expansion (Future)
+
+#### Foundation Tutorials
+- [ ] **"How the Internet Works" Overview**: Create primary landing tutorial explaining internet fundamentals with links to relevant RFC pages for each section - should be the first/main document users see
+- [ ] **Getting Started with Networking in Python**: Comprehensive tutorial covering sockets library and other Python networking libraries for RFC implementation and learning
+- [ ] **Docker Examples Guide**: Dedicated page explaining how to use the Docker demonstrations available for each RFC tutorial
+- [ ] **Python Cryptography Tutorial**: Hand-written tutorial covering cryptographic paradigms and their importance to internet security, with practical Python implementations
+- [ ] **Core Networking Protocols Tutorial**: Hand-written Python implementations of essential protocols like DHCP and DNS with educational explanations
+
+#### Advanced Protocol Coverage
+- [ ] **Peer-to-Peer and Distributed Systems RFCs**: Add tutorials covering torrents, TOR, and P2P networking protocols:
+  - BitTorrent protocol specifications
+  - Onion routing and TOR network protocols  
+  - Distributed hash tables (DHT)
+  - Peer discovery and NAT traversal for P2P
+  - Decentralized networking concepts
 
 ## Architecture Decision: Static vs Dynamic
 

@@ -37,8 +37,8 @@ export default function RFC675() {
           networks
         </li>
         <li>
-          <strong>Gateway Concept:</strong> Devices that route between networks
-          (now called routers)
+          <strong><GlossaryTerm>Gateway</GlossaryTerm> Concept:</strong> Devices that route between networks
+          (now called <GlossaryTerm>router</GlossaryTerm>s)
         </li>
         <li>
           <strong><GlossaryTerm>Packet</GlossaryTerm> Switching:</strong> Breaking data into <GlossaryTerm>packet</GlossaryTerm>s for
@@ -121,7 +121,7 @@ demonstrate_network_layers()`}
         />
 
         <p>
-          <strong>Exploring the gateway concept</strong> (modern routers):
+          <strong>Exploring the <GlossaryTerm>gateway</GlossaryTerm> concept</strong> (modern <GlossaryTerm>router</GlossaryTerm>s):
         </p>
 
         <CodeBlock
@@ -228,19 +228,19 @@ trace_to_gateway()`}
         <li>Scale to connect many networks</li>
       </ul>
 
-      <h3>The Gateway Innovation</h3>
+      <h3>The <GlossaryTerm>Gateway</GlossaryTerm> Innovation</h3>
 
       <div className="border-2 border-dashed border-gray-300 p-4 my-6 text-center">
         <p className="text-sm text-gray-600 mb-2">Conceptual Network Diagram</p>
         <div className="flex items-center justify-center space-x-4">
           <div className="bg-blue-100 p-2 rounded">Network A</div>
           <div className="bg-green-100 p-2 rounded border-2 border-green-500">
-            Gateway
+            <GlossaryTerm>Gateway</GlossaryTerm>
           </div>
           <div className="bg-blue-100 p-2 rounded">Network B</div>
         </div>
         <p className="text-xs text-gray-500 mt-2">
-          Gateways route packets between different networks
+          <GlossaryTerm>Gateway</GlossaryTerm>s route <GlossaryTerm>packet</GlossaryTerm>s between different networks
         </p>
       </div>
 
@@ -251,7 +251,7 @@ trace_to_gateway()`}
       <ul>
         <li>The global Internet as we know it today</li>
         <li>Network of networks architecture</li>
-        <li>Router-based internetworking</li>
+        <li><GlossaryTerm>Router</GlossaryTerm>-based internetworking</li>
         <li>Protocol layering concepts</li>
       </ul>
 

@@ -1,0 +1,357 @@
+version: '3.8'
+
+services:
+  # RFC 9110-9114 HTTP Standards Compliance Testing Environment
+  
+  # HTTP Standards Compliant Server
+  standards-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.standards-server
+    container_name: rfc9110-standards-server
+    ports:
+      - "8080:80"
+      - "8443:443"
+    networks:
+      - http-testing-network
+    environment:
+      - SERVER_NAME=rfc9110-compliant-server
+      - HTTP_SEMANTICS_STRICT=true
+      - CACHE_CONTROL_STRICT=true
+      - STATUS_CODE_COMPLIANCE=true
+      - METHOD_SEMANTICS_ENFORCEMENT=true
+    volumes:
+      - ./server-config:/etc/server
+      - ./content:/var/www/html
+      - ./ssl:/etc/ssl/certs
+      - ./logs/server:/var/log/server
+
+  # HTTP Client Compliance Tester
+  client-tester:
+    build:
+      context: .
+      dockerfile: Dockerfile.client-tester
+    container_name: rfc9110-client-tester
+    ports:
+      - "3000:3000"
+    networks:
+      - http-testing-network
+    environment:
+      - TESTER_PORT=3000
+      - RFC_COMPLIANCE_LEVEL=strict
+      - TEST_SUITES=semantics,caching,authentication,methods
+    volumes:
+      - ./client-tests:/app/tests
+      - ./test-results:/app/results
+      - ./compliance-reports:/app/reports
+    depends_on:
+      - standards-server
+
+  # Cache Behavior Testing Service
+  cache-tester:
+    build:
+      context: .
+      dockerfile: Dockerfile.cache-tester
+    container_name: rfc9110-cache-tester
+    ports:
+      - "3001:3001"
+    networks:
+      - http-testing-network
+    environment:
+      - CACHE_TESTER_PORT=3001
+      - RFC9111_COMPLIANCE=true
+      - STALE_WHILE_REVALIDATE=true
+      - CACHE_VALIDATION_STRICT=true
+    volumes:
+      - ./cache-tests:/app/tests
+      - ./cache-results:/app/results
+      - ./cache-configs:/app/configs
+    depends_on:
+      - standards-server
+
+  # HTTP Method Semantics Validator
+  method-validator:
+    build:
+      context: .
+      dockerfile: Dockerfile.method-validator
+    container_name: rfc9110-method-validator
+    ports:
+      - "3002:3002"
+    networks:
+      - http-testing-network
+    environment:
+      - VALIDATOR_PORT=3002
+      - SAFE_METHODS=GET,HEAD,OPTIONS,TRACE
+      - IDEMPOTENT_METHODS=GET,HEAD,PUT,DELETE,OPTIONS,TRACE
+      - VALIDATE_SEMANTICS=true
+    volumes:
+      - ./method-tests:/app/tests
+      - ./method-results:/app/results
+
+  # Status Code Compliance Checker
+  status-checker:
+    build:
+      context: .
+      dockerfile: Dockerfile.status-checker
+    container_name: rfc9110-status-checker
+    ports:
+      - "3003:3003"
+    networks:
+      - http-testing-network
+    environment:
+      - CHECKER_PORT=3003
+      - STATUS_CODE_STRICT=true
+      - ERROR_RESPONSE_FORMAT=problem+json
+    volumes:
+      - ./status-tests:/app/tests
+      - ./status-results:/app/results
+
+  # Authentication Testing Service
+  auth-tester:
+    build:
+      context: .
+      dockerfile: Dockerfile.auth-tester
+    container_name: rfc9110-auth-tester
+    ports:
+      - "3004:3004"
+    networks:
+      - http-testing-network
+    environment:
+      - AUTH_TESTER_PORT=3004
+      - BEARER_TOKEN_SUPPORT=true
+      - BASIC_AUTH_SUPPORT=true
+      - DIGEST_AUTH_SUPPORT=true
+      - OAUTH2_SUPPORT=true
+    volumes:
+      - ./auth-tests:/app/tests
+      - ./auth-results:/app/results
+      - ./auth-configs:/app/configs
+
+  # Content Negotiation Tester
+  content-negotiation-tester:
+    build:
+      context: .
+      dockerfile: Dockerfile.content-negotiation
+    container_name: rfc9110-content-negotiation
+    ports:
+      - "3005:3005"
+    networks:
+      - http-testing-network
+    environment:
+      - NEGOTIATION_PORT=3005
+      - ACCEPT_HEADER_STRICT=true
+      - VARY_HEADER_COMPLIANCE=true
+      - QUALITY_VALUES=true
+    volumes:
+      - ./negotiation-tests:/app/tests
+      - ./negotiation-results:/app/results
+
+  # Conditional Requests Tester
+  conditional-tester:
+    build:
+      context: .
+      dockerfile: Dockerfile.conditional-tester
+    container_name: rfc9110-conditional-tester
+    ports:
+      - "3006:3006"
+    networks:
+      - http-testing-network
+    environment:
+      - CONDITIONAL_PORT=3006
+      - ETAG_SUPPORT=true
+      - LAST_MODIFIED_SUPPORT=true
+      - IF_MATCH_SUPPORT=true
+      - IF_NONE_MATCH_SUPPORT=true
+    volumes:
+      - ./conditional-tests:/app/tests
+      - ./conditional-results:/app/results
+
+  # CORS and Security Headers Tester
+  security-tester:
+    build:
+      context: .
+      dockerfile: Dockerfile.security-tester
+    container_name: rfc9110-security-tester
+    ports:
+      - "3007:3007"
+    networks:
+      - http-testing-network
+    environment:
+      - SECURITY_PORT=3007
+      - CORS_COMPLIANCE=true
+      - CSP_VALIDATION=true
+      - HSTS_ENFORCEMENT=true
+      - SECURITY_HEADERS_STRICT=true
+    volumes:
+      - ./security-tests:/app/tests
+      - ./security-results:/app/results
+
+  # API Design Compliance Checker
+  api-compliance-checker:
+    build:
+      context: .
+      dockerfile: Dockerfile.api-compliance
+    container_name: rfc9110-api-compliance
+    ports:
+      - "3008:3008"
+    networks:
+      - http-testing-network
+    environment:
+      - API_CHECKER_PORT=3008
+      - REST_COMPLIANCE=true
+      - RESOURCE_ORIENTED=true
+      - HYPERMEDIA_SUPPORT=true
+    volumes:
+      - ./api-tests:/app/tests
+      - ./api-results:/app/results
+      - ./api-schemas:/app/schemas
+
+  # Performance Impact Analyzer
+  performance-analyzer:
+    build:
+      context: .
+      dockerfile: Dockerfile.performance-analyzer
+    container_name: rfc9110-performance-analyzer
+    ports:
+      - "3009:3009"
+    networks:
+      - http-testing-network
+    environment:
+      - PERFORMANCE_PORT=3009
+      - CACHE_PERFORMANCE=true
+      - METHOD_PERFORMANCE=true
+      - COMPRESSION_ANALYSIS=true
+    volumes:
+      - ./performance-tests:/app/tests
+      - ./performance-results:/app/results
+
+  # Compliance Dashboard and Reporter
+  compliance-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile.compliance-dashboard
+    container_name: rfc9110-dashboard
+    ports:
+      - "8090:8090"
+    networks:
+      - http-testing-network
+    environment:
+      - DASHBOARD_PORT=8090
+      - REAL_TIME_MONITORING=true
+      - COMPLIANCE_SCORING=true
+      - AUTOMATED_REPORTING=true
+    volumes:
+      - ./test-results:/app/data/results:ro
+      - ./compliance-reports:/app/data/reports:ro
+      - ./dashboard-config:/app/config
+      - ./compliance-badges:/app/badges
+    depends_on:
+      - client-tester
+      - cache-tester
+      - method-validator
+      - status-checker
+      - auth-tester
+      - content-negotiation-tester
+      - conditional-tester
+      - security-tester
+
+  # Standards Documentation Server
+  documentation-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.documentation
+    container_name: rfc9110-documentation
+    ports:
+      - "8091:8091"
+    networks:
+      - http-testing-network
+    environment:
+      - DOCS_PORT=8091
+      - INTERACTIVE_EXAMPLES=true
+      - CODE_SAMPLES=true
+    volumes:
+      - ./documentation:/app/docs
+      - ./examples:/app/examples
+      - ./tutorials:/app/tutorials
+
+  # Mock Services for Testing
+  mock-service-rest:
+    build:
+      context: .
+      dockerfile: Dockerfile.mock-rest
+    container_name: rfc9110-mock-rest
+    ports:
+      - "4001:4001"
+    networks:
+      - http-testing-network
+    environment:
+      - MOCK_PORT=4001
+      - SERVICE_TYPE=REST
+      - CRUD_OPERATIONS=true
+      - ERROR_SIMULATION=true
+    volumes:
+      - ./mock-data:/app/data
+      - ./mock-configs:/app/configs
+
+  mock-service-graphql:
+    build:
+      context: .
+      dockerfile: Dockerfile.mock-graphql
+    container_name: rfc9110-mock-graphql
+    ports:
+      - "4002:4002"
+    networks:
+      - http-testing-network
+    environment:
+      - MOCK_PORT=4002
+      - SERVICE_TYPE=GraphQL
+      - SCHEMA_VALIDATION=true
+    volumes:
+      - ./graphql-schemas:/app/schemas
+      - ./graphql-data:/app/data
+
+  # Browser Automation for Real-World Testing
+  browser-automation:
+    build:
+      context: .
+      dockerfile: Dockerfile.browser-automation
+    container_name: rfc9110-browser-automation
+    ports:
+      - "4444:4444"
+      - "7900:7900"  # VNC
+    networks:
+      - http-testing-network
+    environment:
+      - SELENIUM_HUB_HOST=browser-automation
+      - BROWSER_TESTS=true
+      - VNC_NO_PASSWORD=1
+    volumes:
+      - ./browser-tests:/app/tests
+      - ./browser-results:/app/results
+    shm_size: 2gb
+
+networks:
+  http-testing-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16
+
+volumes:
+  server-config:
+  content-data:
+  ssl-certificates:
+  test-results:
+  compliance-reports:
+  cache-results:
+  method-results:
+  status-results:
+  auth-results:
+  negotiation-results:
+  conditional-results:
+  security-results:
+  api-results:
+  performance-results:
+  documentation:
+  mock-data:
+  browser-results:

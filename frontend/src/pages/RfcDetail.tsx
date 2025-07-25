@@ -1,4 +1,5 @@
 import { useParams, Link } from "react-router-dom";
+import { useEffect } from "react";
 import { rfcs } from "../data/rfcs";
 import {
   ArrowLeft,
@@ -27,6 +28,13 @@ import RFC5389 from "./rfcs/RFC5389";
 import RFC7748 from "./rfcs/RFC7748";
 import RFC8439 from "./rfcs/RFC8439";
 import RFC8445 from "./rfcs/RFC8445";
+import RFC4301 from "./rfcs/RFC4301";
+import RFC4303 from "./rfcs/RFC4303";
+import RFC8656 from "./rfcs/RFC8656";
+import RFC4787 from "./rfcs/RFC4787";
+import RFC4364 from "./rfcs/RFC4364";
+import RFC7540 from "./rfcs/RFC7540";
+import RFC9110 from "./rfcs/RFC9110";
 
 // Map RFC numbers to their components
 const rfcComponents: Record<number, React.ComponentType> = {
@@ -49,6 +57,13 @@ const rfcComponents: Record<number, React.ComponentType> = {
   7748: RFC7748,
   8439: RFC8439,
   8445: RFC8445,
+  4301: RFC4301,
+  4303: RFC4303,
+  8656: RFC8656,
+  4787: RFC4787,
+  4364: RFC4364,
+  7540: RFC7540,
+  9110: RFC9110,
 };
 
 export default function RfcDetail() {
@@ -56,6 +71,11 @@ export default function RfcDetail() {
   const rfcNumber = parseInt(number || "0");
   const rfc = rfcs.find((r) => r.number === rfcNumber);
   const RfcComponent = rfcComponents[rfcNumber];
+
+  // Scroll to top when component mounts or RFC changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [rfcNumber]);
 
   if (!rfc || !RfcComponent) {
     return (
