@@ -71,7 +71,7 @@ export default function RFC4787() {
         is used regardless of the destination.
       </p>
 
-      <ExpandableSection title="🎯 ELI-Pythonista: Endpoint-Independent Mapping">
+      <ExpandableSection title="🎯 Endpoint-Independent Mapping Explained">
         <div className="bg-blue-50 p-4 rounded-lg">
           <p className="mb-4">
             <strong>Think of it like a permanent forwarding address:</strong>
@@ -185,9 +185,9 @@ sequenceDiagram
 
       <ExpandableSection title="📚 Code Example: NAT Behavior Detection">
         <CodeBlock
-          language="typescript"
+          language="python"
           code={getCodeExample("rfc4787_nat_detector")}
-          title="rfc4787_nat_detector.ts"
+          title="rfc4787_nat_detector.py"
         />
       </ExpandableSection>
 
@@ -243,7 +243,7 @@ sequenceDiagram
         peer-to-peer connections.
       </p>
 
-      <ExpandableSection title="🏠 ELI-Pythonista: Why Hairpinning Matters">
+      <ExpandableSection title="🏠 Why Hairpinning Matters">
         <div className="bg-yellow-50 p-4 rounded-lg">
           <p className="mb-4">
             <strong>The Local Network Problem:</strong>
@@ -291,9 +291,9 @@ sequenceDiagram
 
       <ExpandableSection title="📚 Code Example: UDP Hole Punching Implementation">
         <CodeBlock
-          language="typescript"
+          language="python"
           code={getCodeExample("rfc4787_hole_puncher")}
-          title="rfc4787_hole_puncher.ts"
+          title="rfc4787_hole_puncher.py"
         />
       </ExpandableSection>
 
@@ -430,7 +430,11 @@ sequenceDiagram
           </p>
           <CodeBlock
             language="bash"
-            code="cd docker-examples/rfc4787-nat-behaviors/\ndocker compose up -d\n\n# Access the NAT behavior tester at:\n# http://localhost:8080"
+            code={`cd docker-examples/rfc4787-nat-behaviors/
+docker compose up -d
+
+# Access the NAT behavior tester at:
+# http://localhost:8080`}
           />
           <p className="mt-3 text-sm">
             The demonstration includes simulated NATs with configurable behaviors, 
