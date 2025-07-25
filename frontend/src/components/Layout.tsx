@@ -111,6 +111,10 @@ export default function Layout({ children }: LayoutProps) {
                 <Github className="h-4 w-4" />
                 <span>Source Code & Examples</span>
               </a>
+              <span>•</span>
+              <span className="text-gray-500">
+                Last updated: {formatBuildTimestamp(__BUILD_TIMESTAMP__)}
+              </span>
             </div>
           </div>
         </div>
@@ -124,4 +128,21 @@ function getProgress(): number {
   const completed = JSON.parse(localStorage.getItem("rfc-progress") || "[]");
   const total = 5; // Update this as we add more RFCs
   return Math.round((completed.length / total) * 100);
+}
+
+// Format build timestamp for display
+function formatBuildTimestamp(timestamp: string): string {
+  try {
+    const date = new Date(timestamp);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZoneName: "short"
+    });
+  } catch {
+    return "Unknown";
+  }
 }
