@@ -153,7 +153,7 @@ export default function Home() {
             <div key={eraKey} className="space-y-6">
               <div className="text-center">
                 <div
-                  className={`inline-flex items-center px-4 py-2 rounded-full text-white ${era.color}`}
+                  className={`inline-flex items-center px-4 py-2 rounded-full bg-white border-2 ${era.borderColor} ${era.textColor}`}
                 >
                   <h2 className="text-2xl font-bold">{era.name}</h2>
                   <span className="ml-3 text-sm opacity-90">{era.period}</span>
@@ -293,7 +293,7 @@ export default function Home() {
                       </div>
                       <div className="flex items-center space-x-2">
                         <span
-                          className={`px-2 py-1 rounded text-xs text-white ${era.color}`}
+                          className={`px-2 py-1 rounded text-xs bg-white border ${era.borderColor} ${era.textColor}`}
                         >
                           {era.name}
                         </span>

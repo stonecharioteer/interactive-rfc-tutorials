@@ -3,6 +3,8 @@ export interface RfcTag {
   name: string;
   category: "protocol" | "technology" | "level" | "relevance";
   color: string;
+  borderColor: string;
+  textColor: string;
   description: string;
 }
 
@@ -23,30 +25,40 @@ export const rfcEras = {
     period: "1969-1982",
     description: "The birth of the internet and core protocols",
     color: "bg-[#0072b2]",
+    borderColor: "border-[#0072b2]",
+    textColor: "text-[#0072b2]",
   },
   "protocol-expansion": {
     name: "Protocol Expansion",
     period: "1983-1990",
     description: "Building the internet infrastructure",
     color: "bg-[#009e73]",
+    borderColor: "border-[#009e73]",
+    textColor: "text-[#009e73]",
   },
   "web-era": {
     name: "Web Era",
     period: "1990s-2000s",
     description: "The World Wide Web revolution",
     color: "bg-[#cc79a7]",
+    borderColor: "border-[#cc79a7]",
+    textColor: "text-[#cc79a7]",
   },
   modern: {
     name: "Modern Networking",
     period: "2000s-2010s",
     description: "Security and performance improvements",
-    color: "bg-[#f0e442]",
+    color: "bg-[#b8860b]",
+    borderColor: "border-[#b8860b]",
+    textColor: "text-[#b8860b]",
   },
   current: {
     name: "Current Standards",
     period: "2020s",
     description: "Latest developments and standards",
     color: "bg-[#d55e00]",
+    borderColor: "border-[#d55e00]",
+    textColor: "text-[#d55e00]",
   },
 };
 
@@ -57,6 +69,8 @@ export const rfcTags: Record<string, RfcTag> = {
     name: "Transport",
     category: "protocol",
     color: "bg-[#0072b2]",
+    borderColor: "border-[#0072b2]",
+    textColor: "text-[#0072b2]",
     description: "Transport layer protocols (TCP, UDP)"
   },
   "application": {
@@ -64,6 +78,8 @@ export const rfcTags: Record<string, RfcTag> = {
     name: "Application",
     category: "protocol",
     color: "bg-[#009e73]",
+    borderColor: "border-[#009e73]",
+    textColor: "text-[#009e73]",
     description: "Application layer protocols (HTTP, SMTP, FTP)"
   },
   "network": {
@@ -71,6 +87,8 @@ export const rfcTags: Record<string, RfcTag> = {
     name: "Network",
     category: "protocol",
     color: "bg-[#cc79a7]",
+    borderColor: "border-[#cc79a7]",
+    textColor: "text-[#cc79a7]",
     description: "Network layer protocols (IP, IPv6, routing)"
   },
   "security": {
@@ -78,13 +96,17 @@ export const rfcTags: Record<string, RfcTag> = {
     name: "Security",
     category: "protocol",
     color: "bg-[#d55e00]",
+    borderColor: "border-[#d55e00]",
+    textColor: "text-[#d55e00]",
     description: "Security and cryptographic protocols"
   },
   "naming": {
     id: "naming",
     name: "Naming",
     category: "protocol",
-    color: "bg-[#f0e442]",
+    color: "bg-[#b8860b]",
+    borderColor: "border-[#b8860b]",
+    textColor: "text-[#b8860b]",
     description: "Naming and addressing protocols (DNS)"
   },
   
@@ -94,6 +116,8 @@ export const rfcTags: Record<string, RfcTag> = {
     name: "Cryptography",
     category: "technology",
     color: "bg-[#0072b2]",
+    borderColor: "border-[#0072b2]",
+    textColor: "text-[#0072b2]",
     description: "Encryption, authentication, and key exchange"
   },
   "nat-traversal": {
@@ -101,6 +125,8 @@ export const rfcTags: Record<string, RfcTag> = {
     name: "NAT Traversal",
     category: "technology",
     color: "bg-[#009e73]",
+    borderColor: "border-[#009e73]",
+    textColor: "text-[#009e73]",
     description: "NAT and firewall traversal techniques"
   },
   "vpn": {
@@ -108,6 +134,8 @@ export const rfcTags: Record<string, RfcTag> = {
     name: "VPN",
     category: "technology",
     color: "bg-[#cc79a7]",
+    borderColor: "border-[#cc79a7]",
+    textColor: "text-[#cc79a7]",
     description: "VPN and tunneling technologies"
   },
   "p2p": {
@@ -115,13 +143,17 @@ export const rfcTags: Record<string, RfcTag> = {
     name: "P2P",
     category: "technology",
     color: "bg-[#d55e00]",
+    borderColor: "border-[#d55e00]",
+    textColor: "text-[#d55e00]",
     description: "Peer-to-peer networking concepts"
   },
   "performance": {
     id: "performance",
     name: "Performance",
     category: "technology",
-    color: "bg-[#f0e442]",
+    color: "bg-[#b8860b]",
+    borderColor: "border-[#b8860b]",
+    textColor: "text-[#b8860b]",
     description: "Optimization and performance improvements"
   },
   "legacy": {
@@ -129,6 +161,8 @@ export const rfcTags: Record<string, RfcTag> = {
     name: "Legacy",
     category: "technology",
     color: "bg-gray-600",
+    borderColor: "border-gray-600",
+    textColor: "text-gray-600",
     description: "Historical technologies with learning value"
   },
   
@@ -138,13 +172,17 @@ export const rfcTags: Record<string, RfcTag> = {
     name: "Foundational",
     category: "level",
     color: "bg-[#009e73]",
+    borderColor: "border-[#009e73]",
+    textColor: "text-[#009e73]",
     description: "Core concepts, suitable for beginners"
   },
   "intermediate": {
     id: "intermediate",
     name: "Intermediate",
     category: "level",
-    color: "bg-[#f0e442]",
+    color: "bg-[#b8860b]",
+    borderColor: "border-[#b8860b]",
+    textColor: "text-[#b8860b]",
     description: "Requires basic networking knowledge"
   },
   "advanced": {
@@ -152,6 +190,8 @@ export const rfcTags: Record<string, RfcTag> = {
     name: "Advanced",
     category: "level",
     color: "bg-gray-600",
+    borderColor: "border-gray-600",
+    textColor: "text-gray-600",
     description: "Complex protocols requiring deep technical understanding"
   },
   
@@ -161,6 +201,8 @@ export const rfcTags: Record<string, RfcTag> = {
     name: "Enterprise",
     category: "relevance",
     color: "bg-gray-600",
+    borderColor: "border-gray-600",
+    textColor: "text-gray-600",
     description: "Enterprise networking and service provider technologies"
   },
   "consumer": {
@@ -168,6 +210,8 @@ export const rfcTags: Record<string, RfcTag> = {
     name: "Consumer",
     category: "relevance",
     color: "bg-[#0072b2]",
+    borderColor: "border-[#0072b2]",
+    textColor: "text-[#0072b2]",
     description: "Consumer internet and web technologies"
   },
   "infrastructure": {
@@ -175,6 +219,8 @@ export const rfcTags: Record<string, RfcTag> = {
     name: "Infrastructure",
     category: "relevance",
     color: "bg-[#cc79a7]",
+    borderColor: "border-[#cc79a7]",
+    textColor: "text-[#cc79a7]",
     description: "Core internet infrastructure protocols"
   },
   "emerging": {
@@ -182,6 +228,8 @@ export const rfcTags: Record<string, RfcTag> = {
     name: "Emerging",
     category: "relevance",
     color: "bg-[#d55e00]",
+    borderColor: "border-[#d55e00]",
+    textColor: "text-[#d55e00]",
     description: "Cutting-edge or recently standardized protocols"
   }
 };

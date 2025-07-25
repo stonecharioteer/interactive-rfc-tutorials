@@ -746,6 +746,39 @@ Following Phase 3 completion, implement the cryptographic and networking protoco
   - Peer discovery and NAT traversal for P2P
   - Decentralized networking concepts
 
+### Phase 10: Markdown-Based Content Management System (High Priority)
+
+#### Motivation
+Enable better content authoring and maintenance by allowing RFC tutorials to be written in markdown with custom React component support, improving content quality and developer experience.
+
+#### Implementation Goals
+- [ ] **Markdown Tutorial Authoring**: Convert from TSX components to markdown files with embedded React components
+- [ ] **Custom Component Support**: ELI-Pythonista sections, collapsible Docker blocks, code snippets, Mermaid diagrams
+- [ ] **Build-Time Processing**: Markdown → React component compilation during `npm run build`
+- [ ] **Developer Experience**: Improved content editing with markdown syntax and live preview
+- [ ] **Content Quality**: Better focus on educational content vs component structure
+
+#### Technical Requirements
+- [ ] **MDX Integration**: Implement MDX or remark/rehype-based markdown processing with React component support
+- [ ] **Vite Configuration**: Integrate .md/.mdx file processing and hot reload capabilities
+- [ ] **Custom Plugins**: Develop remark/rehype plugins for specialized educational components
+- [ ] **TypeScript Compatibility**: Ensure seamless TypeScript integration and build process compatibility
+- [ ] **System Integration**: Maintain compatibility with existing routing, search, filtering, and glossary systems
+
+#### Implementation Phases
+1. **Research & Setup**: Evaluate MDX vs remark/rehype solutions, configure Vite pipeline
+2. **Component Migration**: Create markdown-compatible versions of educational components
+3. **Content Conversion**: Convert existing RFC tutorials from TSX to markdown format
+4. **Testing & Validation**: Ensure all features work seamlessly with new system
+5. **Documentation**: Update development workflow and content authoring guidelines
+
+#### Success Metrics
+- [ ] **Faster Content Creation**: Reduced time to create and edit RFC tutorials
+- [ ] **Improved Maintainability**: Better separation of content from presentation logic
+- [ ] **Enhanced Developer Experience**: Markdown editing with live preview and syntax highlighting
+- [ ] **Zero Regression**: All existing educational features and user experience maintained
+- [ ] **Build Process Integration**: Seamless integration with existing CI/CD and deployment pipeline
+
 ## Architecture Decision: Static vs Dynamic
 
 ### Current Static Approach ✅
