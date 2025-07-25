@@ -9,6 +9,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import RfcBadge from "../components/RfcBadge";
+import { visitHistoryUtils } from "../utils/visitHistory";
 import RFC1 from "./rfcs/RFC1";
 import RFC675 from "./rfcs/RFC675";
 import RFC791 from "./rfcs/RFC791";
@@ -72,10 +73,15 @@ export default function RfcDetail() {
   const rfc = rfcs.find((r) => r.number === rfcNumber);
   const RfcComponent = rfcComponents[rfcNumber];
 
-  // Scroll to top when component mounts or RFC changes
+  // Scroll to top and record visit when component mounts or RFC changes
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [rfcNumber]);
+    
+    // Record the visit if RFC exists and component is loaded
+    if (rfc && RfcComponent) {
+      visitHistoryUtils.recordVisit(rfcNumber);
+    }
+  }, [rfcNumber, rfc, RfcComponent]);
 
   if (!rfc || !RfcComponent) {
     return (

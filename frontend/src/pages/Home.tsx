@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { rfcs, rfcEras } from "../data/rfcs";
-import { CheckCircle2, FileText, Clock, Award, BarChart3 } from "lucide-react";
+import { CheckCircle2, FileText, Clock, Award, BarChart3, Eye } from "lucide-react";
 import RfcBadge from "../components/RfcBadge";
 import SearchFilter from "../components/SearchFilter";
 import { useRfcFilter } from "../hooks/useRfcFilter";
+import { visitHistoryUtils } from "../utils/visitHistory";
 
 export default function Home() {
   const {
@@ -138,17 +139,26 @@ export default function Home() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {eraRfcs.map((rfc) => {
                   const isCompleted = completedRfcs.includes(rfc.number);
+                  const isVisited = visitHistoryUtils.isRfcVisited(rfc.number);
 
                   return (
                     <Link
                       key={rfc.number}
                       to={`/rfc/${rfc.number}`}
-                      className="rfc-card hover:scale-105 transform transition-all duration-200"
+                      className={`rfc-card hover:scale-105 transform transition-all duration-200 ${
+                        isCompleted 
+                          ? 'border-green-200 dark:border-green-700 bg-green-50/50 dark:bg-green-900/10'
+                          : isVisited 
+                          ? 'border-blue-200 dark:border-blue-700 bg-blue-50/50 dark:bg-blue-900/10' 
+                          : ''
+                      }`}
                     >
                       <div className="flex items-start justify-between mb-3">
                         <div className="flex items-center space-x-2">
                           {isCompleted ? (
                             <CheckCircle2 className="h-5 w-5 text-green-500" />
+                          ) : isVisited ? (
+                            <Eye className="h-5 w-5 text-blue-500" />
                           ) : (
                             <FileText className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                           )}
@@ -163,7 +173,13 @@ export default function Home() {
                         </span>
                       </div>
 
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                      <h3 className={`text-lg font-semibold mb-2 ${
+                        isCompleted
+                          ? 'text-green-900 dark:text-green-100'
+                          : isVisited 
+                          ? 'text-blue-900 dark:text-blue-100' 
+                          : 'text-gray-900 dark:text-white'
+                      }`}>
                         {rfc.title}
                       </h3>
 
@@ -200,18 +216,27 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredRfcs.map((rfc) => {
                 const isCompleted = completedRfcs.includes(rfc.number);
+                const isVisited = visitHistoryUtils.isRfcVisited(rfc.number);
                 const era = rfcEras[rfc.era];
 
                 return (
                   <Link
                     key={rfc.number}
                     to={`/rfc/${rfc.number}`}
-                    className="rfc-card hover:scale-105 transform transition-all duration-200"
+                    className={`rfc-card hover:scale-105 transform transition-all duration-200 ${
+                      isCompleted 
+                        ? 'border-green-200 dark:border-green-700 bg-green-50/50 dark:bg-green-900/10'
+                        : isVisited 
+                        ? 'border-blue-200 dark:border-blue-700 bg-blue-50/50 dark:bg-blue-900/10' 
+                        : ''
+                    }`}
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center space-x-2">
                         {isCompleted ? (
                           <CheckCircle2 className="h-5 w-5 text-green-500" />
+                        ) : isVisited ? (
+                          <Eye className="h-5 w-5 text-blue-500" />
                         ) : (
                           <FileText className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                         )}
@@ -231,7 +256,13 @@ export default function Home() {
                       </div>
                     </div>
 
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                    <h3 className={`text-lg font-semibold mb-2 ${
+                      isCompleted
+                        ? 'text-green-900 dark:text-green-100'
+                        : isVisited 
+                        ? 'text-blue-900 dark:text-blue-100' 
+                        : 'text-gray-900 dark:text-white'
+                    }`}>
                       {rfc.title}
                     </h3>
 
