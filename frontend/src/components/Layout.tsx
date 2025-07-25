@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Home, BookOpen, Clock, Github, Book } from "lucide-react";
+import { rfcs } from "../data/rfcs";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -126,7 +127,7 @@ export default function Layout({ children }: LayoutProps) {
 // Simple progress tracking using localStorage
 function getProgress(): number {
   const completed = JSON.parse(localStorage.getItem("rfc-progress") || "[]");
-  const total = 5; // Update this as we add more RFCs
+  const total = rfcs.length; // Use actual RFC count
   return Math.round((completed.length / total) * 100);
 }
 

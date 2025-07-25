@@ -29,12 +29,9 @@ export default function TagBadge({
     relevance: "🎯",
   };
 
-  // Use dark text for yellow background, white text for others
-  const textColor = tag.color === "bg-[#f0e442]" ? "text-gray-900" : "text-white";
-
   return (
     <span
-      className={`inline-flex items-center rounded-full font-medium ${textColor} ${tag.color} ${sizeClasses[size]} ${
+      className={`inline-flex items-center rounded-full font-medium bg-white border ${tag.borderColor} ${tag.textColor} ${sizeClasses[size]} ${
         showTooltip ? "cursor-help" : ""
       }`}
       title={showTooltip ? `${tag.name}: ${tag.description}` : undefined}

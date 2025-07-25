@@ -125,23 +125,24 @@
 
 ### Color System & Accessibility Standards
 
-**Colorblind-Friendly Palette** (Established - July 25, 2025)
+**Colorblind-Friendly Palette & Design System** (Established - July 25, 2025)
 
-All tag colors and UI elements MUST use only the following scientifically-tested colorblind-accessible palette:
+All tag colors and UI elements use a scientifically-tested colorblind-accessible palette with white pill/badge design:
 
 - **Blue**: `#0072b2` (RGB: 0,114,178) - Primary blue for transport, cryptography, consumer tags
 - **Green**: `#009e73` (RGB: 0,158,115) - Teal-green for application, nat-traversal, foundational tags  
 - **Pink/Magenta**: `#cc79a7` (RGB: 204,121,167) - Soft pink for network, vpn, infrastructure tags
-- **Yellow**: `#f0e442` (RGB: 240,228,66) - Bright yellow for naming, performance, intermediate tags
+- **Dark Gold**: `#b8860b` (RGB: 184,134,11) - Dark golden color for naming, performance, intermediate tags
 - **Orange**: `#d55e00` (RGB: 213,94,0) - Orange-red for security, p2p, emerging tags
 - **Gray**: Standard Tailwind `bg-gray-600` - Neutral gray for legacy, advanced, enterprise tags
 
-**Implementation Guidelines:**
-- Use Tailwind arbitrary value syntax: `bg-[#0072b2]` 
-- These colors provide full accessibility for deuteranopia, protanopia, and tritanopia
-- Maintain excellent contrast with white text on all colored backgrounds
-- Yellow backgrounds may require dark text color adjustment for optimal readability
-- NO other colors should be introduced without accessibility testing
+**Design System Implementation:**
+- **White Background Pills**: All badges/pills use `bg-white` backgrounds with colored outlines for optimal contrast
+- **Colored Borders**: Use `border-[#colorcode]` for colorblind-accessible visual distinction
+- **Colored Text**: Use `text-[#colorcode]` matching the border color for consistent theming
+- **Consistent Contrast**: Black/dark text on white backgrounds eliminates all contrast issues
+- **Accessibility First**: Design approach provides full accessibility for all color vision variations
+- **NO Background Colors**: Never use colored backgrounds for badges/pills to avoid contrast problems
 
 ### Technical Architecture Decisions
 
@@ -155,6 +156,17 @@ All tag colors and UI elements MUST use only the following scientifically-tested
 - **ELI-Pythonista Quality**: ELI-Pythonista sections must contain genuinely pythonic explanations and code, not generic content retrofitted with Python syntax
 - **Docker Integration**: Provide hands-on Docker demonstrations for protocols where applicable
 - **GitHub Actions**: Use `gh act` for local workflow testing before pushing changes
+
+### Markdown-Based Tutorial System (Future Implementation)
+
+- **Content Authoring**: Transition from TSX components to markdown files with embedded React components for improved content management
+- **Build-Time Processing**: Implement MDX or remark/rehype pipeline to convert markdown to React components during build
+- **Custom Component Support**: Enable markdown usage of ELI-Pythonista, CodeBlock, ExpandableSection, MermaidDiagram, and GlossaryTerm components
+- **Developer Experience Priority**: Focus on content creation efficiency while maintaining educational component functionality
+- **Backward Compatibility**: Ensure existing routing, search, filtering, and glossary systems continue working seamlessly
+- **Content Quality Focus**: Separate educational content from presentation logic to improve maintainability and authoring speed
+- **TypeScript Integration**: Maintain full TypeScript support for markdown-generated components and existing build pipeline
+- **Hot Reload Support**: Enable live preview and fast feedback during content development with Vite integration
 
 ### Current Development Workflow
 
