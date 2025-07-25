@@ -60,11 +60,13 @@ export default function TagFilter({ selectedTags, onTagsChange }: TagFilterProps
             {selectedTags.map((tagId) => {
               const tag = rfcTags[tagId];
               if (!tag) return null;
+              // Use dark text for yellow background, white text for others
+              const textColor = tag.color === "bg-[#f0e442]" ? "text-gray-900" : "text-white";
               return (
                 <button
                   key={tagId}
                   onClick={() => toggleTag(tagId)}
-                  className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium text-white ${tag.color} hover:opacity-80`}
+                  className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${textColor} ${tag.color} hover:opacity-80`}
                 >
                   {tag.name}
                   <X className="h-3 w-3 ml-1" />
@@ -84,13 +86,15 @@ export default function TagFilter({ selectedTags, onTagsChange }: TagFilterProps
           <div className="flex flex-wrap gap-2">
             {tags.map((tag) => {
               const isSelected = selectedTags.includes(tag.id);
+              // Use dark text for yellow background, white text for others
+              const textColor = tag.color === "bg-[#f0e442]" ? "text-gray-900" : "text-white";
               return (
                 <button
                   key={tag.id}
                   onClick={() => toggleTag(tag.id)}
                   className={`inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                     isSelected
-                      ? `text-white ${tag.color}`
+                      ? `${textColor} ${tag.color}`
                       : "text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
                   }`}
                   title={tag.description}
