@@ -300,23 +300,32 @@ graph LR
         demonstrates both transport and tunnel modes with real traffic protection.
       </p>
 
-      <div className="bg-green-50 border-l-4 border-green-500 p-4 my-6">
-        <h4 className="font-semibold text-green-800 mb-2">
-          🐳 Interactive IPsec Demo
-        </h4>
-        <p className="text-green-700 text-sm mb-3">
-          The Docker demonstration shows IPsec policy configuration, SA establishment,
-          and encrypted communication between hosts and gateways.
-        </p>
-        <div className="bg-green-100 p-3 rounded">
-          <code className="text-sm">
-            cd docker-examples/rfc4301-ipsec-architecture<br/>
-            docker-compose up -d<br/>
-            # Watch IPsec tunnel establishment<br/>
-            docker logs -f ipsec-gateway-a
-          </code>
+      <ExpandableSection title="🐳 Interactive IPsec Demo">
+        <div className="bg-green-50 p-4 rounded-lg">
+          <p className="text-green-700 text-sm mb-3">
+            The Docker demonstration shows IPsec policy configuration, SA establishment,
+            and encrypted communication between hosts and gateways.
+          </p>
+          <CodeBlock
+            language="bash"
+            code={`cd docker-examples/rfc4301-ipsec-architecture
+docker compose up -d
+
+# Watch IPsec tunnel establishment
+docker logs -f ipsec-gateway-a
+
+# Monitor policy database changes
+docker exec ipsec-gateway-a ip xfrm policy
+
+# View security associations
+docker exec ipsec-gateway-a ip xfrm state`}
+          />
+          <p className="mt-3 text-sm text-green-600">
+            The demonstration includes gateway configuration, tunnel establishment,
+            and real-time monitoring of IPsec security associations and policies.
+          </p>
         </div>
-      </div>
+      </ExpandableSection>
 
       <h2>Modern Internet Context</h2>
 
