@@ -1,26 +1,33 @@
 import { Link } from "react-router-dom";
 import { rfcs, rfcEras } from "../data/rfcs";
-import { CheckCircle2, FileText, Clock, Award, BarChart3, Eye } from "lucide-react";
+import {
+  CheckCircle2,
+  FileText,
+  Clock,
+  Award,
+  BarChart3,
+  Eye,
+} from "lucide-react";
 import RfcBadge from "../components/RfcBadge";
 import SearchFilter from "../components/SearchFilter";
 import { useRfcFilter } from "../hooks/useRfcFilter";
 import { visitHistoryUtils } from "../utils/visitHistory";
 
 export default function Home() {
-  const {
-    filters,
-    filteredRfcs,
-    updateFilter,
-    clearFilters,
-    stats,
-  } = useRfcFilter(rfcs);
+  const { filters, filteredRfcs, updateFilter, clearFilters, stats } =
+    useRfcFilter(rfcs);
 
   const completedRfcs = JSON.parse(
     localStorage.getItem("rfc-progress") || "[]",
   );
 
   const getEraRfcs = (era: string) => {
-    if (filters.searchTerm || filters.selectedEra !== 'all' || filters.selectedYear !== 'all' || filters.completedOnly) {
+    if (
+      filters.searchTerm ||
+      filters.selectedEra !== "all" ||
+      filters.selectedYear !== "all" ||
+      filters.completedOnly
+    ) {
       // When filtering is active, show filtered results grouped by era
       return filteredRfcs.filter((rfc) => rfc.era === era);
     }
@@ -28,15 +35,20 @@ export default function Home() {
     return rfcs.filter((rfc) => rfc.era === era);
   };
 
-  const shouldShowEraGrouping = !filters.searchTerm && filters.selectedEra === 'all';
-  const hasActiveFilters = filters.searchTerm || filters.selectedEra !== 'all' || filters.selectedYear !== 'all' || filters.completedOnly;
+  const shouldShowEraGrouping =
+    !filters.searchTerm && filters.selectedEra === "all";
+  const hasActiveFilters =
+    filters.searchTerm ||
+    filters.selectedEra !== "all" ||
+    filters.selectedYear !== "all" ||
+    filters.completedOnly;
 
   return (
     <div className="space-y-12">
       {/* Hero Section */}
       <div className="text-center">
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white sm:text-5xl">
-          Learn the RFCs That Built the Internet
+          Read the RFCs That Built the Internet
         </h1>
         <p className="mt-4 text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
           Interactive tutorials for understanding the key protocols and
@@ -47,14 +59,18 @@ export default function Home() {
         <div className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
           <div className="text-center">
             <Award className="h-8 w-8 text-rfc-blue mx-auto" />
-            <h3 className="mt-2 font-semibold dark:text-white">{stats.total} Key RFCs</h3>
+            <h3 className="mt-2 font-semibold dark:text-white">
+              {stats.total} Key RFCs
+            </h3>
             <p className="text-sm text-gray-600 dark:text-gray-300">
               Carefully selected protocols that shaped the internet
             </p>
           </div>
           <div className="text-center">
             <BarChart3 className="h-8 w-8 text-rfc-green mx-auto" />
-            <h3 className="mt-2 font-semibold dark:text-white">{stats.completionRate}% Complete</h3>
+            <h3 className="mt-2 font-semibold dark:text-white">
+              {stats.completionRate}% Complete
+            </h3>
             <p className="text-sm text-gray-600 dark:text-gray-300">
               {stats.completed} of {stats.total} RFCs completed
             </p>
@@ -81,13 +97,15 @@ export default function Home() {
       {/* Search and Filter */}
       <SearchFilter
         searchTerm={filters.searchTerm}
-        onSearchChange={(term) => updateFilter('searchTerm', term)}
+        onSearchChange={(term) => updateFilter("searchTerm", term)}
         selectedEra={filters.selectedEra}
-        onEraChange={(era) => updateFilter('selectedEra', era)}
+        onEraChange={(era) => updateFilter("selectedEra", era)}
         selectedYear={filters.selectedYear}
-        onYearChange={(year) => updateFilter('selectedYear', year)}
+        onYearChange={(year) => updateFilter("selectedYear", year)}
         completedOnly={filters.completedOnly}
-        onCompletedOnlyChange={(completed) => updateFilter('completedOnly', completed)}
+        onCompletedOnlyChange={(completed) =>
+          updateFilter("completedOnly", completed)
+        }
         onClearFilters={clearFilters}
       />
 
@@ -101,8 +119,10 @@ export default function Home() {
               </h3>
               <p className="text-blue-700 dark:text-blue-300 text-sm">
                 {filters.searchTerm && `Search: "${filters.searchTerm}"`}
-                {filters.selectedEra !== 'all' && ` • Era: ${rfcEras[filters.selectedEra as keyof typeof rfcEras].name}`}
-                {filters.selectedYear !== 'all' && ` • Year: ${filters.selectedYear}`}
+                {filters.selectedEra !== "all" &&
+                  ` • Era: ${rfcEras[filters.selectedEra as keyof typeof rfcEras].name}`}
+                {filters.selectedYear !== "all" &&
+                  ` • Year: ${filters.selectedYear}`}
                 {filters.completedOnly && ` • Completed only`}
               </p>
             </div>
@@ -146,11 +166,11 @@ export default function Home() {
                       key={rfc.number}
                       to={`/rfc/${rfc.number}`}
                       className={`rfc-card hover:scale-105 transform transition-all duration-200 ${
-                        isCompleted 
-                          ? 'border-green-200 dark:border-green-700 bg-green-50/50 dark:bg-green-900/10'
-                          : isVisited 
-                          ? 'border-blue-200 dark:border-blue-700 bg-blue-50/50 dark:bg-blue-900/10' 
-                          : ''
+                        isCompleted
+                          ? "border-green-200 dark:border-green-700 bg-green-50/50 dark:bg-green-900/10"
+                          : isVisited
+                            ? "border-blue-200 dark:border-blue-700 bg-blue-50/50 dark:bg-blue-900/10"
+                            : ""
                       }`}
                     >
                       <div className="flex items-start justify-between mb-3">
@@ -173,13 +193,15 @@ export default function Home() {
                         </span>
                       </div>
 
-                      <h3 className={`text-lg font-semibold mb-2 ${
-                        isCompleted
-                          ? 'text-green-900 dark:text-green-100'
-                          : isVisited 
-                          ? 'text-blue-900 dark:text-blue-100' 
-                          : 'text-gray-900 dark:text-white'
-                      }`}>
+                      <h3
+                        className={`text-lg font-semibold mb-2 ${
+                          isCompleted
+                            ? "text-green-900 dark:text-green-100"
+                            : isVisited
+                              ? "text-blue-900 dark:text-blue-100"
+                              : "text-gray-900 dark:text-white"
+                        }`}
+                      >
                         {rfc.title}
                       </h3>
 
@@ -224,11 +246,11 @@ export default function Home() {
                     key={rfc.number}
                     to={`/rfc/${rfc.number}`}
                     className={`rfc-card hover:scale-105 transform transition-all duration-200 ${
-                      isCompleted 
-                        ? 'border-green-200 dark:border-green-700 bg-green-50/50 dark:bg-green-900/10'
-                        : isVisited 
-                        ? 'border-blue-200 dark:border-blue-700 bg-blue-50/50 dark:bg-blue-900/10' 
-                        : ''
+                      isCompleted
+                        ? "border-green-200 dark:border-green-700 bg-green-50/50 dark:bg-green-900/10"
+                        : isVisited
+                          ? "border-blue-200 dark:border-blue-700 bg-blue-50/50 dark:bg-blue-900/10"
+                          : ""
                     }`}
                   >
                     <div className="flex items-start justify-between mb-3">
@@ -247,7 +269,9 @@ export default function Home() {
                         />
                       </div>
                       <div className="flex items-center space-x-2">
-                        <span className={`px-2 py-1 rounded text-xs text-white ${era.color}`}>
+                        <span
+                          className={`px-2 py-1 rounded text-xs text-white ${era.color}`}
+                        >
                           {era.name}
                         </span>
                         <span className="text-xs text-gray-400 dark:text-gray-500">
@@ -256,13 +280,15 @@ export default function Home() {
                       </div>
                     </div>
 
-                    <h3 className={`text-lg font-semibold mb-2 ${
-                      isCompleted
-                        ? 'text-green-900 dark:text-green-100'
-                        : isVisited 
-                        ? 'text-blue-900 dark:text-blue-100' 
-                        : 'text-gray-900 dark:text-white'
-                    }`}>
+                    <h3
+                      className={`text-lg font-semibold mb-2 ${
+                        isCompleted
+                          ? "text-green-900 dark:text-green-100"
+                          : isVisited
+                            ? "text-blue-900 dark:text-blue-100"
+                            : "text-gray-900 dark:text-white"
+                      }`}
+                    >
                       {rfc.title}
                     </h3>
 

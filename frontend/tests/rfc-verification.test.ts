@@ -9,7 +9,7 @@ test.describe("RFC Pages Verification", () => {
 
     // Check main heading
     await expect(page.locator("h1")).toContainText(
-      "Learn the RFCs That Built the Internet",
+      "Read the RFCs That Built the Internet",
     );
 
     // Check that key implemented RFCs are displayed
@@ -17,7 +17,10 @@ test.describe("RFC Pages Verification", () => {
       { number: 1, title: "Host Software" },
       { number: 793, title: "Transmission Control Protocol" },
       { number: 821, title: "Simple Mail Transfer Protocol" },
-      { number: 4301, title: "Security Architecture for the Internet Protocol" },
+      {
+        number: 4301,
+        title: "Security Architecture for the Internet Protocol",
+      },
       { number: 8656, title: "Traversal Using Relays around NAT" },
     ];
 
@@ -291,21 +294,21 @@ test.describe("RFC Pages Verification", () => {
 
     for (const rfc of batch6RFCs) {
       await page.goto(`/rfc/${rfc.number}`);
-      
+
       // Check page loads with correct title
       await expect(page.locator("h1")).toContainText(`RFC ${rfc.number}`);
       await expect(page.locator("h1")).toContainText(rfc.text);
-      
+
       // Check for ELI-Pythonista section
       await expect(page.locator("text=ELI-Pythonista")).toBeVisible();
-      
+
       // Check for Docker demonstration section
       await expect(page.locator("text=Docker Demonstration")).toBeVisible();
-      
+
       // Check for substantial content
       const contentLength = await page.locator("article").textContent();
       expect(contentLength?.length || 0).toBeGreaterThan(1000);
-      
+
       console.log(`✅ RFC ${rfc.number} (${rfc.text}) page verified`);
     }
   });
