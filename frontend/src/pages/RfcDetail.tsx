@@ -9,6 +9,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import RfcBadge from "../components/RfcBadge";
+import TagBadge from "../components/TagBadge";
 import { visitHistoryUtils } from "../utils/visitHistory";
 import RFC1 from "./rfcs/RFC1";
 import RFC675 from "./rfcs/RFC675";
@@ -190,6 +191,24 @@ export default function RfcDetail() {
             <Calendar className="h-4 w-4 mr-2" />
             <span className="text-sm">Published {rfc.year}</span>
           </div>
+
+          {rfc.tags && rfc.tags.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                Tags
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {rfc.tags.map((tagId) => (
+                  <TagBadge 
+                    key={tagId} 
+                    tagId={tagId} 
+                    size="md" 
+                    showTooltip={true}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
 
           <div>
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">

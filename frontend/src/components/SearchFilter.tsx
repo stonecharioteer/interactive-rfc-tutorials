@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Search, Filter, X } from 'lucide-react';
+import { Search, Filter, X, Tag } from 'lucide-react';
 import { rfcEras } from '../data/rfcs';
+import TagFilter from './TagFilter';
 
 interface SearchFilterProps {
   searchTerm: string;
@@ -11,6 +12,8 @@ interface SearchFilterProps {
   onYearChange: (year: string) => void;
   completedOnly: boolean;
   onCompletedOnlyChange: (completed: boolean) => void;
+  selectedTags: string[];
+  onTagsChange: (tags: string[]) => void;
   onClearFilters: () => void;
 }
 
@@ -23,11 +26,14 @@ export default function SearchFilter({
   onYearChange,
   completedOnly,
   onCompletedOnlyChange,
+  selectedTags,
+  onTagsChange,
   onClearFilters,
 }: SearchFilterProps) {
   const [showFilters, setShowFilters] = useState(false);
+  const [showTagFilter, setShowTagFilter] = useState(false);
 
-  const hasActiveFilters = selectedEra !== 'all' || selectedYear !== 'all' || completedOnly;
+  const hasActiveFilters = selectedEra !== 'all' || selectedYear !== 'all' || completedOnly || selectedTags.length > 0;
 
   return (
     <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 mb-6">
@@ -47,18 +53,33 @@ export default function SearchFilter({
 
       {/* Filter Toggle */}
       <div className="flex items-center justify-between">
-        <button
-          onClick={() => setShowFilters(!showFilters)}
-          className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-        >
-          <Filter className="h-4 w-4 mr-2" />
-          Filters
-          {hasActiveFilters && (
-            <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
-              Active
-            </span>
-          )}
-        </button>
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            <Filter className="h-4 w-4 mr-2" />
+            Filters
+            {hasActiveFilters && (
+              <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
+                Active
+              </span>
+            )}
+          </button>
+
+          <button
+            onClick={() => setShowTagFilter(!showTagFilter)}
+            className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            <Tag className="h-4 w-4 mr-2" />
+            Tags
+            {selectedTags.length > 0 && (
+              <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
+                {selectedTags.length}
+              </span>
+            )}
+          </button>
+        </div>
 
         {hasActiveFilters && (
           <button
@@ -169,6 +190,16 @@ export default function SearchFilter({
               ))}
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Tag Filter */}
+      {showTagFilter && (
+        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <TagFilter
+            selectedTags={selectedTags}
+            onTagsChange={onTagsChange}
+          />
         </div>
       )}
     </div>
