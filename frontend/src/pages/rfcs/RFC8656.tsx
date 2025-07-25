@@ -357,23 +357,33 @@ sequenceDiagram
         and data forwarding in challenging network scenarios.
       </p>
 
-      <div className="bg-green-50 border-l-4 border-green-500 p-4 my-6">
-        <h4 className="font-semibold text-green-800 mb-2">
-          🐳 Interactive TURN Demo
-        </h4>
-        <p className="text-green-700 text-sm mb-3">
-          The Docker demonstration shows TURN relay setup, client communication
-          through restrictive NATs, and performance comparison with direct connections.
-        </p>
-        <div className="bg-green-100 p-3 rounded">
-          <code className="text-sm">
-            cd docker-examples/rfc8656-turn<br/>
-            docker-compose up -d<br/>
-            # Watch TURN relay allocation<br/>
-            docker logs -f turn-server
-          </code>
+      <ExpandableSection title="🐳 Interactive TURN Demo">
+        <div className="bg-green-50 p-4 rounded-lg">
+          <p className="text-green-700 text-sm mb-3">
+            The Docker demonstration shows TURN relay setup, client communication
+            through restrictive NATs, and performance comparison with direct connections.
+          </p>
+          <CodeBlock
+            language="bash"
+            code={`cd docker-examples/rfc8656-turn
+docker compose up -d
+
+# Watch TURN relay allocation
+docker logs -f turn-server
+
+# Monitor client connections
+docker exec -it turn-client-1 netstat -an
+
+# Test relay functionality
+docker exec -it turn-client-2 ping turn-relay`}
+          />
+          <p className="mt-3 text-sm text-green-600">
+            The demonstration includes TURN server setup, client authentication,
+            relay allocation, permission management, and real-time data forwarding
+            through NAT-restricted networks.
+          </p>
         </div>
-      </div>
+      </ExpandableSection>
 
       <h2>Performance Impact</h2>
       <p>
