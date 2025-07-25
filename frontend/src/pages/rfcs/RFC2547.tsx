@@ -125,7 +125,7 @@ VRF = Virtual Routing and Forwarding table
         </div>
       </div>
 
-      <ExpandableSection title="🐍 Python BGP/MPLS VPN Simulation">
+      <ExpandableSection title="🐍 ELI-Pythonista: BGP/MPLS VPN Simulation">
         <p>
           Let's simulate BGP/MPLS VPN concepts to understand the architecture:
         </p>
