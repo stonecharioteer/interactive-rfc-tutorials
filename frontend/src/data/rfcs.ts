@@ -1,3 +1,11 @@
+export interface RfcTag {
+  id: string;
+  name: string;
+  category: "protocol" | "technology" | "level" | "relevance";
+  color: string;
+  description: string;
+}
+
 export interface RfcMetadata {
   number: number;
   title: string;
@@ -5,6 +13,7 @@ export interface RfcMetadata {
   era: "foundation" | "protocol-expansion" | "web-era" | "modern" | "current";
   year: number;
   learningObjectives: string[];
+  tags: string[];
   rfcUrl?: string;
 }
 
@@ -41,6 +50,142 @@ export const rfcEras = {
   },
 };
 
+export const rfcTags: Record<string, RfcTag> = {
+  // Protocol Category Tags
+  "transport": {
+    id: "transport",
+    name: "Transport",
+    category: "protocol",
+    color: "bg-blue-500",
+    description: "Transport layer protocols (TCP, UDP)"
+  },
+  "application": {
+    id: "application",
+    name: "Application",
+    category: "protocol",
+    color: "bg-green-500",
+    description: "Application layer protocols (HTTP, SMTP, FTP)"
+  },
+  "network": {
+    id: "network",
+    name: "Network",
+    category: "protocol",
+    color: "bg-purple-500",
+    description: "Network layer protocols (IP, IPv6, routing)"
+  },
+  "security": {
+    id: "security",
+    name: "Security",
+    category: "protocol",
+    color: "bg-red-500",
+    description: "Security and cryptographic protocols"
+  },
+  "naming": {
+    id: "naming",
+    name: "Naming",
+    category: "protocol",
+    color: "bg-yellow-500",
+    description: "Naming and addressing protocols (DNS)"
+  },
+  
+  // Technology Focus Tags
+  "cryptography": {
+    id: "cryptography",
+    name: "Cryptography",
+    category: "technology",
+    color: "bg-red-600",
+    description: "Encryption, authentication, and key exchange"
+  },
+  "nat-traversal": {
+    id: "nat-traversal",
+    name: "NAT Traversal",
+    category: "technology",
+    color: "bg-indigo-500",
+    description: "NAT and firewall traversal techniques"
+  },
+  "vpn": {
+    id: "vpn",
+    name: "VPN",
+    category: "technology",
+    color: "bg-orange-500",
+    description: "VPN and tunneling technologies"
+  },
+  "p2p": {
+    id: "p2p",
+    name: "P2P",
+    category: "technology",
+    color: "bg-teal-500",
+    description: "Peer-to-peer networking concepts"
+  },
+  "performance": {
+    id: "performance",
+    name: "Performance",
+    category: "technology",
+    color: "bg-cyan-500",
+    description: "Optimization and performance improvements"
+  },
+  "legacy": {
+    id: "legacy",
+    name: "Legacy",
+    category: "technology",
+    color: "bg-gray-500",
+    description: "Historical technologies with learning value"
+  },
+  
+  // Learning Level Tags
+  "foundational": {
+    id: "foundational",
+    name: "Foundational",
+    category: "level",
+    color: "bg-emerald-400",
+    description: "Core concepts, suitable for beginners"
+  },
+  "intermediate": {
+    id: "intermediate",
+    name: "Intermediate",
+    category: "level",
+    color: "bg-amber-500",
+    description: "Requires basic networking knowledge"
+  },
+  "advanced": {
+    id: "advanced",
+    name: "Advanced",
+    category: "level",
+    color: "bg-red-600",
+    description: "Complex protocols requiring deep technical understanding"
+  },
+  
+  // Industry Relevance Tags
+  "enterprise": {
+    id: "enterprise",
+    name: "Enterprise",
+    category: "relevance",
+    color: "bg-slate-600",
+    description: "Enterprise networking and service provider technologies"
+  },
+  "consumer": {
+    id: "consumer",
+    name: "Consumer",
+    category: "relevance",
+    color: "bg-blue-400",
+    description: "Consumer internet and web technologies"
+  },
+  "infrastructure": {
+    id: "infrastructure",
+    name: "Infrastructure",
+    category: "relevance",
+    color: "bg-stone-600",
+    description: "Core internet infrastructure protocols"
+  },
+  "emerging": {
+    id: "emerging",
+    name: "Emerging",
+    category: "relevance",
+    color: "bg-violet-500",
+    description: "Cutting-edge or recently standardized protocols"
+  }
+};
+
 export const rfcs: RfcMetadata[] = [
   {
     number: 1,
@@ -54,6 +199,7 @@ export const rfcs: RfcMetadata[] = [
       "Learn about the informal collaborative nature of early internet development",
       "Explore the origins of the RFC system",
     ],
+    tags: ["foundational", "legacy"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc1.html",
   },
   {
@@ -68,6 +214,7 @@ export const rfcs: RfcMetadata[] = [
       "Learn about Vint Cerf's early internetworking concepts",
       "Explore the foundation of modern internet protocols",
     ],
+    tags: ["transport", "foundational", "legacy"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc675.html",
   },
   {
@@ -82,6 +229,7 @@ export const rfcs: RfcMetadata[] = [
       "Learn about routing and fragmentation",
       "Explore the protocol that powers most of today's internet",
     ],
+    tags: ["network", "foundational"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc791.html",
   },
   {
@@ -97,6 +245,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore flow control and congestion management",
       "Master the three-way handshake",
     ],
+    tags: ["transport", "foundational"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc793.html",
   },
   {
@@ -112,6 +261,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore the protocol commands and responses",
       "Connect to modern email infrastructure",
     ],
+    tags: ["application", "foundational"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc821.html",
   },
   {
@@ -127,6 +277,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore file transfer and directory operations",
       "Connect to modern file sharing concepts",
     ],
+    tags: ["application", "foundational", "legacy"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc959.html",
   },
   {
@@ -142,6 +293,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore DNS caching and performance optimization",
       "Master the concepts behind internet naming",
     ],
+    tags: ["naming", "foundational", "performance"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc1034.html",
   },
   {
@@ -157,6 +309,7 @@ export const rfcs: RfcMetadata[] = [
       "Learn message compression techniques",
       "Explore practical DNS server implementation",
     ],
+    tags: ["naming", "intermediate", "performance"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc1035.html",
   },
   {
@@ -172,6 +325,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore MTU handling and fragmentation concepts",
       "Master address resolution across different network types",
     ],
+    tags: ["network", "intermediate", "legacy"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc1390.html",
   },
   {
@@ -187,6 +341,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore HTTP methods, headers, and status codes",
       "Master the protocol that launched the web revolution",
     ],
+    tags: ["application", "foundational", "legacy"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc1945.html",
   },
   {
@@ -202,6 +357,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore the Host header requirement",
       "Master HTTP/1.1's performance improvements over HTTP/1.0",
     ],
+    tags: ["application", "intermediate", "performance"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc2068.html",
   },
   {
@@ -217,6 +373,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore Security Associations (SA) and key management",
       "Master the foundation of modern VPN technologies",
     ],
+    tags: ["security", "vpn", "cryptography", "intermediate"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc2401.html",
   },
   {
@@ -232,6 +389,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore address autoconfiguration and neighbor discovery",
       "Master the protocol designed for the internet's future",
     ],
+    tags: ["network", "intermediate", "emerging"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc2460.html",
   },
   {
@@ -247,6 +405,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore Provider Edge (PE) and Customer Edge (CE) roles",
       "Master the foundation of modern enterprise connectivity",
     ],
+    tags: ["vpn", "advanced", "enterprise", "legacy"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc2547.html",
   },
   {
@@ -262,6 +421,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore AAL5 adaptation layer for data services",
       "Master protocol encapsulation over ATM infrastructure",
     ],
+    tags: ["network", "advanced", "legacy", "enterprise"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc2684.html",
   },
   {
@@ -277,6 +437,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore the X25519 key agreement function implementation",
       "Master the cryptographic foundation of WireGuard's performance",
     ],
+    tags: ["cryptography", "advanced", "security", "emerging"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc7748.html",
   },
   {
@@ -292,6 +453,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore software-optimized cryptography performance benefits",
       "Master the encryption technology powering modern VPN protocols",
     ],
+    tags: ["cryptography", "advanced", "security", "performance"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc8439.html",
   },
   {
@@ -307,6 +469,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore UDP hole punching techniques for P2P connections",
       "Master the protocol that enables modern peer-to-peer applications",
     ],
+    tags: ["nat-traversal", "p2p", "intermediate"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc5389.html",
   },
   {
@@ -322,6 +485,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore connectivity checking and optimal path selection",
       "Master the protocol powering WebRTC, Tailscale, and modern P2P applications",
     ],
+    tags: ["nat-traversal", "p2p", "advanced", "emerging"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc8445.html",
   },
   {
@@ -337,6 +501,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore transport vs tunnel mode differences and use cases",
       "Master the architecture powering today's enterprise VPN deployments",
     ],
+    tags: ["security", "vpn", "advanced", "enterprise"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc4301.html",
   },
   {
@@ -352,6 +517,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore anti-replay protection and sequence number management",
       "Master the protocol that encrypts virtually every VPN connection",
     ],
+    tags: ["security", "vpn", "cryptography", "advanced"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc4303.html",
   },
   {
@@ -367,6 +533,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore integration with STUN and ICE for complete NAT traversal",
       "Master the fallback protocol ensuring universal peer-to-peer connectivity",
     ],
+    tags: ["nat-traversal", "p2p", "advanced", "emerging"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc8656.html",
   },
   {
@@ -382,6 +549,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore UDP hole punching techniques and their reliability",
       "Master the requirements that enable modern P2P applications and WebRTC",
     ],
+    tags: ["nat-traversal", "intermediate", "p2p"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc4787.html",
   },
   {
@@ -397,6 +565,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore MP-BGP VPNv4 route distribution and MPLS label operations",
       "Master the technology powering 95% of Fortune 500 enterprise connectivity",
     ],
+    tags: ["vpn", "advanced", "enterprise"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc4364.html",
   },
   {
@@ -412,6 +581,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore flow control, stream prioritization, and connection management",
       "Master the protocol that powers 95% of modern web traffic and applications",
     ],
+    tags: ["application", "performance", "advanced"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc7540.html",
   },
   {
@@ -427,6 +597,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore request/response model and header field semantics",
       "Master the semantic foundation that underlies all HTTP protocol versions",
     ],
+    tags: ["application", "foundational", "emerging"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc9110.html",
   },
   {
@@ -442,6 +613,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore conditional requests and validation with ETags",
       "Master caching strategies that power CDNs and browser performance",
     ],
+    tags: ["application", "performance", "intermediate"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc9111.html",
   },
   {
@@ -457,6 +629,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore security improvements including request smuggling prevention",
       "Master the wire protocol that remains widely deployed alongside HTTP/2 and HTTP/3",
     ],
+    tags: ["application", "intermediate", "security"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc9112.html",
   },
   {
@@ -472,6 +645,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore server push and stream prioritization features",  
       "Master the binary protocol that powers 95% of modern web traffic",
     ],
+    tags: ["application", "performance", "advanced"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc9113.html",
   },
   {
@@ -487,6 +661,7 @@ export const rfcs: RfcMetadata[] = [
       "Explore QPACK header compression and stream independence",
       "Master the latest HTTP protocol optimized for mobile and high-latency networks",
     ],
+    tags: ["application", "performance", "emerging"],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc9114.html",
   },
 ];

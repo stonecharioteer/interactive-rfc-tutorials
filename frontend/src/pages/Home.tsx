@@ -9,6 +9,7 @@ import {
   Eye,
 } from "lucide-react";
 import RfcBadge from "../components/RfcBadge";
+import TagBadge from "../components/TagBadge";
 import SearchFilter from "../components/SearchFilter";
 import { useRfcFilter } from "../hooks/useRfcFilter";
 import { visitHistoryUtils } from "../utils/visitHistory";
@@ -26,7 +27,8 @@ export default function Home() {
       filters.searchTerm ||
       filters.selectedEra !== "all" ||
       filters.selectedYear !== "all" ||
-      filters.completedOnly
+      filters.completedOnly ||
+      filters.selectedTags.length > 0
     ) {
       // When filtering is active, show filtered results grouped by era
       return filteredRfcs.filter((rfc) => rfc.era === era);
@@ -36,12 +38,13 @@ export default function Home() {
   };
 
   const shouldShowEraGrouping =
-    !filters.searchTerm && filters.selectedEra === "all";
+    !filters.searchTerm && filters.selectedEra === "all" && filters.selectedTags.length === 0;
   const hasActiveFilters =
     filters.searchTerm ||
     filters.selectedEra !== "all" ||
     filters.selectedYear !== "all" ||
-    filters.completedOnly;
+    filters.completedOnly ||
+    filters.selectedTags.length > 0;
 
   return (
     <div className="space-y-12">
@@ -106,6 +109,8 @@ export default function Home() {
         onCompletedOnlyChange={(completed) =>
           updateFilter("completedOnly", completed)
         }
+        selectedTags={filters.selectedTags}
+        onTagsChange={(tags) => updateFilter("selectedTags", tags)}
         onClearFilters={clearFilters}
       />
 
@@ -124,6 +129,8 @@ export default function Home() {
                 {filters.selectedYear !== "all" &&
                   ` • Year: ${filters.selectedYear}`}
                 {filters.completedOnly && ` • Completed only`}
+                {filters.selectedTags.length > 0 && 
+                  ` • Tags: ${filters.selectedTags.length} selected`}
               </p>
             </div>
             {stats.filtered === 0 && (
@@ -208,6 +215,22 @@ export default function Home() {
                       <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3">
                         {rfc.description}
                       </p>
+
+                      <div className="flex flex-wrap gap-1 mt-auto">
+                        {rfc.tags.slice(0, 3).map((tagId) => (
+                          <TagBadge 
+                            key={tagId} 
+                            tagId={tagId} 
+                            size="sm" 
+                            showTooltip={true}
+                          />
+                        ))}
+                        {rfc.tags.length > 3 && (
+                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+                            +{rfc.tags.length - 3}
+                          </span>
+                        )}
+                      </div>
                     </Link>
                   );
                 })}
@@ -295,6 +318,22 @@ export default function Home() {
                     <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3">
                       {rfc.description}
                     </p>
+
+                    <div className="flex flex-wrap gap-1 mt-auto">
+                      {rfc.tags.slice(0, 3).map((tagId) => (
+                        <TagBadge 
+                          key={tagId} 
+                          tagId={tagId} 
+                          size="sm" 
+                          showTooltip={true}
+                        />
+                      ))}
+                      {rfc.tags.length > 3 && (
+                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+                          +{rfc.tags.length - 3}
+                        </span>
+                      )}
+                    </div>
                   </Link>
                 );
               })}

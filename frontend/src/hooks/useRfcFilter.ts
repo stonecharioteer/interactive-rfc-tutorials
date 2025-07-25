@@ -6,6 +6,7 @@ export interface FilterState {
   selectedEra: string;
   selectedYear: string;
   completedOnly: boolean;
+  selectedTags: string[];
 }
 
 export function useRfcFilter(rfcs: RfcMetadata[]) {
@@ -14,6 +15,7 @@ export function useRfcFilter(rfcs: RfcMetadata[]) {
     selectedEra: 'all',
     selectedYear: 'all',
     completedOnly: false,
+    selectedTags: [],
   });
 
   // Get completed RFCs from localStorage
@@ -58,11 +60,21 @@ export function useRfcFilter(rfcs: RfcMetadata[]) {
         return false;
       }
 
+      // Tag filter - RFC must have ALL selected tags
+      if (filters.selectedTags.length > 0) {
+        const hasAllTags = filters.selectedTags.every(tagId => 
+          rfc.tags && rfc.tags.includes(tagId)
+        );
+        if (!hasAllTags) {
+          return false;
+        }
+      }
+
       return true;
     });
   }, [rfcs, filters, completedRfcs]);
 
-  const updateFilter = (key: keyof FilterState, value: string | boolean) => {
+  const updateFilter = (key: keyof FilterState, value: string | boolean | string[]) => {
     setFilters(prev => ({
       ...prev,
       [key]: value,
@@ -75,6 +87,7 @@ export function useRfcFilter(rfcs: RfcMetadata[]) {
       selectedEra: 'all',
       selectedYear: 'all',
       completedOnly: false,
+      selectedTags: [],
     });
   };
 
