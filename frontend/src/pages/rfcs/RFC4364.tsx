@@ -141,7 +141,7 @@ graph TB
         based on the outer MPLS labels.
       </p>
 
-      <ExpandableSection title="🎯 ELI-Pythonista: VRFs - Virtual Networks in One Router">
+      <ExpandableSection title="🎯 Understanding VRFs: Virtual Networks in One Router">
         <div className="bg-blue-50 p-4 rounded-lg">
           <p className="mb-4">
             <strong>Think of VRFs like Docker containers for network routing:</strong>
@@ -278,7 +278,7 @@ sequenceDiagram
         </li>
       </ul>
 
-      <ExpandableSection title="📚 Code Example: VPN Route Processing">
+      <ExpandableSection title="🐍 ELI-Pythonista: VPN Route Processing">
         <CodeBlock
           language="python"
           code={getCodeExample("rfc4364_vpn_processor")}
@@ -316,7 +316,7 @@ sequenceDiagram
         granular security policies and prevent route hijacking.
       </p>
 
-      <ExpandableSection title="🔒 ELI-Pythonista: VPN Security Model">
+      <ExpandableSection title="🔒 Understanding VPN Security Model">
         <div className="bg-yellow-50 p-4 rounded-lg">
           <p className="mb-4">
             <strong>Think of BGP/MPLS VPNs like a secure apartment building:</strong>
@@ -448,7 +448,7 @@ sequenceDiagram
         <li><strong>NTT Communications:</strong> International MPLS VPN services</li>
       </ul>
 
-      <ExpandableSection title="📚 Code Example: VPN Service Provisioning">
+      <ExpandableSection title="🐍 ELI-Pythonista: VPN Service Provisioning">
         <CodeBlock
           language="python"
           code={getCodeExample("rfc4364_service_provisioner")}
@@ -520,7 +520,14 @@ sequenceDiagram
           </p>
           <CodeBlock
             language="bash"
-            code="cd docker-examples/rfc4364-bgp-mpls-vpn/\ndocker compose up -d\n\n# Access the network topology viewer at:\n# http://localhost:8080\n\n# Monitor BGP/MPLS operations:\n# docker compose logs -f pe-router-1"
+            code={`cd docker-examples/rfc4364-bgp-mpls-vpn/
+docker compose up -d
+
+# Access the network topology viewer at:
+# http://localhost:8080
+
+# Monitor BGP/MPLS operations:
+# docker compose logs -f pe-router-1`}
           />
           <p className="mt-3 text-sm">
             The demonstration includes PE routers with VRF configurations, MP-BGP 

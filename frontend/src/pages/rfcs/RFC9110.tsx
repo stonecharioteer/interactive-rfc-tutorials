@@ -75,7 +75,7 @@ export default function RFC9110() {
         </ul>
       </div>
 
-      <ExpandableSection title="🎯 ELI-Pythonista: The Standards Consolidation">
+      <ExpandableSection title="🎯 Understanding The Standards Consolidation">
         <div className="bg-blue-50 p-4 rounded-lg">
           <p className="mb-4">
             <strong>Think of RFC 9110-9114 like a comprehensive legal code revision:</strong>
@@ -214,12 +214,33 @@ graph TB
         className="my-6"
       />
 
-      <ExpandableSection title="📚 Code Example: Modern HTTP Client Implementation">
-        <CodeBlock
-          language="typescript"
-          code={getCodeExample("rfc9110_http_client")}
-          title="rfc9110_http_client.ts"
-        />
+      <ExpandableSection title="🐍 ELI-Pythonista: Modern HTTP Client Implementation">
+        <div className="space-y-4">
+          <p>
+            HTTP clients are like smart assistants that handle all the complex networking details
+            for you. Think of this Python HTTP client as a professional courier service that knows
+            exactly how to deliver your messages, handle caching, retry failures, and follow all
+            the proper protocols.
+          </p>
+          
+          <CodeBlock
+            language="python"
+            code={getCodeExample("rfc9110_http_client")}
+          />
+          
+          <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg mt-4">
+            <h5 className="font-semibold text-blue-800 mb-2">Key Python Concepts Demonstrated</h5>
+            <ul className="text-sm text-blue-700 space-y-1">
+              <li>• <strong>Async/await:</strong> Non-blocking HTTP requests for better performance</li>
+              <li>• <strong>aiohttp:</strong> Modern async HTTP client library</li>
+              <li>• <strong>Dataclasses:</strong> Clean data structures for HTTP responses and cache entries</li>
+              <li>• <strong>Context managers:</strong> Proper resource management with async with</li>
+              <li>• <strong>HTTP method semantics:</strong> Safe, idempotent, and non-idempotent methods</li>
+              <li>• <strong>Caching strategies:</strong> RFC 9111 compliant cache implementation</li>
+              <li>• <strong>Error handling:</strong> Comprehensive status code and exception handling</li>
+            </ul>
+          </div>
+        </div>
       </ExpandableSection>
 
       <h2>RFC 9111: HTTP Caching - Performance Optimization</h2>
@@ -282,7 +303,7 @@ sequenceDiagram
         <li><strong>Private vs Shared Caches:</strong> Clear distinction between browser and CDN caching</li>
       </ul>
 
-      <ExpandableSection title="🚀 ELI-Pythonista: Modern Web Caching">
+      <ExpandableSection title="🚀 Understanding Modern Web Caching">
         <div className="bg-green-50 p-4 rounded-lg">
           <p className="mb-4">
             <strong>Think of HTTP caching like a smart grocery delivery system:</strong>
@@ -409,12 +430,34 @@ sequenceDiagram
         <li><strong>Offline Capabilities:</strong> Service Workers leverage caching for offline functionality</li>
       </ul>
 
-      <ExpandableSection title="📚 Code Example: Modern API Design with RFC 9110">
-        <CodeBlock
-          language="typescript"
-          code={getCodeExample("rfc9110_api_design")}
-          title="rfc9110_api_design.ts"
-        />
+      <ExpandableSection title="🐍 ELI-Pythonista: Modern API Design with RFC 9110">
+        <div className="space-y-4">
+          <p>
+            Building REST APIs is like designing a well-organized library system. Each resource
+            has its proper place, every interaction follows established rules, and the system
+            helps users find exactly what they need efficiently. This Python API server shows
+            how to implement proper HTTP semantics for a robust, cacheable API.
+          </p>
+          
+          <CodeBlock
+            language="python"
+            code={getCodeExample("rfc9110_api_design")}
+          />
+          
+          <div className="bg-green-50 border border-green-200 p-4 rounded-lg mt-4">
+            <h5 className="font-semibold text-green-800 mb-2">Key Python Concepts Demonstrated</h5>
+            <ul className="text-sm text-green-700 space-y-1">
+              <li>• <strong>FastAPI framework:</strong> Modern, async Python web framework</li>
+              <li>• <strong>Type hints:</strong> Strong typing with dataclasses and Union types</li>
+              <li>• <strong>Enum classes:</strong> Type-safe HTTP method definitions</li>
+              <li>• <strong>Resource-oriented design:</strong> RESTful endpoint organization</li>
+              <li>• <strong>HTTP status codes:</strong> Proper semantic usage of response codes</li>
+              <li>• <strong>Conditional requests:</strong> ETag and If-None-Match handling</li>
+              <li>• <strong>Caching policies:</strong> Flexible cache-control header generation</li>
+              <li>• <strong>Error handling:</strong> Structured API error responses</li>
+            </ul>
+          </div>
+        </div>
       </ExpandableSection>
 
       <h2>Security and Authentication Enhancements</h2>
@@ -539,7 +582,14 @@ sequenceDiagram
           </p>
           <CodeBlock
             language="bash"
-            code="cd docker-examples/rfc9110-http-standards/\ndocker compose up -d\n\n# Access the standards test suite at:\n# http://localhost:8080\n\n# Monitor compliance testing:\n# docker compose logs -f compliance-tester"
+            code={`cd docker-examples/rfc9110-http-standards/
+docker compose up -d
+
+# Access the standards test suite at:
+# http://localhost:8080
+
+# Monitor compliance testing:
+# docker compose logs -f compliance-tester`}
           />
           <p className="mt-3 text-sm">
             The demonstration includes method semantics testing, caching behavior 

@@ -232,12 +232,31 @@ sequenceDiagram
         round-trip delays for critical resources.
       </p>
 
-      <ExpandableSection title="📚 Code Example: HTTP/2 Client Implementation">
-        <CodeBlock
-          language="python"
-          code={getCodeExample("rfc7540_http2_client")}
-          title="rfc7540_http2_client.py"
-        />
+      <ExpandableSection title="🐍 ELI-Pythonista: HTTP/2 Client Implementation">
+        <div className="space-y-4">
+          <p>
+            HTTP/2 clients are like having a super-efficient delivery service that can handle
+            multiple orders simultaneously over a single route. This Python implementation shows
+            how to build a client that takes full advantage of HTTP/2's multiplexing, server push,
+            and flow control features.
+          </p>
+          
+          <CodeBlock
+            language="python"
+            code={getCodeExample("rfc7540_http2_client")}
+          />
+          
+          <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg mt-4">
+            <h5 className="font-semibold text-blue-800 mb-2">Key Python Concepts Demonstrated</h5>
+            <ul className="text-sm text-blue-700 space-y-1">
+              <li>• <strong>Async networking:</strong> Non-blocking HTTP/2 connections with asyncio</li>
+              <li>• <strong>Protocol implementation:</strong> Binary frame parsing and HTTP/2 state management</li>
+              <li>• <strong>Stream multiplexing:</strong> Concurrent request handling over single connection</li>
+              <li>• <strong>Flow control:</strong> Backpressure management and window updates</li>
+              <li>• <strong>Server push handling:</strong> Processing unsolicited server resources</li>
+            </ul>
+          </div>
+        </div>
       </ExpandableSection>
 
       <h2>Frame Types and Protocol Mechanics</h2>
@@ -355,8 +374,9 @@ sequenceDiagram
             <h5 className="font-semibold mb-2">
               HTTP/1.1 with requests (blocking):
             </h5>
-            <pre className="text-sm text-gray-700">
-              {`import requests
+            <CodeBlock
+              language="python"
+              code={`import requests
 import time
 
 # Sequential requests - slow!
@@ -365,15 +385,16 @@ responses = []
 for url in urls:
     responses.append(requests.get(url))
 print(f"Time: {time.time() - start:.2f}s")  # ~6 seconds`}
-            </pre>
+            />
           </div>
 
           <div className="bg-white p-3 rounded border-l-4 border-green-500 mb-4">
             <h5 className="font-semibold mb-2">
               HTTP/2 with httpx + asyncio (concurrent):
             </h5>
-            <pre className="text-sm text-gray-700">
-              {`import httpx
+            <CodeBlock
+              language="python"
+              code={`import httpx
 import asyncio
 
 async def fetch_all():
@@ -383,7 +404,7 @@ async def fetch_all():
         return await asyncio.gather(*tasks)
 
 responses = asyncio.run(fetch_all())  # ~1.5 seconds`}
-            </pre>
+            />
           </div>
 
           <h4 className="font-semibold text-green-900 mb-2">
@@ -422,8 +443,9 @@ responses = asyncio.run(fetch_all())  # ~1.5 seconds`}
             <h5 className="font-semibold mb-2">
               Real-world Python HTTP/2 pattern:
             </h5>
-            <pre className="text-sm text-gray-700">
-              {`async def scrape_api_endpoints():
+            <CodeBlock
+              language="python"
+              code={`async def scrape_api_endpoints():
     endpoints = [f"/api/user/{i}" for i in range(1000)]
 
     async with httpx.AsyncClient(
@@ -436,7 +458,7 @@ responses = asyncio.run(fetch_all())  # ~1.5 seconds`}
 
         results = await asyncio.gather(*tasks, return_exceptions=True)
         return [r.json() for r in results if not isinstance(r, Exception)]`}
-            </pre>
+            />
           </div>
 
           <p className="mt-3 text-sm text-green-700">
@@ -599,12 +621,31 @@ responses = asyncio.run(fetch_all())  # ~1.5 seconds`}
         </li>
       </ul>
 
-      <ExpandableSection title="📚 Code Example: HTTP/2 Server Push Implementation">
-        <CodeBlock
-          language="python"
-          code={getCodeExample("rfc7540_server_push")}
-          title="rfc7540_server_push.py"
-        />
+      <ExpandableSection title="🐍 ELI-Pythonista: HTTP/2 Server Push Implementation">
+        <div className="space-y-4">
+          <p>
+            Server push is like a thoughtful waiter who brings you bread and water before you
+            ask - they anticipate what you'll need next. This Python server implementation shows
+            how to proactively send resources to clients, reducing load times and improving
+            user experience.
+          </p>
+          
+          <CodeBlock
+            language="python"
+            code={getCodeExample("rfc7540_server_push")}
+          />
+          
+          <div className="bg-green-50 border border-green-200 p-4 rounded-lg mt-4">
+            <h5 className="font-semibold text-green-800 mb-2">Key Python Concepts Demonstrated</h5>
+            <ul className="text-sm text-green-700 space-y-1">
+              <li>• <strong>Server architecture:</strong> Async HTTP/2 server with push capabilities</li>
+              <li>• <strong>Resource prediction:</strong> Intelligent analysis of client needs</li>
+              <li>• <strong>Push promise frames:</strong> Announcing resources before sending</li>
+              <li>• <strong>Cache-aware pushing:</strong> Avoiding duplicate resource transmission</li>
+              <li>• <strong>Performance optimization:</strong> Reducing round-trip times for critical resources</li>
+            </ul>
+          </div>
+        </div>
       </ExpandableSection>
 
       <h2>Implementation Challenges and Solutions</h2>
