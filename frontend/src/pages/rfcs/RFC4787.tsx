@@ -183,7 +183,7 @@ sequenceDiagram
         the technique that allows peers behind NATs to establish direct connections.
       </p>
 
-      <ExpandableSection title="📚 Code Example: NAT Behavior Detection">
+      <ExpandableSection title="🐍 ELI-Pythonista: NAT Behavior Detection">
         <CodeBlock
           language="python"
           code={getCodeExample("rfc4787_nat_detector")}
@@ -289,7 +289,7 @@ sequenceDiagram
         </li>
       </ul>
 
-      <ExpandableSection title="📚 Code Example: UDP Hole Punching Implementation">
+      <ExpandableSection title="🐍 ELI-Pythonista: UDP Hole Punching Implementation">
         <CodeBlock
           language="python"
           code={getCodeExample("rfc4787_hole_puncher")}
