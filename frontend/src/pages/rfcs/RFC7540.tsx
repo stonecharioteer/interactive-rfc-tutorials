@@ -784,7 +784,15 @@ responses = asyncio.run(fetch_all())  # ~1.5 seconds`}
           </p>
           <CodeBlock
             language="bash"
-            code="cd docker-examples/rfc7540-http2-performance/\ndocker compose up -d\n\n# Access performance comparison at:\n# http://localhost:8080 (HTTP/1.1)\n# https://localhost:8443 (HTTP/2)\n\n# Monitor performance metrics:\n# docker compose logs -f performance-monitor"
+            code={`cd docker-examples/rfc7540-http2-performance/
+docker compose up -d
+
+# Access performance comparison at:
+# http://localhost:8080 (HTTP/1.1)
+# https://localhost:8443 (HTTP/2)
+
+# Monitor performance metrics:
+# docker compose logs -f performance-monitor`}
           />
           <p className="mt-3 text-sm">
             The demonstration includes real-time performance monitoring, network
