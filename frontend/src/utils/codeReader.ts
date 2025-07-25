@@ -62,6 +62,18 @@ import { getCodeExample as rfc7540ServerPush } from "../code-examples/rfc7540_se
 import { getCodeExample as rfc9110HttpClient } from "../code-examples/rfc9110_http_client";
 import { getCodeExample as rfc9110ApiDesign } from "../code-examples/rfc9110_api_design";
 
+// RFC9111 - HTTP Caching
+import { rfc9111_cache_implementation } from "../code-examples/rfc9111_cache_implementation";
+
+// RFC9112 - HTTP/1.1 Message Syntax
+import { rfc9112_message_parser } from "../code-examples/rfc9112_message_parser";
+
+// RFC9113 - HTTP/2
+import { rfc9113_http2_client } from "../code-examples/rfc9113_http2_client";
+
+// RFC9114 - HTTP/3
+import { rfc9114_http3_client } from "../code-examples/rfc9114_http3_client";
+
 const codeExamples: Record<string, string> = {
   // RFC5389 - STUN Protocol
   rfc5389_stun_client: rfc5389StunClient,
@@ -124,6 +136,18 @@ const codeExamples: Record<string, string> = {
   // RFC9110 - HTTP Semantics
   rfc9110_http_client: rfc9110HttpClient(),
   rfc9110_api_design: rfc9110ApiDesign(),
+
+  // RFC9111 - HTTP Caching
+  rfc9111_cache_implementation: rfc9111_cache_implementation,
+
+  // RFC9112 - HTTP/1.1 Message Syntax
+  rfc9112_message_parser: rfc9112_message_parser,
+
+  // RFC9113 - HTTP/2
+  rfc9113_http2_client: rfc9113_http2_client,
+
+  // RFC9114 - HTTP/3
+  rfc9114_http3_client: rfc9114_http3_client,
 };
 
 export const getCodeExample = (key: string): string => {

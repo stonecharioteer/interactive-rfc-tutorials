@@ -1,766 +1,667 @@
 export const getCodeExample = () => `
-/**
- * RFC 9110: Modern HTTP Client Implementation
- * 
- * This example demonstrates a comprehensive HTTP client built according 
- * to RFC 9110 specifications, showcasing modern HTTP semantics, caching,
- * authentication, and error handling patterns.
- */
+"""
+RFC 9110: Modern HTTP Client Implementation
 
-interface HTTPResponse {
-  status: number;
-  statusText: string;
-  headers: Map<string, string>;
-  body: any;
-  cached: boolean;
-  timing: {
-    dns: number;
-    connect: number;
-    tls: number;
-    request: number;
-    response: number;
-    total: number;
-  };
-}
+This example demonstrates a comprehensive HTTP client built according 
+to RFC 9110 specifications, showcasing modern HTTP semantics, caching,
+authentication, and error handling patterns.
 
-interface CacheEntry {
-  response: HTTPResponse;
-  timestamp: number;
-  etag?: string;
-  lastModified?: string;
-  maxAge: number;
-  staleWhileRevalidate?: number;
-}
+Dependencies:
+pip install requests aiohttp pydantic
+"""
 
-interface RequestOptions {
-  method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS';
-  headers?: Record<string, string>;
-  body?: any;
-  timeout?: number;
-  cache?: 'default' | 'no-cache' | 'reload' | 'force-cache' | 'only-if-cached';
-  credentials?: 'same-origin' | 'include' | 'omit';
-  redirect?: 'follow' | 'error' | 'manual';
-  retries?: number;
-  retryDelay?: number;
-}
+import asyncio
+import base64
+import json
+import time
+from datetime import datetime, timedelta
+from typing import Dict, Optional, Any, List, Union
+from dataclasses import dataclass, field
+from enum import Enum
+import re
+import hashlib
+import logging
 
-class ModernHTTPClient {
-  private cache = new Map<string, CacheEntry>();
-  private interceptors: Array<(request: any) => any> = [];
-  private responseInterceptors: Array<(response: HTTPResponse) => HTTPResponse> = [];
-  private defaultHeaders = new Map<string, string>();
-  private baseURL: string;
-  
-  constructor(baseURL: string = '') {
-    this.baseURL = baseURL;
-    this.setDefaultHeaders();
-    console.log('🌐 Modern HTTP Client initialized with RFC 9110 compliance');
-  }
-  
-  /**
-   * Phase 1: Request Preparation and Method Semantics
-   * 
-   * Implements RFC 9110 method semantics with proper idempotency,
-   * safety, and cacheability characteristics
-   */
-  async request(url: string, options: RequestOptions = {}): Promise<HTTPResponse> {
-    const startTime = Date.now();
+# Configure logging for demonstration
+logging.basicConfig(level=logging.INFO, format='%(message)s')
+logger = logging.getLogger(__name__)
+
+
+class HTTPMethod(Enum):
+    """RFC 9110 HTTP method definitions with semantic properties"""
+    GET = "GET"
+    HEAD = "HEAD"
+    POST = "POST"
+    PUT = "PUT"
+    DELETE = "DELETE"
+    PATCH = "PATCH"
+    OPTIONS = "OPTIONS"
+    TRACE = "TRACE"
+
+
+@dataclass
+class HTTPTiming:
+    """HTTP request timing breakdown"""
+    dns: float = 0.0
+    connect: float = 0.0
+    tls: float = 0.0
+    request: float = 0.0
+    response: float = 0.0
+    total: float = 0.0
+
+
+@dataclass
+class HTTPResponse:
+    """RFC 9110 compliant HTTP response representation"""
+    status: int
+    status_text: str
+    headers: Dict[str, str]
+    body: Any
+    cached: bool = False
+    timing: HTTPTiming = field(default_factory=HTTPTiming)
     
-    console.log(\`\\n📤 HTTP Request: \${options.method || 'GET'} \${url}\`);
+    @property
+    def is_success(self) -> bool:
+        """Check if response indicates success (2xx)"""
+        return 200 <= self.status < 300
     
-    const {
-      method = 'GET',
-      headers = {},
-      body,
-      timeout = 30000,
-      cache = 'default',
-      retries = 3,
-      retryDelay = 1000
-    } = options;
+    @property
+    def is_redirect(self) -> bool:
+        """Check if response indicates redirection (3xx)"""
+        return 300 <= self.status < 400
     
-    // Validate method semantics per RFC 9110
-    this.validateMethodSemantics(method, body);
+    @property
+    def is_client_error(self) -> bool:
+        """Check if response indicates client error (4xx)"""
+        return 400 <= self.status < 500
     
-    // Build complete request
-    const request = this.buildRequest(url, method, headers, body);
+    @property
+    def is_server_error(self) -> bool:
+        """Check if response indicates server error (5xx)"""
+        return 500 <= self.status < 600
+
+
+@dataclass
+class CacheEntry:
+    """HTTP cache entry with validation metadata"""
+    response: HTTPResponse
+    timestamp: float
+    etag: Optional[str] = None
+    last_modified: Optional[str] = None
+    max_age: int = 0
+    stale_while_revalidate: Optional[int] = None
     
-    // Check cache for safe methods
-    if (this.isMethodSafe(method) && cache !== 'no-cache' && cache !== 'reload') {
-      const cachedResponse = this.checkCache(request.url, request.headers);
-      if (cachedResponse) {
-        console.log('✅ Cache hit - returning cached response');
-        return cachedResponse;
-      }
-    }
+    def is_fresh(self) -> bool:
+        """Check if cache entry is still fresh"""
+        age = time.time() - self.timestamp
+        return age < self.max_age
     
-    // Execute request with retries for idempotent methods
-    let lastError: Error | null = null;
-    const maxRetries = this.isMethodIdempotent(method) ? retries : 0;
+    def is_stale_but_usable(self) -> bool:
+        """Check if entry can be served while revalidating"""
+        if self.is_fresh():
+            return False
+        
+        if self.stale_while_revalidate:
+            age = time.time() - self.timestamp
+            return age < (self.max_age + self.stale_while_revalidate)
+        
+        return False
+
+
+@dataclass
+class RequestOptions:
+    """HTTP request configuration options"""
+    method: HTTPMethod = HTTPMethod.GET
+    headers: Dict[str, str] = field(default_factory=dict)
+    body: Optional[Any] = None
+    timeout: float = 30.0
+    cache: str = 'default'  # 'default', 'no-cache', 'reload', 'force-cache'
+    retries: int = 3
+    retry_delay: float = 1.0
+    auth: Optional[tuple] = None  # (username, password) for basic auth
+    bearer_token: Optional[str] = None
+
+
+class ModernHTTPClient:
+    """
+    RFC 9110 compliant HTTP client with modern caching and semantics
     
-    for (let attempt = 0; attempt <= maxRetries; attempt++) {
-      try {
-        if (attempt > 0) {
-          console.log(\`   🔄 Retry attempt \${attempt}/\${maxRetries}\`);
-          await this.delay(retryDelay * Math.pow(2, attempt - 1)); // Exponential backoff
+    This implementation demonstrates proper HTTP method semantics,
+    intelligent caching, authentication, and error handling according
+    to RFC 9110 specifications.
+    """
+    
+    def __init__(self, base_url: str = ""):
+        self.base_url = base_url.rstrip('/')
+        self.cache: Dict[str, CacheEntry] = {}
+        self.default_headers = {
+            'User-Agent': 'ModernHTTPClient/1.0 (RFC9110)',
+            'Accept': 'application/json, text/plain, */*',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Connection': 'keep-alive'
         }
+        self.session_auth: Optional[tuple] = None
+        self.session_token: Optional[str] = None
         
-        const response = await this.executeRequest(request, timeout, startTime);
+        logger.info("🌐 Modern HTTP Client initialized with RFC 9110 compliance")
+    
+    async def request(self, url: str, options: RequestOptions) -> HTTPResponse:
+        """
+        Execute HTTP request with RFC 9110 method semantics
         
-        // Process response according to RFC 9110
-        const processedResponse = await this.processResponse(response, request);
+        Implements proper handling of safe/idempotent methods,
+        caching, retries, and error handling.
+        """
+        start_time = time.time()
         
-        // Cache response if appropriate
-        if (this.isMethodSafe(method) && this.isCacheable(processedResponse)) {
-          this.cacheResponse(request.url, processedResponse);
+        logger.info(f"\\n📤 HTTP Request: {options.method.value} {url}")
+        
+        # Validate method semantics per RFC 9110
+        self._validate_method_semantics(options.method, options.body)
+        
+        # Build complete request
+        full_url = self._build_url(url)
+        headers = self._build_headers(options)
+        
+        # Check cache for safe methods
+        if self._is_method_safe(options.method) and options.cache != 'no-cache':
+            cached_response = self._check_cache(full_url, headers)
+            if cached_response:
+                logger.info("✅ Cache hit - returning cached response")
+                return cached_response
+        
+        # Execute request with retries for idempotent methods
+        last_error = None
+        max_retries = options.retries if self._is_method_idempotent(options.method) else 0
+        
+        for attempt in range(max_retries + 1):
+            try:
+                if attempt > 0:
+                    logger.info(f"   🔄 Retry attempt {attempt}/{max_retries}")
+                    await asyncio.sleep(options.retry_delay * (2 ** (attempt - 1)))
+                
+                response = await self._execute_request(
+                    full_url, options.method, headers, options.body, 
+                    options.timeout, start_time
+                )
+                
+                # Process response according to RFC 9110
+                processed_response = self._process_response(response)
+                
+                # Cache response if appropriate
+                if (self._is_method_safe(options.method) and 
+                    self._is_cacheable(processed_response)):
+                    self._cache_response(full_url, processed_response)
+                
+                return processed_response
+                
+            except Exception as error:
+                last_error = error
+                logger.info(f"   ❌ Request failed: {error}")
+                
+                # Don't retry for non-idempotent methods or client errors
+                if not self._is_method_idempotent(options.method):
+                    break
+        
+        raise last_error or Exception("Request failed after all retries")
+    
+    # Convenience methods implementing RFC 9110 method semantics
+    
+    async def get(self, url: str, **kwargs) -> HTTPResponse:
+        """GET request - safe and idempotent"""
+        options = RequestOptions(method=HTTPMethod.GET, **kwargs)
+        return await self.request(url, options)
+    
+    async def head(self, url: str, **kwargs) -> HTTPResponse:
+        """HEAD request - safe and idempotent"""
+        options = RequestOptions(method=HTTPMethod.HEAD, **kwargs)
+        return await self.request(url, options)
+    
+    async def options(self, url: str, **kwargs) -> HTTPResponse:
+        """OPTIONS request - safe and idempotent"""
+        options = RequestOptions(method=HTTPMethod.OPTIONS, **kwargs)
+        return await self.request(url, options)
+    
+    async def post(self, url: str, data: Any = None, **kwargs) -> HTTPResponse:
+        """POST request - not safe, not idempotent"""
+        options = RequestOptions(method=HTTPMethod.POST, body=data, **kwargs)
+        return await self.request(url, options)
+    
+    async def put(self, url: str, data: Any = None, **kwargs) -> HTTPResponse:
+        """PUT request - not safe, but idempotent"""
+        options = RequestOptions(method=HTTPMethod.PUT, body=data, **kwargs)
+        return await self.request(url, options)
+    
+    async def patch(self, url: str, data: Any = None, **kwargs) -> HTTPResponse:
+        """PATCH request - not safe, not idempotent"""
+        options = RequestOptions(method=HTTPMethod.PATCH, body=data, **kwargs)
+        return await self.request(url, options)
+    
+    async def delete(self, url: str, **kwargs) -> HTTPResponse:
+        """DELETE request - not safe, but idempotent"""
+        options = RequestOptions(method=HTTPMethod.DELETE, **kwargs)
+        return await self.request(url, options)
+    
+    # Authentication methods
+    
+    def set_bearer_token(self, token: str) -> None:
+        """Configure Bearer token authentication"""
+        self.session_token = token
+        logger.info("🔐 Bearer token configured for all requests")
+    
+    def set_basic_auth(self, username: str, password: str) -> None:
+        """Configure HTTP Basic authentication"""
+        self.session_auth = (username, password)
+        logger.info("🔑 Basic authentication configured for all requests")
+    
+    # Cache management
+    
+    def clear_cache(self) -> None:
+        """Clear the HTTP cache"""
+        self.cache.clear()
+        logger.info("🗑️ HTTP cache cleared")
+    
+    def get_cache_stats(self) -> Dict[str, Any]:
+        """Get cache performance statistics"""
+        entries = len(self.cache)
+        fresh_entries = sum(1 for entry in self.cache.values() if entry.is_fresh())
+        total_size = sum(len(str(entry.response.body)) for entry in self.cache.values())
+        
+        return {
+            'entries': entries,
+            'fresh_entries': fresh_entries,
+            'stale_entries': entries - fresh_entries,
+            'total_size_bytes': total_size,
+            'hit_rate': '85%'  # Simulated hit rate
         }
+    
+    # Private implementation methods
+    
+    def _validate_method_semantics(self, method: HTTPMethod, body: Any) -> None:
+        """Validate request according to RFC 9110 method semantics"""
+        # Safe methods should not have request bodies
+        if self._is_method_safe(method) and body is not None:
+            logger.warning(f"⚠️ Safe method {method.value} should not have request body")
         
-        return processedResponse;
+        # GET and HEAD must not have bodies
+        if method in [HTTPMethod.GET, HTTPMethod.HEAD] and body is not None:
+            raise ValueError(f"{method.value} requests cannot have request bodies")
+    
+    def _is_method_safe(self, method: HTTPMethod) -> bool:
+        """Check if HTTP method is safe (no side effects)"""
+        return method in [HTTPMethod.GET, HTTPMethod.HEAD, HTTPMethod.OPTIONS, HTTPMethod.TRACE]
+    
+    def _is_method_idempotent(self, method: HTTPMethod) -> bool:
+        """Check if HTTP method is idempotent (can be safely retried)"""
+        return method in [HTTPMethod.GET, HTTPMethod.HEAD, HTTPMethod.PUT, 
+                         HTTPMethod.DELETE, HTTPMethod.OPTIONS, HTTPMethod.TRACE]
+    
+    def _build_url(self, url: str) -> str:
+        """Build complete URL from base URL and path"""
+        if url.startswith('http'):
+            return url
+        return f"{self.base_url}{url}" if self.base_url else url
+    
+    def _build_headers(self, options: RequestOptions) -> Dict[str, str]:
+        """Build complete headers including auth and content-type"""
+        headers = {**self.default_headers, **options.headers}
         
-      } catch (error) {
-        lastError = error as Error;
-        console.log(\`   ❌ Request failed: \${error.message}\`);
+        # Add authentication headers
+        if options.bearer_token or self.session_token:
+            token = options.bearer_token or self.session_token
+            headers['Authorization'] = f'Bearer {token}'
+        elif options.auth or self.session_auth:
+            username, password = options.auth or self.session_auth
+            credentials = base64.b64encode(f"{username}:{password}".encode()).decode()
+            headers['Authorization'] = f'Basic {credentials}'
         
-        // Don't retry for non-idempotent methods or client errors
-        if (!this.isMethodIdempotent(method) || this.isClientError(error)) {
-          break;
+        # Add content-type for requests with bodies
+        if options.body is not None and 'Content-Type' not in headers:
+            if isinstance(options.body, (dict, list)):
+                headers['Content-Type'] = 'application/json'
+            else:
+                headers['Content-Type'] = 'text/plain'
+        
+        return headers
+    
+    def _check_cache(self, url: str, headers: Dict[str, str]) -> Optional[HTTPResponse]:
+        """Check cache for stored response"""
+        cache_key = self._generate_cache_key(url, headers)
+        entry = self.cache.get(cache_key)
+        
+        if not entry:
+            return None
+        
+        # Check if still fresh
+        if entry.is_fresh():
+            age = time.time() - entry.timestamp
+            logger.info(f"   ✅ Cache fresh (age: {age:.1f}s, max-age: {entry.max_age}s)")
+            response = entry.response
+            response.cached = True
+            return response
+        
+        # Check stale-while-revalidate
+        if entry.is_stale_but_usable():
+            age = time.time() - entry.timestamp
+            logger.info(f"   ⚡ Serving stale while revalidating (age: {age:.1f}s)")
+            
+            # In a real implementation, trigger background revalidation here
+            response = entry.response
+            response.cached = True
+            return response
+        
+        # Cache expired
+        del self.cache[cache_key]
+        return None
+    
+    def _is_cacheable(self, response: HTTPResponse) -> bool:
+        """Determine if response can be cached"""
+        # Check cache-control headers
+        cache_control = response.headers.get('cache-control', '')
+        if 'no-store' in cache_control or 'private' in cache_control:
+            return False
+        
+        if 'max-age' in cache_control or 'expires' in response.headers:
+            return True
+        
+        # Default cacheability by status code
+        cacheable_statuses = [200, 203, 204, 206, 300, 301, 404, 405, 410, 414, 501]
+        return response.status in cacheable_statuses
+    
+    def _cache_response(self, url: str, response: HTTPResponse) -> None:
+        """Store response in cache with proper expiration"""
+        cache_control = response.headers.get('cache-control', '')
+        
+        max_age = 0
+        stale_while_revalidate = None
+        
+        # Parse cache-control directives
+        max_age_match = re.search(r'max-age=(\d+)', cache_control)
+        if max_age_match:
+            max_age = int(max_age_match.group(1))
+        
+        swr_match = re.search(r'stale-while-revalidate=(\d+)', cache_control)
+        if swr_match:
+            stale_while_revalidate = int(swr_match.group(1))
+        
+        # Parse expires header as fallback
+        if max_age == 0 and 'expires' in response.headers:
+            try:
+                expires_time = datetime.fromisoformat(response.headers['expires'].replace('Z', '+00:00'))
+                max_age = max(0, int((expires_time - datetime.now()).total_seconds()))
+            except ValueError:
+                pass
+        
+        if max_age > 0:
+            cache_key = self._generate_cache_key(url, {})
+            entry = CacheEntry(
+                response=response,
+                timestamp=time.time(),
+                etag=response.headers.get('etag'),
+                last_modified=response.headers.get('last-modified'),
+                max_age=max_age,
+                stale_while_revalidate=stale_while_revalidate
+            )
+            
+            self.cache[cache_key] = entry
+            logger.info(f"   💾 Response cached (max-age: {max_age}s)")
+    
+    def _generate_cache_key(self, url: str, headers: Dict[str, str]) -> str:
+        """Generate cache key considering Vary header"""
+        # Simplified cache key generation
+        key_data = f"{url}|{sorted(headers.items())}"
+        return hashlib.md5(key_data.encode()).hexdigest()
+    
+    async def _execute_request(self, url: str, method: HTTPMethod, 
+                             headers: Dict[str, str], body: Any, 
+                             timeout: float, start_time: float) -> Dict[str, Any]:
+        """Execute the actual HTTP request (simulated for demo)"""
+        request_start = time.time()
+        
+        logger.info(f"   🌐 Executing {method.value} {url}")
+        logger.info(f"   📋 Headers: {len(headers)} headers")
+        
+        # Simulate network delay
+        await asyncio.sleep(0.05 + 0.2 * (0.5))  # 50-250ms simulated delay
+        
+        # Create timing information
+        timing = HTTPTiming(
+            dns=0.01 + 0.02 * (0.5),
+            connect=0.02 + 0.03 * (0.5),
+            tls=0.05 + 0.1 * (0.5),
+            request=0.005 + 0.01 * (0.5),
+            response=0.03 + 0.05 * (0.5),
+            total=time.time() - start_time
+        )
+        
+        # Simulate successful response
+        return {
+            'status': 200,
+            'status_text': 'OK',
+            'headers': {
+                'content-type': 'application/json',
+                'cache-control': 'public, max-age=300, stale-while-revalidate=86400',
+                'etag': f'"{hash(url) % 1000000}"',
+                'server': 'RFC9110-Server/1.0',
+                'date': datetime.now().isoformat()
+            },
+            'body': {
+                'message': 'RFC 9110 compliant response',
+                'timestamp': datetime.now().isoformat(),
+                'method': method.value,
+                'url': url
+            },
+            'timing': timing
         }
-      }
-    }
     
-    throw lastError || new Error('Request failed after all retries');
-  }
-  
-  /**
-   * Phase 2: HTTP Method Implementations with RFC 9110 Semantics
-   */
-  
-  // Safe methods (no side effects on server)
-  async get(url: string, options: Omit<RequestOptions, 'method'> = {}): Promise<HTTPResponse> {
-    return this.request(url, { ...options, method: 'GET' });
-  }
-  
-  async head(url: string, options: Omit<RequestOptions, 'method'> = {}): Promise<HTTPResponse> {
-    return this.request(url, { ...options, method: 'HEAD' });
-  }
-  
-  async options(url: string, options: Omit<RequestOptions, 'method'> = {}): Promise<HTTPResponse> {
-    return this.request(url, { ...options, method: 'OPTIONS' });
-  }
-  
-  // Idempotent methods (can be safely retried)
-  async put(url: string, data: any, options: Omit<RequestOptions, 'method' | 'body'> = {}): Promise<HTTPResponse> {
-    return this.request(url, { ...options, method: 'PUT', body: data });
-  }
-  
-  async delete(url: string, options: Omit<RequestOptions, 'method'> = {}): Promise<HTTPResponse> {
-    return this.request(url, { ...options, method: 'DELETE' });
-  }
-  
-  // Non-idempotent methods (no automatic retries)
-  async post(url: string, data: any, options: Omit<RequestOptions, 'method' | 'body'> = {}): Promise<HTTPResponse> {
-    return this.request(url, { ...options, method: 'POST', body: data });
-  }
-  
-  async patch(url: string, data: any, options: Omit<RequestOptions, 'method' | 'body'> = {}): Promise<HTTPResponse> {
-    return this.request(url, { ...options, method: 'PATCH', body: data });
-  }
-  
-  /**
-   * Phase 3: RFC 9111 Cache Implementation
-   * 
-   * Implements modern HTTP caching with support for stale-while-revalidate,
-   * conditional requests, and cache validation
-   */
-  private checkCache(url: string, headers: Map<string, string>): HTTPResponse | null {
-    const cacheKey = this.generateCacheKey(url, headers);
-    const entry = this.cache.get(cacheKey);
-    
-    if (!entry) return null;
-    
-    const age = (Date.now() - entry.timestamp) / 1000;
-    
-    // Check if still fresh
-    if (age < entry.maxAge) {
-      console.log(\`   ✅ Cache fresh (age: \${age.toFixed(1)}s, max-age: \${entry.maxAge}s)\`);
-      return { ...entry.response, cached: true };
-    }
-    
-    // Check stale-while-revalidate
-    if (entry.staleWhileRevalidate && age < entry.maxAge + entry.staleWhileRevalidate) {
-      console.log(\`   ⚡ Serving stale while revalidating (age: \${age.toFixed(1)}s)\`);
-      
-      // Trigger background revalidation
-      this.revalidateInBackground(url, headers, entry);
-      
-      return { ...entry.response, cached: true };
-    }
-    
-    // Cache expired, check for conditional request capability
-    if (entry.etag || entry.lastModified) {
-      console.log(\`   🔍 Cache stale, will use conditional request\`);
-      return null; // Will trigger conditional request
-    }
-    
-    // Remove expired entry
-    this.cache.delete(cacheKey);
-    return null;
-  }
-  
-  private async revalidateInBackground(
-    url: string, 
-    headers: Map<string, string>, 
-    entry: CacheEntry
-  ): Promise<void> {
-    try {
-      console.log(\`   🔄 Background revalidation started for \${url}\`);
-      
-      // Create conditional request headers
-      const conditionalHeaders = new Map(headers);
-      if (entry.etag) {
-        conditionalHeaders.set('If-None-Match', entry.etag);
-      }
-      if (entry.lastModified) {
-        conditionalHeaders.set('If-Modified-Since', entry.lastModified);
-      }
-      
-      const request = this.buildRequest(url, 'GET', Object.fromEntries(conditionalHeaders), null);
-      const response = await this.executeRequest(request, 30000, Date.now());
-      
-      if (response.status === 304) {
-        // Not modified, update timestamp
-        entry.timestamp = Date.now();
-        console.log(\`   ✅ Resource not modified, cache refreshed\`);
-      } else {
-        // Modified, update cache
-        const processedResponse = await this.processResponse(response, request);
-        this.cacheResponse(url, processedResponse);
-        console.log(\`   🆕 Resource updated in cache\`);
-      }
-      
-    } catch (error) {
-      console.log(\`   ⚠️  Background revalidation failed: \${error.message}\`);
-    }
-  }
-  
-  /**
-   * Phase 4: Response Processing and Status Code Handling
-   * 
-   * Implements RFC 9110 status code semantics with proper error handling
-   */
-  private async processResponse(response: any, request: any): Promise<HTTPResponse> {
-    const processedResponse: HTTPResponse = {
-      status: response.status,
-      statusText: response.statusText || this.getStatusText(response.status),
-      headers: new Map(Object.entries(response.headers || {})),
-      body: await this.parseResponseBody(response),
-      cached: false,
-      timing: response.timing || { dns: 0, connect: 0, tls: 0, request: 0, response: 0, total: 0 }
-    };
-    
-    console.log(\`   📨 Response: \${processedResponse.status} \${processedResponse.statusText}\`);
-    
-    // Apply response interceptors
-    for (const interceptor of this.responseInterceptors) {
-      processedResponse = interceptor(processedResponse);
-    }
-    
-    // Handle status codes according to RFC 9110
-    await this.handleStatusCode(processedResponse, request);
-    
-    return processedResponse;
-  }
-  
-  private async handleStatusCode(response: HTTPResponse, request: any): Promise<void> {
-    const status = response.status;
-    
-    // 1xx Informational
-    if (status >= 100 && status < 200) {
-      console.log(\`   ℹ️  Informational response: \${status}\`);
-      return;
-    }
-    
-    // 2xx Success
-    if (status >= 200 && status < 300) {
-      console.log(\`   ✅ Success: \${status}\`);
-      return;
-    }
-    
-    // 3xx Redirection
-    if (status >= 300 && status < 400) {
-      console.log(\`   🔀 Redirection: \${status}\`);
-      await this.handleRedirection(response, request);
-      return;
-    }
-    
-    // 4xx Client Error
-    if (status >= 400 && status < 500) {
-      console.log(\`   ❌ Client error: \${status}\`);
-      await this.handleClientError(response, request);
-      return;
-    }
-    
-    // 5xx Server Error
-    if (status >= 500 && status < 600) {
-      console.log(\`   🔥 Server error: \${status}\`);
-      await this.handleServerError(response, request);
-      return;
-    }
-  }
-  
-  private async handleRedirection(response: HTTPResponse, request: any): Promise<void> {
-    const location = response.headers.get('location');
-    const status = response.status;
-    
-    switch (status) {
-      case 301: // Moved Permanently
-        console.log(\`   📍 Resource permanently moved to: \${location}\`);
-        break;
+    def _process_response(self, raw_response: Dict[str, Any]) -> HTTPResponse:
+        """Process raw response into HTTPResponse object"""
+        response = HTTPResponse(
+            status=raw_response['status'],
+            status_text=raw_response['status_text'],
+            headers=raw_response['headers'],
+            body=raw_response['body'],
+            timing=raw_response['timing']
+        )
         
-      case 302: // Found
-        console.log(\`   📍 Resource temporarily at: \${location}\`);
-        break;
+        logger.info(f"   📨 Response: {response.status} {response.status_text}")
         
-      case 304: // Not Modified
-        console.log(\`   ✅ Resource not modified since last request\`);
-        break;
+        # Handle status codes according to RFC 9110
+        self._handle_status_code(response)
         
-      case 307: // Temporary Redirect
-        console.log(\`   📍 Temporary redirect (method preserved): \${location}\`);
-        break;
+        return response
+    
+    def _handle_status_code(self, response: HTTPResponse) -> None:
+        """Handle different status code classes per RFC 9110"""
+        status = response.status
         
-      case 308: // Permanent Redirect  
-        console.log(\`   📍 Permanent redirect (method preserved): \${location}\`);
-        break;
-    }
-  }
-  
-  private async handleClientError(response: HTTPResponse, request: any): Promise<void> {
-    const status = response.status;
+        if 100 <= status < 200:
+            logger.info(f"   ℹ️ Informational response: {status}")
+        elif 200 <= status < 300:
+            logger.info(f"   ✅ Success: {status}")
+        elif 300 <= status < 400:
+            logger.info(f"   🔀 Redirection: {status}")
+            self._handle_redirection(response)
+        elif 400 <= status < 500:
+            logger.info(f"   ❌ Client error: {status}")
+            self._handle_client_error(response)
+        elif 500 <= status < 600:
+            logger.info(f"   🔥 Server error: {status}")
+            self._handle_server_error(response)
     
-    switch (status) {
-      case 400:
-        console.log(\`   ❌ Bad Request - malformed request syntax\`);
-        break;
+    def _handle_redirection(self, response: HTTPResponse) -> None:
+        """Handle 3xx redirection responses"""
+        location = response.headers.get('location')
+        status = response.status
         
-      case 401:
-        console.log(\`   🔐 Unauthorized - authentication required\`);
-        await this.handleAuthentication(response, request);
-        break;
+        if status == 301:
+            logger.info(f"   📍 Resource permanently moved to: {location}")
+        elif status == 302:
+            logger.info(f"   📍 Resource temporarily at: {location}")
+        elif status == 304:
+            logger.info("   ✅ Resource not modified since last request")
+        elif status == 307:
+            logger.info(f"   📍 Temporary redirect (method preserved): {location}")
+        elif status == 308:
+            logger.info(f"   📍 Permanent redirect (method preserved): {location}")
+    
+    def _handle_client_error(self, response: HTTPResponse) -> None:
+        """Handle 4xx client error responses"""
+        status = response.status
         
-      case 403:
-        console.log(\`   🚫 Forbidden - access denied\`);
-        break;
+        if status == 400:
+            logger.info("   ❌ Bad Request - malformed request syntax")
+        elif status == 401:
+            logger.info("   🔐 Unauthorized - authentication required")
+            self._handle_authentication(response)
+        elif status == 403:
+            logger.info("   🚫 Forbidden - access denied")
+        elif status == 404:
+            logger.info("   🔍 Not Found - resource does not exist")
+        elif status == 429:
+            logger.info("   ⏱️ Rate Limited - too many requests")
+            self._handle_rate_limit(response)
+    
+    def _handle_server_error(self, response: HTTPResponse) -> None:
+        """Handle 5xx server error responses"""
+        status = response.status
         
-      case 404:
-        console.log(\`   🔍 Not Found - resource does not exist\`);
-        break;
+        if status == 500:
+            logger.info("   🔥 Internal Server Error - server encountered an error")
+        elif status == 502:
+            logger.info("   🌐 Bad Gateway - invalid response from upstream server")
+        elif status == 503:
+            logger.info("   ⏰ Service Unavailable - server temporarily overloaded")
+        elif status == 504:
+            logger.info("   ⏱️ Gateway Timeout - upstream server timeout")
+    
+    def _handle_authentication(self, response: HTTPResponse) -> None:
+        """Handle authentication challenges"""
+        www_authenticate = response.headers.get('www-authenticate', '')
         
-      case 429:
-        console.log(\`   ⏱️  Rate Limited - too many requests\`);
-        await this.handleRateLimit(response, request);
-        break;
-    }
-  }
-  
-  private async handleServerError(response: HTTPResponse, request: any): Promise<void> {
-    const status = response.status;
+        if 'bearer' in www_authenticate.lower():
+            logger.info("   💳 Bearer token authentication required")
+        elif 'basic' in www_authenticate.lower():
+            logger.info("   🔑 Basic authentication required")
+        elif 'digest' in www_authenticate.lower():
+            logger.info("   🔐 Digest authentication required")
     
-    switch (status) {  
-      case 500:
-        console.log(\`   🔥 Internal Server Error - server encountered an error\`);
-        break;
+    def _handle_rate_limit(self, response: HTTPResponse) -> None:
+        """Handle rate limiting information"""
+        retry_after = response.headers.get('retry-after')
+        remaining = response.headers.get('x-ratelimit-remaining')
+        reset_time = response.headers.get('x-ratelimit-reset')
         
-      case 502:
-        console.log(\`   🌐 Bad Gateway - invalid response from upstream server\`);
-        break;
-        
-      case 503:
-        console.log(\`   ⏰ Service Unavailable - server temporarily overloaded\`);
-        break;
-        
-      case 504:
-        console.log(\`   ⏱️  Gateway Timeout - upstream server timeout\`);
-        break;
-    }
-  }
-  
-  /**
-   * Phase 5: Authentication and Security
-   * 
-   * Implements modern authentication patterns with Bearer tokens,
-   * basic auth, and security best practices
-   */
-  private async handleAuthentication(response: HTTPResponse, request: any): Promise<void> {
-    const wwwAuthenticate = response.headers.get('www-authenticate');
-    
-    if (wwwAuthenticate) {
-      console.log(\`   🔐 Authentication challenge: \${wwwAuthenticate}\`);
-      
-      if (wwwAuthenticate.toLowerCase().includes('bearer')) {
-        console.log(\`   💳 Bearer token authentication required\`);
-      } else if (wwwAuthenticate.toLowerCase().includes('basic')) {
-        console.log(\`   🔑 Basic authentication required\`);
-      } else if (wwwAuthenticate.toLowerCase().includes('digest')) {
-        console.log(\`   🔐 Digest authentication required\`);
-      }
-    }
-  }
-  
-  private async handleRateLimit(response: HTTPResponse, request: any): Promise<void> {
-    const retryAfter = response.headers.get('retry-after');
-    const rateLimitRemaining = response.headers.get('x-ratelimit-remaining');
-    const rateLimitReset = response.headers.get('x-ratelimit-reset');
-    
-    if (retryAfter) {
-      console.log(\`   ⏳ Retry after: \${retryAfter} seconds\`);
-    }
-    
-    if (rateLimitRemaining) {
-      console.log(\`   📊 Rate limit remaining: \${rateLimitRemaining}\`);
-    }
-    
-    if (rateLimitReset) {
-      const resetTime = new Date(parseInt(rateLimitReset) * 1000);
-      console.log(\`   🔄 Rate limit resets at: \${resetTime.toISOString()}\`);
-    }
-  }
-  
-  /**
-   * Authentication helpers
-   */
-  setBearerToken(token: string): void {
-    this.defaultHeaders.set('Authorization', \`Bearer \${token}\`);
-    console.log('🔐 Bearer token configured for all requests');
-  }
-  
-  setBasicAuth(username: string, password: string): void {
-    const credentials = btoa(\`\${username}:\${password}\`);
-    this.defaultHeaders.set('Authorization', \`Basic \${credentials}\`);
-    console.log('🔑 Basic authentication configured for all requests');
-  }
-  
-  /**
-   * Cache management
-   */
-  clearCache(): void {
-    this.cache.clear();
-    console.log('🗑️  HTTP cache cleared');
-  }
-  
-  getCacheStats(): { entries: number; totalSize: number; hitRate: string } {
-    const entries = this.cache.size;
-    const totalSize = Array.from(this.cache.values())
-      .reduce((size, entry) => size + JSON.stringify(entry).length, 0);
-    
-    return {
-      entries,
-      totalSize,
-      hitRate: '85%' // Simulated hit rate
-    };
-  }
-  
-  // Helper methods for RFC 9110 compliance
-  
-  private validateMethodSemantics(method: string, body: any): void {
-    // Safe methods should not have request bodies
-    if (this.isMethodSafe(method) && body !== undefined && body !== null) {
-      console.warn(\`⚠️  Safe method \${method} should not have request body\`);
-    }
-    
-    // GET and HEAD must not have bodies
-    if ((method === 'GET' || method === 'HEAD') && body) {
-      throw new Error(\`\${method} requests cannot have request bodies\`);
-    }
-  }
-  
-  private isMethodSafe(method: string): boolean {
-    return ['GET', 'HEAD', 'OPTIONS', 'TRACE'].includes(method);
-  }
-  
-  private isMethodIdempotent(method: string): boolean {
-    return ['GET', 'HEAD', 'PUT', 'DELETE', 'OPTIONS', 'TRACE'].includes(method);
-  }
-  
-  private isCacheable(response: HTTPResponse): boolean {
-    // Check for explicit cache-control headers
-    const cacheControl = response.headers.get('cache-control');
-    if (cacheControl) {
-      if (cacheControl.includes('no-store') || cacheControl.includes('private')) {
-        return false;
-      }
-      if (cacheControl.includes('max-age') || cacheControl.includes('s-maxage')) {
-        return true;
-      }
-    }
-    
-    // Check for expires header
-    if (response.headers.get('expires')) {
-      return true;
-    }
-    
-    // Default cacheability by status code
-    const cacheableStatuses = [200, 203, 204, 206, 300, 301, 404, 405, 410, 414, 501];
-    return cacheableStatuses.includes(response.status);
-  }
-  
-  private cacheResponse(url: string, response: HTTPResponse): void {
-    const cacheControl = response.headers.get('cache-control') || '';
-    const expires = response.headers.get('expires');
-    
-    let maxAge = 0;
-    let staleWhileRevalidate: number | undefined;
-    
-    // Parse cache-control directive
-    const maxAgeMatch = cacheControl.match(/max-age=(\d+)/);
-    if (maxAgeMatch) {
-      maxAge = parseInt(maxAgeMatch[1]);
-    } else if (expires) {
-      const expiresTime = new Date(expires).getTime();
-      maxAge = Math.max(0, (expiresTime - Date.now()) / 1000);
-    }
-    
-    const swrMatch = cacheControl.match(/stale-while-revalidate=(\d+)/);
-    if (swrMatch) {
-      staleWhileRevalidate = parseInt(swrMatch[1]);
-    }
-    
-    if (maxAge > 0) {
-      const cacheKey = this.generateCacheKey(url, new Map());
-      const entry: CacheEntry = {
-        response: { ...response, cached: false },
-        timestamp: Date.now(),
-        etag: response.headers.get('etag') || undefined,
-        lastModified: response.headers.get('last-modified') || undefined,
-        maxAge,
-        staleWhileRevalidate
-      };
-      
-      this.cache.set(cacheKey, entry);
-      console.log(\`   💾 Response cached (max-age: \${maxAge}s)\`);
-    }
-  }
-  
-  private generateCacheKey(url: string, headers: Map<string, string>): string {
-    return \`\${url}|\${Array.from(headers.entries()).sort().map(([k,v]) => \`\${k}:\${v}\`).join('|')}\`;
-  }
-  
-  private buildRequest(url: string, method: string, headers: Record<string, string>, body: any): any {
-    const fullUrl = url.startsWith('http') ? url : \`\${this.baseURL}\${url}\`;
-    
-    const requestHeaders = new Map([
-      ...this.defaultHeaders,
-      ...Object.entries(headers)
-    ]);
-    
-    // Add content-type for requests with bodies
-    if (body && !requestHeaders.has('content-type')) {
-      if (typeof body === 'object') {
-        requestHeaders.set('content-type', 'application/json');
-      } else {
-        requestHeaders.set('content-type', 'text/plain');
-      }
-    }
-    
-    return {
-      url: fullUrl,
-      method,
-      headers: requestHeaders,
-      body: typeof body === 'object' ? JSON.stringify(body) : body
-    };
-  }
-  
-  private async executeRequest(request: any, timeout: number, startTime: number): Promise<any> {
-    // Simulate HTTP request execution
-    const requestStart = Date.now();
-    
-    console.log(\`   🌐 Executing \${request.method} \${request.url}\`);
-    console.log(\`   📋 Headers: \${Array.from(request.headers.entries()).length} headers\`);
-    
-    // Simulate network delay
-    await this.delay(50 + Math.random() * 200);
-    
-    const timing = {
-      dns: 10 + Math.random() * 20,
-      connect: 20 + Math.random() * 30,
-      tls: 50 + Math.random() * 100,
-      request: 5 + Math.random() * 10,
-      response: 30 + Math.random() * 50,
-      total: Date.now() - startTime
-    };
-    
-    // Simulate successful response
-    return {
-      status: 200,
-      statusText: 'OK',
-      headers: {
-        'content-type': 'application/json',
-        'cache-control': 'public, max-age=300, stale-while-revalidate=86400',
-        'etag': \`"\${Math.random().toString(36).substr(2, 9)}"\`,
-        'server': 'RFC9110-Server/1.0'
-      },
-      body: JSON.stringify({
-        message: 'RFC 9110 compliant response',
-        timestamp: new Date().toISOString(),
-        method: request.method,
-        url: request.url
-      }),
-      timing
-    };
-  }
-  
-  private async parseResponseBody(response: any): Promise<any> {
-    const contentType = response.headers?.['content-type'] || '';
-    
-    if (contentType.includes('application/json')) {
-      return JSON.parse(response.body);
-    } else if (contentType.includes('text/')) {
-      return response.body;
-    } else {
-      return response.body;
-    }
-  }
-  
-  private setDefaultHeaders(): void {
-    this.defaultHeaders.set('User-Agent', 'ModernHTTPClient/1.0 (RFC9110)');
-    this.defaultHeaders.set('Accept', 'application/json, text/plain, */*');
-    this.defaultHeaders.set('Accept-Encoding', 'gzip, deflate, br');
-    this.defaultHeaders.set('Connection', 'keep-alive');
-  }
-  
-  private getStatusText(status: number): string {
-    const statusTexts: Record<number, string> = {
-      200: 'OK',
-      201: 'Created',
-      204: 'No Content',
-      301: 'Moved Permanently',
-      302: 'Found',
-      304: 'Not Modified',
-      400: 'Bad Request',
-      401: 'Unauthorized',
-      403: 'Forbidden',
-      404: 'Not Found',
-      429: 'Too Many Requests',
-      500: 'Internal Server Error',
-      502: 'Bad Gateway',
-      503: 'Service Unavailable'
-    };
-    
-    return statusTexts[status] || 'Unknown Status';
-  }
-  
-  private isClientError(error: any): boolean {
-    return error.message.includes('400') || 
-           error.message.includes('401') || 
-           error.message.includes('403') || 
-           error.message.includes('404');
-  }
-  
-  private delay(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-}
+        if retry_after:
+            logger.info(f"   ⏳ Retry after: {retry_after} seconds")
+        if remaining:
+            logger.info(f"   📊 Rate limit remaining: {remaining}")
+        if reset_time:
+            reset_dt = datetime.fromtimestamp(int(reset_time))
+            logger.info(f"   🔄 Rate limit resets at: {reset_dt.isoformat()}")
 
-// Usage Example: Modern HTTP Client Usage
-async function demonstrateModernHTTPClient() {
-  console.log("🌐 RFC 9110 Modern HTTP Client Demonstration");
-  console.log("This shows comprehensive HTTP semantics, caching, and error handling!");
-  
-  const client = new ModernHTTPClient('https://api.example.com');
-  
-  // Configure authentication
-  client.setBearerToken('eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...');
-  
-  console.log("\\n=== Safe Method Demonstrations ===");
-  
-  try {
-    // GET request with caching
-    const userData = await client.get('/users/123', {
-      cache: 'default',
-      timeout: 5000
-    });
-    
-    console.log(\`✅ User data retrieved: \${JSON.stringify(userData.body, null, 2)}\`);
-    
-    // HEAD request for metadata
-    const metaData = await client.head('/users/123');
-    console.log(\`📋 Resource metadata: \${metaData.status} \${metaData.statusText}\`);
-    
-    // OPTIONS request for capabilities
-    const capabilities = await client.options('/users');
-    console.log(\`⚙️  API capabilities discovered\`);
-    
-    console.log("\\n=== Idempotent Method Demonstrations ===");
-    
-    // PUT request (complete replacement)
-    const updateResult = await client.put('/users/123', {
-      name: 'Updated User',
-      email: 'updated@example.com',
-      profile: {
-        bio: 'Updated biography',
-        preferences: { theme: 'dark', notifications: true }
-      }
-    });
-    
-    console.log(\`✅ User updated: \${updateResult.status}\`);
-    
-    // DELETE request
-    const deleteResult = await client.delete('/users/456');
-    console.log(\`🗑️  User deleted: \${deleteResult.status}\`);
-    
-    console.log("\\n=== Non-Idempotent Method Demonstrations ===");
-    
-    // POST request (create new resource)
-    const createResult = await client.post('/users', {
-      name: 'New User',
-      email: 'new@example.com',
-      role: 'member'
-    });
-    
-    console.log(\`✅ User created: \${createResult.status}\`);
-    
-    // PATCH request (partial update)
-    const patchResult = await client.patch('/users/123', {
-      profile: {
-        bio: 'Partially updated biography'
-      }
-    });
-    
-    console.log(\`✅ User profile updated: \${patchResult.status}\`);
-    
-    console.log("\\n=== Cache Performance Analysis ===");
-    
-    // Test cache performance
-    const cacheStats = client.getCacheStats();
-    console.log(\`📊 Cache Statistics:\`);
-    console.log(\`   • Entries: \${cacheStats.entries}\`);
-    console.log(\`   • Total Size: \${cacheStats.totalSize} bytes\`);
-    console.log(\`   • Hit Rate: \${cacheStats.hitRate}\`);
-    
-    // Test stale-while-revalidate
-    console.log("\\n   🔄 Testing stale-while-revalidate behavior...");
-    const cachedResponse = await client.get('/users/123', { cache: 'default' });
-    console.log(\`   ✅ Stale content served while revalidating in background\`);
-    
-    console.log("\\n🎯 RFC 9110 Features Demonstrated:");
-    console.log("• Method semantics (safe, idempotent, non-idempotent)");
-    console.log("• Comprehensive status code handling");
-    console.log("• Advanced caching with RFC 9111 compliance");
-    console.log("• Modern authentication patterns");
-    console.log("• Automatic retries for idempotent methods");
-    console.log("• Conditional requests and cache validation");
-    console.log("• Stale-while-revalidate optimization");
-    
-    console.log("\\n🌐 This enables the responsive web experiences we expect:");
-    console.log("• Instant page loads through intelligent caching");
-    console.log("• Reliable API interactions with proper error handling");
-    console.log("• Efficient network usage with conditional requests");
-    console.log("• Seamless authentication and security");
-    
-  } catch (error) {
-    console.error(\`❌ HTTP client demonstration failed: \${error.message}\`);
-  }
-}
 
-// Export for use in other modules
-export { ModernHTTPClient, type HTTPResponse, type RequestOptions, type CacheEntry };
+# Demonstration of RFC 9110 HTTP Client Usage
+async def demonstrate_modern_http_client():
+    """
+    Comprehensive demonstration of RFC 9110 HTTP semantics
+    
+    This shows proper method handling, caching, authentication,
+    and error handling according to HTTP specifications.
+    """
+    logger.info("🌐 RFC 9110 Modern HTTP Client Demonstration")
+    logger.info("This shows comprehensive HTTP semantics, caching, and error handling!")
+    
+    client = ModernHTTPClient('https://api.example.com')
+    
+    # Configure authentication
+    client.set_bearer_token('eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...')
+    
+    logger.info("\\n=== Safe Method Demonstrations ===")
+    
+    try:
+        # GET request with caching
+        user_data = await client.get('/users/123', cache='default', timeout=5.0)
+        logger.info(f"✅ User data retrieved: {json.dumps(user_data.body, indent=2)}")
+        
+        # HEAD request for metadata
+        meta_data = await client.head('/users/123')
+        logger.info(f"📋 Resource metadata: {meta_data.status} {meta_data.status_text}")
+        
+        # OPTIONS request for capabilities
+        capabilities = await client.options('/users')
+        logger.info("⚙️ API capabilities discovered")
+        
+        logger.info("\\n=== Idempotent Method Demonstrations ===")
+        
+        # PUT request (complete replacement)
+        update_result = await client.put('/users/123', {
+            'name': 'Updated User',
+            'email': 'updated@example.com',
+            'profile': {
+                'bio': 'Updated biography',
+                'preferences': {'theme': 'dark', 'notifications': True}
+            }
+        })
+        logger.info(f"✅ User updated: {update_result.status}")
+        
+        # DELETE request
+        delete_result = await client.delete('/users/456')
+        logger.info(f"🗑️ User deleted: {delete_result.status}")
+        
+        logger.info("\\n=== Non-Idempotent Method Demonstrations ===")
+        
+        # POST request (create new resource)
+        create_result = await client.post('/users', {
+            'name': 'New User',
+            'email': 'new@example.com',
+            'role': 'member'
+        })
+        logger.info(f"✅ User created: {create_result.status}")
+        
+        # PATCH request (partial update)
+        patch_result = await client.patch('/users/123', {
+            'profile': {
+                'bio': 'Partially updated biography'
+            }
+        })
+        logger.info(f"✅ User profile updated: {patch_result.status}")
+        
+        logger.info("\\n=== Cache Performance Analysis ===")
+        
+        # Test cache performance
+        cache_stats = client.get_cache_stats()
+        logger.info("📊 Cache Statistics:")
+        logger.info(f"   • Entries: {cache_stats['entries']}")
+        logger.info(f"   • Fresh Entries: {cache_stats['fresh_entries']}")
+        logger.info(f"   • Total Size: {cache_stats['total_size_bytes']} bytes")
+        logger.info(f"   • Hit Rate: {cache_stats['hit_rate']}")
+        
+        # Test stale-while-revalidate
+        logger.info("\\n   🔄 Testing stale-while-revalidate behavior...")
+        cached_response = await client.get('/users/123', cache='default')
+        logger.info("   ✅ Stale content served while revalidating in background")
+        
+        logger.info("\\n🎯 RFC 9110 Features Demonstrated:")
+        logger.info("• Method semantics (safe, idempotent, non-idempotent)")
+        logger.info("• Comprehensive status code handling")
+        logger.info("• Advanced caching with RFC 9111 compliance")
+        logger.info("• Modern authentication patterns")
+        logger.info("• Automatic retries for idempotent methods")
+        logger.info("• Conditional requests and cache validation")
+        logger.info("• Stale-while-revalidate optimization")
+        
+        logger.info("\\n🌐 This enables the responsive web experiences we expect:")
+        logger.info("• Instant page loads through intelligent caching")
+        logger.info("• Reliable API interactions with proper error handling")
+        logger.info("• Efficient network usage with conditional requests")
+        logger.info("• Seamless authentication and security")
+        
+    except Exception as error:
+        logger.error(f"❌ HTTP client demonstration failed: {error}")
+
+
+# Run the demonstration
+if __name__ == "__main__":
+    asyncio.run(demonstrate_modern_http_client())
 `;

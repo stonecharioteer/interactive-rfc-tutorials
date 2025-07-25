@@ -9,7 +9,7 @@ export default function RFC9110() {
   return (
     <article className="prose prose-lg max-w-none">
       <h1>
-        RFC 9110-9114: HTTP Semantics Internet Standard - June 2022
+        RFC 9110: HTTP Semantics - June 2022
       </h1>
       <div className="bg-emerald-50 border-l-4 border-emerald-500 p-6 my-8">
         <div className="flex items-center mb-2">
@@ -19,95 +19,70 @@ export default function RFC9110() {
           </span>
         </div>
         <p className="text-emerald-700 mb-0">
-          RFC 9110-9114 represents the current definitive HTTP standard, consolidating 
-          decades of web evolution into a coherent specification. This series replaces 
-          RFC 2616 and clarifies HTTP semantics, caching, authentication, and conditional 
-          requests, providing the foundation for all modern web applications, APIs, 
-          and internet services used by billions of people daily.
+          RFC 9110 defines the core HTTP semantics that power all modern web communication. 
+          This specification consolidates decades of web evolution, providing precise definitions 
+          for HTTP methods, status codes, headers, and the fundamental request/response model 
+          that serves as the foundation for billions of daily web interactions.
         </p>
         <p className="text-emerald-600 text-sm mt-2">
-          <strong>Read the originals:</strong>{" "}
+          <strong>Read the original:</strong>{" "}
           <a
             href="https://www.rfc-editor.org/rfc/rfc9110.html"
             className="underline"
             target="_blank"
             rel="noopener noreferrer"
           >
-            RFC 9110 <ExternalLink className="inline h-3 w-3" />
-          </a>{" "}
-          <a
-            href="https://www.rfc-editor.org/rfc/rfc9111.html"
-            className="underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            RFC 9111 <ExternalLink className="inline h-3 w-3" />
-          </a>{" "}
-          <a
-            href="https://www.rfc-editor.org/rfc/rfc9112.html"
-            className="underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            RFC 9112 <ExternalLink className="inline h-3 w-3" />
+            RFC 9110: HTTP Semantics <ExternalLink className="inline h-3 w-3" />
           </a>
         </p>
       </div>
 
-      <h2>The HTTP Standards Evolution</h2>
+      <h2>HTTP Semantics: The Foundation of Web Communication</h2>
       <p>
-        The RFC 9110-9114 series represents the culmination of HTTP's evolution 
-        from <Link to="/rfc/1945" className="text-blue-600 hover:text-blue-800">HTTP/1.0</Link> through{" "}
+        RFC 9110 represents the definitive specification for HTTP semantics, evolving from the original 
+        <Link to="/rfc/1945" className="text-blue-600 hover:text-blue-800">HTTP/1.0</Link> through{" "}
         <Link to="/rfc/2068" className="text-blue-600 hover:text-blue-800">HTTP/1.1</Link> and{" "}
         <Link to="/rfc/7540" className="text-blue-600 hover:text-blue-800">HTTP/2</Link>. 
-        This comprehensive update addresses 25 years of real-world web usage, 
-        security discoveries, and implementation experiences.
+        This specification provides the semantic foundation that is protocol-version independent, 
+        clarifying 25 years of real-world implementation experience.
       </p>
 
       <div className="bg-blue-50 p-4 rounded-lg my-4">
-        <h3 className="font-semibold text-blue-900 mb-2">RFC 9110-9114 Series Overview</h3>
+        <h3 className="font-semibold text-blue-900 mb-2">Related HTTP Standards</h3>
         <ul className="text-blue-800 space-y-2">
-          <li><strong>RFC 9110:</strong> HTTP Semantics - Core protocol mechanics and methods</li>
-          <li><strong>RFC 9111:</strong> HTTP Caching - Comprehensive caching behaviors</li>
-          <li><strong>RFC 9112:</strong> HTTP/1.1 - Message syntax and connection management</li>
-          <li><strong>RFC 9113:</strong> HTTP/2 - Binary framing and multiplexing (updates 7540)</li>
-          <li><strong>RFC 9114:</strong> HTTP/3 - QUIC-based transport for modern web</li>
+          <li><strong><Link to="/rfc/9110" className="text-blue-600 hover:text-blue-800">RFC 9110</Link>:</strong> HTTP Semantics (This document)</li>
+          <li><strong><Link to="/rfc/9111" className="text-blue-600 hover:text-blue-800">RFC 9111</Link>:</strong> HTTP Caching - Cache behavior specifications</li>
+          <li><strong><Link to="/rfc/9112" className="text-blue-600 hover:text-blue-800">RFC 9112</Link>:</strong> HTTP/1.1 - Message syntax and connection management</li>
+          <li><strong><Link to="/rfc/9113" className="text-blue-600 hover:text-blue-800">RFC 9113</Link>:</strong> HTTP/2 - Binary framing and multiplexing updates</li>
+          <li><strong><Link to="/rfc/9114" className="text-blue-600 hover:text-blue-800">RFC 9114</Link>:</strong> HTTP/3 - QUIC-based transport protocol</li>
         </ul>
       </div>
 
-      <ExpandableSection title="🎯 Understanding The Standards Consolidation">
+      <ExpandableSection title="🎯 Understanding HTTP Semantics">
         <div className="bg-blue-50 p-4 rounded-lg">
           <p className="mb-4">
-            <strong>Think of RFC 9110-9114 like a comprehensive legal code revision:</strong>
+            <strong>Think of HTTP semantics like the rules of communication in a global marketplace:</strong>
           </p>
           <p>
-            <strong>Before (RFC 2616):</strong> Like having one massive law book 
-            from 1999 that tried to cover everything but had become outdated and 
-            confusing with 20+ years of court decisions and amendments scattered 
-            across hundreds of documents.
+            <strong>Without RFC 9110:</strong> Like having a massive international market 
+            where every vendor and customer speaks differently, uses different currencies, 
+            and follows different transaction rules. Chaos and miscommunication everywhere.
           </p>
           <p className="mt-2">
-            <strong>After (RFC 9110-9114):</strong> Like having a modern, 
-            well-organized legal code with separate volumes for different areas 
-            (semantics, caching, transport), incorporating all the precedents 
-            and clarifications that have developed over decades.
+            <strong>With RFC 9110:</strong> Like having a universal set of business rules 
+            that everyone understands - clear protocols for making requests, standard 
+            response codes, consistent ways to handle errors, and reliable methods 
+            for conducting transactions.
           </p>
           <p className="mt-2">
-            <strong>The Result:</strong> Web developers, browser makers, and 
-            server implementers now have clear, unambiguous specifications 
-            that reflect how HTTP actually works in the modern internet.
+            <strong>The Result:</strong> Every web browser, server, API, and application 
+            speaks the same language, enabling seamless communication across the entire internet.
           </p>
         </div>
       </ExpandableSection>
 
-      <h2>RFC 9110: HTTP Semantics - Core Protocol</h2>
-      <p>
-        RFC 9110 defines the fundamental semantics of HTTP, including methods, 
-        status codes, headers, and the overall request/response model that 
-        powers all web communication.
-      </p>
-
-      <h3>Enhanced Method Definitions</h3>
+      <h2>HTTP Methods: Safe, Idempotent, and Non-Idempotent</h2>
+      <h3>Method Classifications</h3>
       <p>
         The specification provides precise definitions for HTTP methods with 
         clear semantics about idempotency, safety, and cacheability:
@@ -243,122 +218,46 @@ graph TB
         </div>
       </ExpandableSection>
 
-      <h2>RFC 9111: HTTP Caching - Performance Optimization</h2>
+      <h2>Request/Response Model</h2>
       <p>
-        RFC 9111 completely overhauls HTTP caching specifications, providing 
-        clear guidance for the complex caching behaviors that are essential 
-        for modern web performance.
+        RFC 9110 defines the fundamental request/response interaction model 
+        that underlies all HTTP communication, regardless of the specific 
+        protocol version (HTTP/1.1, HTTP/2, or HTTP/3).
       </p>
 
-      <h3>Cache Control Directives</h3>
+      <h3>HTTP Message Components</h3>
       <p>
-        The specification clarifies cache control directives and their 
-        interactions, enabling predictable caching behavior across different 
-        implementations:
+        Every HTTP interaction consists of well-defined components that 
+        enable reliable communication:
       </p>
 
-      <MermaidDiagram
-        chart={`
-sequenceDiagram
-    participant Client as Web Browser
-    participant Cache as HTTP Cache
-    participant Origin as Origin Server
-
-    Note over Client,Origin: Initial Request (Cache Miss)
-    
-    Client->>+Cache: GET /api/data
-    Cache->>+Origin: GET /api/data
-    Origin-->>-Cache: 200 OK<br/>Cache-Control: max-age=3600<br/>ETag: "v1.0"<br/>Data payload
-    Cache-->>-Client: 200 OK<br/>Data payload + caching headers
-    
-    Note over Cache: Store in cache for 1 hour
-    
-    Note over Client,Origin: Subsequent Request (Cache Hit)
-    
-    Client->>+Cache: GET /api/data
-    Note over Cache: Check freshness<br/>Still fresh (< 1 hour)
-    Cache-->>-Client: 200 OK<br/>Data from cache
-    
-    Note over Client,Origin: Request After Expiration (Revalidation)
-    
-    Client->>+Cache: GET /api/data
-    Note over Cache: Expired, needs revalidation
-    Cache->>+Origin: GET /api/data<br/>If-None-Match: "v1.0"
-    Origin-->>-Cache: 304 Not Modified<br/>Cache-Control: max-age=3600
-    Cache-->>-Client: 200 OK<br/>Cached data (freshness extended)
-        `}
-        className="my-6"
-      />
-
-      <h3>Modern Caching Strategies</h3>
-      <p>
-        RFC 9111 enables sophisticated caching strategies that power modern 
-        web performance:
-      </p>
-
-      <ul>
-        <li><strong>Stale-While-Revalidate:</strong> Serve stale content while fetching updates</li>
-        <li><strong>Immutable Resources:</strong> Content that never changes (e.g., versioned assets)</li>
-        <li><strong>Vary Header Handling:</strong> Cache different responses based on request headers</li>
-        <li><strong>Private vs Shared Caches:</strong> Clear distinction between browser and CDN caching</li>
-      </ul>
-
-      <ExpandableSection title="🚀 Understanding Modern Web Caching">
-        <div className="bg-green-50 p-4 rounded-lg">
-          <p className="mb-4">
-            <strong>Think of HTTP caching like a smart grocery delivery system:</strong>
-          </p>
-          <p>
-            <strong>Old Caching (pre-RFC 9111):</strong> Like having a delivery 
-            service that couldn't decide whether to bring fresh groceries or 
-            use what's in your fridge. Sometimes you'd get expired food, 
-            sometimes unnecessary fresh deliveries.
-          </p>
-          <p className="mt-2">
-            <strong>Modern Caching (RFC 9111):</strong> Like having a smart 
-            system that knows exactly when your food expires, can check if 
-            it's still good before you ask, and can even bring new groceries 
-            while you're still eating the old ones (stale-while-revalidate).
-          </p>
-          <p className="mt-2">
-            <strong>The Result:</strong> Websites load instantly from cache 
-            when possible, but you always get fresh content when needed. 
-            CDNs worldwide can serve your content efficiently without wasting bandwidth.
-          </p>
-        </div>
-      </ExpandableSection>
-
-      <h2>RFC 9112: HTTP/1.1 Message Syntax</h2>
-      <p>
-        RFC 9112 provides precise specifications for HTTP/1.1 message formatting, 
-        connection management, and parsing requirements, ensuring interoperability 
-        across diverse implementations.
-      </p>
-
-      <h3>Message Format Standardization</h3>
-      <p>
-        The specification clarifies ambiguities in HTTP/1.1 message parsing 
-        that have caused security vulnerabilities and interoperability issues:
-      </p>
-
-      <div className="bg-yellow-50 p-4 rounded-lg my-4">
-        <h4 className="font-semibold text-yellow-900 mb-2">Security Improvements</h4>
-        <ul className="text-yellow-800">
-          <li><strong>Request Smuggling Prevention:</strong> Clear rules for Content-Length vs Transfer-Encoding</li>
-          <li><strong>Header Field Parsing:</strong> Precise whitespace and character handling</li>
-          <li><strong>Connection Management:</strong> Explicit connection persistence rules</li>
-          <li><strong>Protocol Upgrade:</strong> Secure WebSocket and HTTP/2 upgrade procedures</li>
+      <div className="bg-gray-50 p-4 rounded-lg my-4">
+        <h4 className="font-semibold text-gray-900 mb-2">Request Components</h4>
+        <ul className="text-gray-800 space-y-1">
+          <li><strong>Method:</strong> The action to be performed (GET, POST, PUT, DELETE, etc.)</li>
+          <li><strong>Target URI:</strong> The resource being accessed</li>
+          <li><strong>Headers:</strong> Metadata about the request</li>
+          <li><strong>Body (optional):</strong> Data payload for certain methods</li>
         </ul>
       </div>
 
-      <h2>Modern Internet Impact: Web Standards Foundation</h2>
+      <div className="bg-gray-50 p-4 rounded-lg my-4">
+        <h4 className="font-semibold text-gray-900 mb-2">Response Components</h4>
+        <ul className="text-gray-800 space-y-1">
+          <li><strong>Status Code:</strong> Result of the request processing</li>
+          <li><strong>Headers:</strong> Metadata about the response</li>
+          <li><strong>Body (optional):</strong> Response data payload</li>
+        </ul>
+      </div>
+
+      <h2>Modern Internet Impact: Universal Web Communication</h2>
       <p>
-        RFC 9110-9114 serves as the authoritative foundation for all modern 
-        web technologies, APIs, and internet services that billions of people 
-        use daily.
+        RFC 9110 serves as the semantic foundation for all modern web 
+        communication, defining the rules that enable reliable interaction 
+        between billions of web clients and servers worldwide.
       </p>
 
-      <h3>Current Applications Powered by RFC 9110-9114</h3>
+      <h3>Applications Powered by RFC 9110 Semantics</h3>
 
       <div className="grid md:grid-cols-2 gap-6 my-8">
         <div className="bg-blue-50 p-6 rounded-lg">
@@ -430,13 +329,13 @@ sequenceDiagram
         <li><strong>Offline Capabilities:</strong> Service Workers leverage caching for offline functionality</li>
       </ul>
 
-      <ExpandableSection title="🐍 ELI-Pythonista: Modern API Design with RFC 9110">
+      <ExpandableSection title="🐍 ELI-Pythonista: Building Semantic HTTP APIs">
         <div className="space-y-4">
           <p>
-            Building REST APIs is like designing a well-organized library system. Each resource
-            has its proper place, every interaction follows established rules, and the system
-            helps users find exactly what they need efficiently. This Python API server shows
-            how to implement proper HTTP semantics for a robust, cacheable API.
+            Building REST APIs with proper HTTP semantics is like being a skilled librarian 
+            who knows exactly how to organize, catalog, and retrieve information. This Python 
+            API server demonstrates how to implement RFC 9110 semantics for reliable, 
+            predictable web services.
           </p>
           
           <CodeBlock
@@ -445,210 +344,202 @@ sequenceDiagram
           />
           
           <div className="bg-green-50 border border-green-200 p-4 rounded-lg mt-4">
-            <h5 className="font-semibold text-green-800 mb-2">Key Python Concepts Demonstrated</h5>
+            <h5 className="font-semibold text-green-800 mb-2">HTTP Semantics in Python</h5>
             <ul className="text-sm text-green-700 space-y-1">
-              <li>• <strong>FastAPI framework:</strong> Modern, async Python web framework</li>
-              <li>• <strong>Type hints:</strong> Strong typing with dataclasses and Union types</li>
-              <li>• <strong>Enum classes:</strong> Type-safe HTTP method definitions</li>
-              <li>• <strong>Resource-oriented design:</strong> RESTful endpoint organization</li>
-              <li>• <strong>HTTP status codes:</strong> Proper semantic usage of response codes</li>
-              <li>• <strong>Conditional requests:</strong> ETag and If-None-Match handling</li>
-              <li>• <strong>Caching policies:</strong> Flexible cache-control header generation</li>
-              <li>• <strong>Error handling:</strong> Structured API error responses</li>
+              <li>• <strong>Method Safety:</strong> GET/HEAD methods never modify server state</li>
+              <li>• <strong>Idempotency:</strong> PUT/DELETE produce same result when repeated</li>
+              <li>• <strong>Status Code Precision:</strong> Each code has specific semantic meaning</li>
+              <li>• <strong>Resource Representation:</strong> Content-Type and Accept headers</li>
+              <li>• <strong>Error Semantics:</strong> Consistent 4xx client vs 5xx server errors</li>
+              <li>• <strong>Conditional Requests:</strong> ETags for optimistic concurrency</li>
             </ul>
           </div>
         </div>
       </ExpandableSection>
 
-      <h2>Security and Authentication Enhancements</h2>
+      <h2>Headers and Content Negotiation</h2>
       <p>
-        The RFC 9110 series addresses decades of security lessons learned 
-        from web application vulnerabilities and attack patterns:
+        RFC 9110 provides comprehensive guidance on HTTP headers, enabling 
+        flexible content negotiation and metadata exchange between clients and servers.
       </p>
 
-      <h3>Enhanced Authentication Framework</h3>
+      <h3>Essential Header Fields</h3>
       <ul>
-        <li><strong>Bearer Token Standardization:</strong> Clear OAuth 2.0 and JWT integration</li>
-        <li><strong>Challenge-Response Mechanisms:</strong> Improved basic and digest authentication</li>
-        <li><strong>Multi-Factor Integration:</strong> Support for WebAuthn and modern auth flows</li>
-        <li><strong>Token Refresh Patterns:</strong> Secure token lifecycle management</li>
+        <li><strong>Content-Type:</strong> Media type of request/response body</li>
+        <li><strong>Accept:</strong> Client's preferred response media types</li>
+        <li><strong>Authorization:</strong> Client credentials for authentication</li>
+        <li><strong>User-Agent:</strong> Client software identification</li>
+        <li><strong>Server:</strong> Server software identification</li>
       </ul>
 
-      <h3>Security Header Clarifications</h3>
+      <h3>Content Negotiation Mechanisms</h3>
       <ul>
-        <li><strong>CORS Integration:</strong> Cross-Origin Resource Sharing best practices</li>
-        <li><strong>Content Security Policy:</strong> XSS prevention through CSP headers</li>
-        <li><strong>Transport Security:</strong> HTTPS enforcement and HSTS requirements</li>
-        <li><strong>Privacy Controls:</strong> Cookie attributes and privacy-preserving patterns</li>
+        <li><strong>Media Type Selection:</strong> Choose appropriate content format</li>
+        <li><strong>Language Selection:</strong> Accept-Language for internationalization</li>
+        <li><strong>Encoding Selection:</strong> Accept-Encoding for compression</li>
+        <li><strong>Quality Values:</strong> Client preference weighting (q-values)</li>
       </ul>
 
       <h2>Integration with Modern Web Technologies</h2>
       <p>
-        RFC 9110-9114 provides the foundation that enables modern web 
-        technologies and development patterns:
+        RFC 9110's semantic foundation enables all modern web technologies 
+        and development patterns to interoperate reliably.
       </p>
 
-      <h3>1. GraphQL and Alternative APIs</h3>
+      <h3>RESTful API Design</h3>
       <p>
-        While GraphQL uses HTTP as transport, it leverages RFC 9110's method 
-        semantics and status codes for error handling and caching integration.
+        The method semantics and status codes provide the foundation for 
+        RESTful API design patterns used across the technology industry.
       </p>
 
-      <h3>2. Microservices Architecture</h3>
+      <h3>Web Application Frameworks</h3>
       <p>
-        The clear method semantics and status codes enable reliable 
-        service-to-service communication in distributed systems.
+        Modern frameworks rely on HTTP semantics for routing, middleware, 
+        authentication, and response handling.
       </p>
 
-      <h3>3. Serverless Computing</h3>
+      <h3>Distributed Systems</h3>
       <p>
-        Functions-as-a-Service platforms rely on HTTP semantics for request 
-        routing, authentication, and response handling.
+        Microservices and distributed applications depend on consistent 
+        HTTP semantics for reliable inter-service communication.
       </p>
 
-      <h3>4. Container Orchestration</h3>
+      <h2>Extensibility and Evolution</h2>
       <p>
-        Kubernetes and other orchestration platforms use HTTP for health checks, 
-        service discovery, and API communication.
+        RFC 9110 is designed to accommodate future web evolution while 
+        maintaining backward compatibility and semantic consistency.
       </p>
 
-      <h2>Future-Proofing and Evolution</h2>
-      <p>
-        RFC 9110-9114 is designed to accommodate future web evolution while 
-        maintaining backward compatibility:
-      </p>
-
-      <h3>Extensibility Mechanisms</h3>
+      <h3>Extension Mechanisms</h3>
       <ul>
-        <li><strong>Custom Headers:</strong> Vendor-specific and experimental extensions</li>
-        <li><strong>New Methods:</strong> Framework for defining application-specific methods</li>
-        <li><strong>Status Code Extensions:</strong> Reserved ranges for future standardization</li>
-        <li><strong>Protocol Upgrades:</strong> Mechanisms for transitioning to new HTTP versions</li>
+        <li><strong>Custom Headers:</strong> Vendor-specific extensions (X-* headers)</li>
+        <li><strong>New Methods:</strong> Application-specific method definitions</li>
+        <li><strong>Status Code Ranges:</strong> Reserved spaces for future standardization</li>
+        <li><strong>Media Type Registration:</strong> New content type definitions</li>
       </ul>
 
-      <h3>Emerging Technology Integration</h3>
+      <h3>Protocol Version Independence</h3>
       <ul>
-        <li><strong>WebAssembly:</strong> HTTP transport for WASM modules and APIs</li>
-        <li><strong>Edge Computing:</strong> Distributed HTTP processing at network edges</li>
-        <li><strong>IoT Integration:</strong> Lightweight HTTP profiles for constrained devices</li>
-        <li><strong>Real-Time Communication:</strong> HTTP/3 and WebTransport evolution</li>
+        <li><strong>Transport Agnostic:</strong> Works over HTTP/1.1, HTTP/2, HTTP/3</li>
+        <li><strong>Semantic Consistency:</strong> Same meaning across all HTTP versions</li>
+        <li><strong>Forward Compatibility:</strong> Graceful handling of unknown elements</li>
       </ul>
 
-      <ExpandableSection title="📊 Performance Impact: Modern vs Legacy HTTP">
+      <ExpandableSection title="📊 HTTP Semantics: Consistency vs Ambiguity">
         <div className="bg-gray-50 p-4 rounded-lg">
           <p className="mb-3">
-            <strong>Comparison of legacy vs RFC 9110-9114 compliant implementations:</strong>
+            <strong>Impact of precise HTTP semantics on web reliability:</strong>
           </p>
           
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <h5 className="font-semibold text-red-900">Legacy Implementation</h5>
+              <h5 className="font-semibold text-red-900">Pre-RFC 9110 Ambiguity</h5>
               <ul className="text-sm text-red-800">
-                <li>• Ambiguous caching behavior</li>
-                <li>• Inconsistent error handling</li>
-                <li>• Security vulnerabilities from parsing issues</li>
-                <li>• Poor mobile performance</li>
-                <li>• Limited offline capabilities</li>
+                <li>• Inconsistent method interpretations</li>
+                <li>• Conflicting status code usage</li>
+                <li>• Ambiguous header field meanings</li>
+                <li>• Unpredictable client/server behavior</li>
+                <li>• Interoperability issues</li>
               </ul>
             </div>
             
             <div>
-              <h5 className="font-semibold text-green-900">RFC 9110-9114 Implementation</h5>
+              <h5 className="font-semibold text-green-900">RFC 9110 Clarity</h5>
               <ul className="text-sm text-green-800">
-                <li>• Predictable caching across all layers</li>
-                <li>• Standardized error responses</li>
-                <li>• Secure-by-default parsing rules</li>
-                <li>• Optimized for mobile networks</li>
-                <li>• PWA and offline functionality</li>
+                <li>• Precise method semantic definitions</li>
+                <li>• Unambiguous status code meanings</li>
+                <li>• Clear header field specifications</li>
+                <li>• Predictable interaction patterns</li>
+                <li>• Universal interoperability</li>
               </ul>
             </div>
           </div>
           
           <p className="mt-3 text-sm text-gray-600">
-            <strong>Result:</strong> Modern implementations deliver 40-60% better 
-            performance, enhanced security, and consistent behavior across platforms.
+            <strong>Result:</strong> Reliable web communication that works consistently 
+            across all browsers, servers, proxies, and development frameworks.
           </p>
         </div>
       </ExpandableSection>
 
-      <ExpandableSection title="🔗 Docker Demonstration: HTTP Standards Compliance">
+      <ExpandableSection title="🔗 Docker Demonstration: HTTP Semantics Testing">
         <div className="bg-indigo-50 p-4 rounded-lg">
           <p className="mb-3">
-            <strong>Interactive HTTP standards compliance demonstration!</strong>
+            <strong>Interactive HTTP semantics demonstration!</strong>
           </p>
           <p>
-            The Docker example in <code>docker-examples/rfc9110-http-standards/</code> 
-            provides comprehensive testing of HTTP semantics, caching, and security features.
+            The Docker example in <code>docker-examples/rfc9110-http-semantics/</code> 
+            demonstrates proper HTTP method semantics, status codes, and header handling.
           </p>
           <CodeBlock
             language="bash"
-            code={`cd docker-examples/rfc9110-http-standards/
+            code={`cd docker-examples/rfc9110-http-semantics/
 docker compose up -d
 
-# Access the standards test suite at:
+# Access the semantics test suite at:
 # http://localhost:8080
 
-# Monitor compliance testing:
-# docker compose logs -f compliance-tester`}
+# Monitor semantic compliance:
+# docker compose logs -f semantics-server`}
           />
           <p className="mt-3 text-sm">
-            The demonstration includes method semantics testing, caching behavior 
-            validation, security header verification, and performance benchmarking.
+            Test HTTP method safety and idempotency, status code accuracy, 
+            content negotiation, and proper header field usage.
           </p>
         </div>
       </ExpandableSection>
 
       <div className="bg-blue-50 border-l-4 border-blue-500 p-6 my-8">
         <h3 className="text-lg font-semibold text-blue-900 mb-2">
-          💡 Key Takeaways for Modern Web Understanding
+          💡 Key Takeaways for HTTP Semantics
         </h3>
         <ul className="text-blue-800">
           <li>
-            RFC 9110-9114 provides the definitive HTTP specification that powers 
-            all modern web applications, APIs, and internet services
+            RFC 9110 defines the foundational semantics that enable consistent 
+            HTTP communication across all protocol versions and implementations
           </li>
           <li>
-            Understanding method semantics, status codes, and caching is essential 
-            for building performant, secure web applications
+            Understanding method safety, idempotency, and status code meanings 
+            is essential for building reliable web applications and APIs
           </li>
           <li>
-            The standards enable the performance optimizations, security features, 
-            and offline capabilities that users expect from modern web experiences
+            Proper HTTP semantics enable interoperability between different 
+            browsers, servers, proxies, and development frameworks
           </li>
           <li>
-            These specifications will continue to evolve to support emerging 
-            technologies while maintaining backward compatibility
+            These semantic rules provide the foundation for all higher-level 
+            web technologies and communication patterns
           </li>
         </ul>
       </div>
 
       <div className="mt-8 p-4 bg-gray-50 rounded-lg">
-        <h3 className="font-semibold mb-2">Learn More</h3>
+        <h3 className="font-semibold mb-2">Related HTTP Standards</h3>
         <ul className="space-y-1">
           <li>
             <a href="https://www.rfc-editor.org/rfc/rfc9110.html" className="text-blue-600 hover:text-blue-800 underline" target="_blank" rel="noopener noreferrer">
-              RFC 9110: HTTP Semantics
+              RFC 9110: HTTP Semantics (This document)
             </a>
           </li>
           <li>
-            <a href="https://www.rfc-editor.org/rfc/rfc9111.html" className="text-blue-600 hover:text-blue-800 underline" target="_blank" rel="noopener noreferrer">
+            <Link to="/rfc/9111" className="text-blue-600 hover:text-blue-800 underline">
               RFC 9111: HTTP Caching
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="https://www.rfc-editor.org/rfc/rfc9112.html" className="text-blue-600 hover:text-blue-800 underline" target="_blank" rel="noopener noreferrer">
-              RFC 9112: HTTP/1.1
-            </a>
+            <Link to="/rfc/9112" className="text-blue-600 hover:text-blue-800 underline">
+              RFC 9112: HTTP/1.1 Message Syntax
+            </Link>
           </li>
           <li>
-            <a href="https://www.rfc-editor.org/rfc/rfc9113.html" className="text-blue-600 hover:text-blue-800 underline" target="_blank" rel="noopener noreferrer">
+            <Link to="/rfc/9113" className="text-blue-600 hover:text-blue-800 underline">
               RFC 9113: HTTP/2 (Updated)
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="https://www.rfc-editor.org/rfc/rfc9114.html" className="text-blue-600 hover:text-blue-800 underline" target="_blank" rel="noopener noreferrer">
+            <Link to="/rfc/9114" className="text-blue-600 hover:text-blue-800 underline">
               RFC 9114: HTTP/3
-            </a>
+            </Link>
           </li>
           <li>
             <Link to="/rfc/7540" className="text-blue-600 hover:text-blue-800 underline">

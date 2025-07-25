@@ -418,15 +418,75 @@ export const rfcs: RfcMetadata[] = [
     number: 9110,
     title: "HTTP Semantics",
     description:
-      "The definitive modern HTTP standard that consolidates decades of web evolution, clarifying HTTP semantics, methods, status codes, and providing the foundation for all contemporary web applications and APIs.",
+      "The core HTTP semantics specification that defines fundamental protocol behavior including methods, status codes, headers, and the request/response model that powers all modern web communication.",
     era: "current",
     year: 2022,
     learningObjectives: [
       "Understand comprehensive HTTP method semantics (safe, idempotent, non-idempotent)",
       "Learn definitive status code usage and error handling patterns",
-      "Explore modern caching strategies and conditional request mechanisms",
-      "Master the current HTTP standard powering all modern web applications and services",
+      "Explore request/response model and header field semantics",
+      "Master the semantic foundation that underlies all HTTP protocol versions",
     ],
     rfcUrl: "https://www.rfc-editor.org/rfc/rfc9110.html",
+  },
+  {
+    number: 9111,
+    title: "HTTP Caching",
+    description:
+      "The comprehensive HTTP caching specification that defines cache control directives, freshness calculations, and validation mechanisms enabling modern web performance optimization.",
+    era: "current",
+    year: 2022,
+    learningObjectives: [
+      "Understand cache control directives and their interactions",
+      "Learn freshness calculation and revalidation mechanisms",
+      "Explore conditional requests and validation with ETags",
+      "Master caching strategies that power CDNs and browser performance",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc9111.html",
+  },
+  {
+    number: 9112,
+    title: "HTTP/1.1",
+    description:
+      "The precise HTTP/1.1 message format specification that defines parsing rules, connection management, and security considerations for the text-based HTTP protocol.",
+    era: "current",
+    year: 2022,
+    learningObjectives: [
+      "Understand HTTP/1.1 message structure and parsing requirements",
+      "Learn connection management and persistent connection behavior",
+      "Explore security improvements including request smuggling prevention",
+      "Master the wire protocol that remains widely deployed alongside HTTP/2 and HTTP/3",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc9112.html",
+  },
+  {
+    number: 9113,
+    title: "HTTP/2",
+    description:
+      "The updated HTTP/2 specification that defines binary framing, stream multiplexing, header compression, and the performance improvements over HTTP/1.1.",
+    era: "current",
+    year: 2022,
+    learningObjectives: [
+      "Understand HTTP/2 binary framing and stream multiplexing",
+      "Learn HPACK header compression and flow control mechanisms",
+      "Explore server push and stream prioritization features",  
+      "Master the binary protocol that powers 95% of modern web traffic",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc9113.html",
+  },
+  {
+    number: 9114,
+    title: "HTTP/3",
+    description:
+      "The HTTP/3 specification that runs over QUIC transport, enabling 0-RTT connections, connection migration, built-in encryption, and elimination of head-of-line blocking.",
+    era: "current",
+    year: 2022,
+    learningObjectives: [
+      "Understand HTTP/3 over QUIC transport advantages",
+      "Learn 0-RTT connection establishment and connection migration",
+      "Explore QPACK header compression and stream independence",
+      "Master the latest HTTP protocol optimized for mobile and high-latency networks",
+    ],
+    rfcUrl: "https://www.rfc-editor.org/rfc/rfc9114.html",
   },
 ];

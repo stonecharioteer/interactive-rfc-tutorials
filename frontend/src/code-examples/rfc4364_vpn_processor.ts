@@ -333,7 +333,7 @@ class BGPMPLSVPNProcessor:
         
         for rt in route_targets:
             # Validate format (ASN:nn)
-            if not re.match(r'^\d+:\d+$', rt):
+            if not re.match(r'^\\d+:\\d+$', rt):
                 print(f"   ❌ Invalid route target format: {rt}")
                 return False
             
