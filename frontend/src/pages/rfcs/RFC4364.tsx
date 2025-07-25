@@ -278,7 +278,7 @@ sequenceDiagram
         </li>
       </ul>
 
-      <ExpandableSection title="📚 Code Example: VPN Route Processing">
+      <ExpandableSection title="🐍 ELI-Pythonista: VPN Route Processing">
         <CodeBlock
           language="python"
           code={getCodeExample("rfc4364_vpn_processor")}
@@ -448,7 +448,7 @@ sequenceDiagram
         <li><strong>NTT Communications:</strong> International MPLS VPN services</li>
       </ul>
 
-      <ExpandableSection title="📚 Code Example: VPN Service Provisioning">
+      <ExpandableSection title="🐍 ELI-Pythonista: VPN Service Provisioning">
         <CodeBlock
           language="python"
           code={getCodeExample("rfc4364_service_provisioner")}
