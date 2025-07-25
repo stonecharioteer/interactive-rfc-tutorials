@@ -141,7 +141,7 @@ graph TB
         based on the outer MPLS labels.
       </p>
 
-      <ExpandableSection title="🎯 ELI-Pythonista: VRFs - Virtual Networks in One Router">
+      <ExpandableSection title="🎯 Understanding VRFs: Virtual Networks in One Router">
         <div className="bg-blue-50 p-4 rounded-lg">
           <p className="mb-4">
             <strong>Think of VRFs like Docker containers for network routing:</strong>
@@ -316,7 +316,7 @@ sequenceDiagram
         granular security policies and prevent route hijacking.
       </p>
 
-      <ExpandableSection title="🔒 ELI-Pythonista: VPN Security Model">
+      <ExpandableSection title="🔒 Understanding VPN Security Model">
         <div className="bg-yellow-50 p-4 rounded-lg">
           <p className="mb-4">
             <strong>Think of BGP/MPLS VPNs like a secure apartment building:</strong>
