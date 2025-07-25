@@ -280,9 +280,9 @@ sequenceDiagram
 
       <ExpandableSection title="📚 Code Example: VPN Route Processing">
         <CodeBlock
-          language="typescript"
+          language="python"
           code={getCodeExample("rfc4364_vpn_processor")}
-          title="rfc4364_vpn_processor.ts"
+          title="rfc4364_vpn_processor.py"
         />
       </ExpandableSection>
 
@@ -450,9 +450,9 @@ sequenceDiagram
 
       <ExpandableSection title="📚 Code Example: VPN Service Provisioning">
         <CodeBlock
-          language="typescript"
+          language="python"
           code={getCodeExample("rfc4364_service_provisioner")}
-          title="rfc4364_service_provisioner.ts"
+          title="rfc4364_service_provisioner.py"
         />
       </ExpandableSection>
 
